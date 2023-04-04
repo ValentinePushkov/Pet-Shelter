@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key key}) : super(key: key);
@@ -32,6 +33,20 @@ class _SplashScreenState extends State<SplashScreen> {
 
   double _loginOpacity = 1;
 
+  bool _keyboardVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    KeyboardVisibilityNotification().addNewListener(
+      onChange: (bool visible) {
+        setState(() {
+          _keyboardVisible = visible;
+        });
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     windowHeight = MediaQuery.of(context).size.height;
@@ -51,6 +66,8 @@ class _SplashScreenState extends State<SplashScreen> {
         _loginOpacity = 1;
 
         _loginYOffset = windowHeight;
+        _loginHeight = _keyboardVisible ? windowHeight : windowHeight - 270;
+
         _registerYOffset = windowHeight;
         _loginXOffset = 0;
         break;
@@ -63,7 +80,9 @@ class _SplashScreenState extends State<SplashScreen> {
         _loginWidth = windowWidth;
         _loginOpacity = 1;
 
-        _loginYOffset = 270;
+        _loginYOffset = _keyboardVisible ? 40 : 270;
+        _loginHeight = _keyboardVisible ? windowHeight : windowHeight - 270;
+
         _registerYOffset = windowHeight;
         _loginXOffset = 0;
         break;
@@ -76,8 +95,11 @@ class _SplashScreenState extends State<SplashScreen> {
         _loginWidth = windowWidth - 40;
         _loginOpacity = 0.7;
 
-        _loginYOffset = 250;
-        _registerYOffset = 270;
+        _loginYOffset = _keyboardVisible ? 40 : 240;
+        _loginHeight = _keyboardVisible ? windowHeight : windowHeight - 240;
+        _registerHeight = _keyboardVisible ? windowHeight : windowHeight - 270;
+
+        _registerYOffset = _keyboardVisible ? 50 : 270;
         _loginXOffset = 20;
         break;
     }

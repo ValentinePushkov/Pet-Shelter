@@ -20,8 +20,8 @@ file:///C:/Users/Valson/AppData/Local/Pub/Cache/hosted/pub.dev/collection-1.17.0
 file:///C:/Users/Valson/AppData/Local/Pub/Cache/hosted/pub.dev/collection-1.17.0/lib/
 cupertino_icons
 2.12
-file:///C:/Users/Valson/AppData/Local/Pub/Cache/hosted/pub.dev/cupertino_icons-1.0.4/
-file:///C:/Users/Valson/AppData/Local/Pub/Cache/hosted/pub.dev/cupertino_icons-1.0.4/lib/
+file:///C:/Users/Valson/AppData/Local/Pub/Cache/hosted/pub.dev/cupertino_icons-1.0.5/
+file:///C:/Users/Valson/AppData/Local/Pub/Cache/hosted/pub.dev/cupertino_icons-1.0.5/lib/
 fake_async
 2.12
 file:///C:/Users/Valson/AppData/Local/Pub/Cache/hosted/pub.dev/fake_async-1.3.1/
@@ -30,6 +30,10 @@ js
 2.16
 file:///C:/Users/Valson/AppData/Local/Pub/Cache/hosted/pub.dev/js-0.6.5/
 file:///C:/Users/Valson/AppData/Local/Pub/Cache/hosted/pub.dev/js-0.6.5/lib/
+keyboard_visibility
+2.0
+file:///C:/Users/Valson/AppData/Local/Pub/Cache/hosted/pub.dev/keyboard_visibility-0.5.6/
+file:///C:/Users/Valson/AppData/Local/Pub/Cache/hosted/pub.dev/keyboard_visibility-0.5.6/lib/
 matcher
 2.18
 file:///C:/Users/Valson/AppData/Local/Pub/Cache/hosted/pub.dev/matcher-0.12.13/
@@ -43,9 +47,9 @@ meta
 file:///C:/Users/Valson/AppData/Local/Pub/Cache/hosted/pub.dev/meta-1.8.0/
 file:///C:/Users/Valson/AppData/Local/Pub/Cache/hosted/pub.dev/meta-1.8.0/lib/
 mime
-2.12
-file:///C:/Users/Valson/AppData/Local/Pub/Cache/hosted/pub.dev/mime-1.0.1/
-file:///C:/Users/Valson/AppData/Local/Pub/Cache/hosted/pub.dev/mime-1.0.1/lib/
+2.18
+file:///C:/Users/Valson/AppData/Local/Pub/Cache/hosted/pub.dev/mime-1.0.4/
+file:///C:/Users/Valson/AppData/Local/Pub/Cache/hosted/pub.dev/mime-1.0.4/lib/
 path
 2.12
 file:///C:/Users/Valson/AppData/Local/Pub/Cache/hosted/pub.dev/path-1.8.2/
