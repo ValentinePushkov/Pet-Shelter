@@ -44,10 +44,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
           Column(
             children: navList
                 .map((e) => ListTile(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: ((context) => e['navigation'])));
-                      },
                       leading: Icon(
                         e['icon'],
                         color: Colors.grey[500],
@@ -60,6 +56,14 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           fontSize: 18.0,
                         ),
                       ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => e['navigation'],
+                          ),
+                        );
+                      },
                     ))
                 .toList(),
           ),
