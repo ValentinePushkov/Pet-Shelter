@@ -23,9 +23,11 @@ class _SplashScreenState extends State<SplashScreen> {
   double windowWidth = 0;
 
   double _loginWidth = 0;
+  double _loginHeight = 0;
 
   double _loginYOffset = 0;
   double _registerYOffset = 0;
+  double _registerHeight = 0;
   double _loginXOffset = 0;
 
   double _loginOpacity = 1;
@@ -34,6 +36,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     windowHeight = MediaQuery.of(context).size.height;
     windowWidth = MediaQuery.of(context).size.width;
+
+    _loginHeight = windowHeight - 270;
+    _registerHeight = windowHeight - 270;
 
     switch (_pageState) {
       case 0:
@@ -110,7 +115,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           padding: EdgeInsets.symmetric(horizontal: 32),
                           margin: EdgeInsets.all(20),
                           child: Text(
-                            "Pets have so much love to give and the won't ever stop giving it to you once you let htem into your heart.",
+                            "Pets have so much love to give and the won't ever stop giving it to you once you let them into your heart.",
                             style: TextStyle(
                               fontSize: 16,
                               color: _headingColor,
@@ -156,47 +161,239 @@ class _SplashScreenState extends State<SplashScreen> {
                 )
               ]),
         ),
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              _pageState = 2;
-            });
-          },
-          child: AnimatedContainer(
-            width: _loginWidth,
-            duration: Duration(milliseconds: 1000),
-            curve: Curves.fastLinearToSlowEaseIn,
-            transform:
-                Matrix4.translationValues(_loginXOffset, _loginYOffset, 1),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(_loginOpacity),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(25),
-                topRight: Radius.circular(25),
-              ),
+        AnimatedContainer(
+          padding: EdgeInsets.all(32),
+          height: _loginHeight,
+          width: _loginWidth,
+          duration: Duration(milliseconds: 1000),
+          curve: Curves.fastLinearToSlowEaseIn,
+          transform: Matrix4.translationValues(_loginXOffset, _loginYOffset, 1),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(_loginOpacity),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(25),
+              topRight: Radius.circular(25),
             ),
           ),
-        ),
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              _pageState = 1;
-            });
-          },
-          child: AnimatedContainer(
-            duration: Duration(milliseconds: 1000),
-            curve: Curves.fastLinearToSlowEaseIn,
-            transform: Matrix4.translationValues(0, _registerYOffset, 1),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(25),
-                topRight: Radius.circular(25),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(bottom: 20),
+                    child: Text(
+                      "Login To Continue",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Color(0xFFB306060),
+                      ),
+                    ),
+                  ),
+                  InputWithIcon(
+                    icon: Icons.email,
+                    hint: "Enter Email...",
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  InputWithIcon(
+                    icon: Icons.vpn_key,
+                    hint: "Enter Password...",
+                  ),
+                ],
               ),
+              Column(
+                children: [
+                  PrimaryButton(
+                    buttonText: "Login",
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _pageState = 2;
+                      });
+                    },
+                    child: OutlineButton(
+                      buttonText: "Create New Account",
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        AnimatedContainer(
+          height: _registerHeight,
+          padding: EdgeInsets.all(32),
+          duration: Duration(milliseconds: 1000),
+          curve: Curves.fastLinearToSlowEaseIn,
+          transform: Matrix4.translationValues(0, _registerYOffset, 1),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(25),
+              topRight: Radius.circular(25),
             ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(bottom: 20),
+                    child: Text(
+                      "Create New Account",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Color(0xFFB306060),
+                      ),
+                    ),
+                  ),
+                  InputWithIcon(
+                    icon: Icons.email,
+                    hint: "Enter Email...",
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  InputWithIcon(
+                    icon: Icons.vpn_key,
+                    hint: "Enter Password...",
+                  ),
+                ],
+              ),
+              Column(children: [
+                PrimaryButton(
+                  buttonText: "Create Account",
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _pageState = 1;
+                    });
+                  },
+                  child: OutlineButton(
+                    buttonText: "Back to Login",
+                  ),
+                ),
+              ]),
+            ],
           ),
         ),
       ],
+    );
+  }
+}
+
+class InputWithIcon extends StatefulWidget {
+  final IconData icon;
+  final String hint;
+  InputWithIcon({this.icon, this.hint});
+
+  @override
+  State<InputWithIcon> createState() => _InputWithIconState();
+}
+
+class _InputWithIconState extends State<InputWithIcon> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Color(0xFFBB9B9B9), width: 2),
+        borderRadius: BorderRadius.circular(50),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 60,
+            child: Icon(
+              widget.icon,
+              size: 20,
+              color: Color(0xFFBB9B9B9),
+            ),
+          ),
+          Expanded(
+            child: TextField(
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(vertical: 20),
+                border: InputBorder.none,
+                hintText: widget.hint,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PrimaryButton extends StatefulWidget {
+  final String buttonText;
+  PrimaryButton({this.buttonText});
+
+  @override
+  State<PrimaryButton> createState() => _PrimaryButtonState();
+}
+
+class _PrimaryButtonState extends State<PrimaryButton> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Color(0xFFB306060),
+        borderRadius: BorderRadius.circular(50),
+      ),
+      padding: EdgeInsets.all(20),
+      child: Center(
+        child: Text(
+          widget.buttonText,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class OutlineButton extends StatefulWidget {
+  final String buttonText;
+  OutlineButton({this.buttonText});
+
+  @override
+  State<OutlineButton> createState() => _OutlineButtonState();
+}
+
+class _OutlineButtonState extends State<OutlineButton> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Color(0xFFB306060),
+          width: 2,
+        ),
+        borderRadius: BorderRadius.circular(50),
+      ),
+      padding: EdgeInsets.all(20),
+      child: Center(
+        child: Text(
+          widget.buttonText,
+          style: TextStyle(
+            color: Color(0xFFB306060),
+            fontSize: 16,
+          ),
+        ),
+      ),
     );
   }
 }
