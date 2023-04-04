@@ -185,10 +185,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemCount: catMapList.length,
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
-                      itemBuilder: (context,index){
+                      itemBuilder: (context, index) {
                         return GestureDetector(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => PetDetails(catDetailsMap: catMapList[index],)));
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PetDetails(
+                                          catDetailsMap: catMapList[index],
+                                        )));
                           },
                           child: Container(
                             height: 230,
@@ -200,25 +205,31 @@ class _HomeScreenState extends State<HomeScreen> {
                                     children: [
                                       Container(
                                         decoration: BoxDecoration(
-                                          color: (index % 2 == 0) ? Colors.blueGrey[200] : Colors.orangeAccent[200] ,
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: (index % 2 == 0)
+                                              ? Colors.blueGrey[200]
+                                              : Colors.orangeAccent[200],
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                           boxShadow: shadowList,
                                         ),
                                         margin: EdgeInsets.only(top: 40),
                                       ),
                                       Align(
                                           child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Hero(
-                                                tag: 'pet${catMapList[index]['id']}',
-                                                child: Image.asset(catMapList[index]['imagePath'])),
-                                          )),
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Hero(
+                                            tag:
+                                                'pet${catMapList[index]['id']}',
+                                            child: Image.asset(catMapList[index]
+                                                ['imagePath'])),
+                                      )),
                                     ],
                                   ),
                                 ),
                                 Expanded(
                                   child: Container(
-                                    margin: EdgeInsets.only(top: 65, bottom: 20),
+                                    margin:
+                                        EdgeInsets.only(top: 65, bottom: 20),
                                     padding: EdgeInsets.all(15),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
@@ -229,12 +240,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     child: Column(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                          MainAxisAlignment.spaceAround,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
                                               catMapList[index]['name'],
@@ -244,13 +256,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 color: Colors.grey[600],
                                               ),
                                             ),
-                                            (catMapList[index]['sex'] == 'male') ? Icon(
-                                              Icons.male_rounded,
-                                              color: Colors.grey[500],
-                                            ) : Icon(
-                                              Icons.female_rounded,
-                                              color: Colors.grey[500],
-                                            ),
+                                            (catMapList[index]['sex'] == 'male')
+                                                ? Icon(
+                                                    Icons.male_rounded,
+                                                    color: Colors.grey[500],
+                                                  )
+                                                : Icon(
+                                                    Icons.female_rounded,
+                                                    color: Colors.grey[500],
+                                                  ),
                                           ],
                                         ),
                                         Text(
@@ -261,15 +275,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                         Text(
-                                          catMapList[index]['year']+' years old',
+                                          catMapList[index]['year'] +
+                                              ' years old',
                                           style: TextStyle(
                                             fontSize: 12,
                                             color: Colors.grey[400],
                                           ),
                                         ),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           children: [
                                             Icon(
                                               Icons.location_on,
@@ -280,7 +297,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                               width: 3,
                                             ),
                                             Text(
-                                              'Distance: '+catMapList[index]['distance'],
+                                              'Distance: ' +
+                                                  catMapList[index]['distance'],
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.grey[400],
