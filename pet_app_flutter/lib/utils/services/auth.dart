@@ -10,10 +10,10 @@ class AuthMethods {
     return firebaseUser != null ? UserClass(userID: firebaseUser.uid) : null;
   }
 
-  Future LoginWithEmailAndPassword(String email, String password) async {
+  Future loginWithEmailAndPassword(String email, String password) async {
     try {
-      UserCredential result = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
+      UserCredential result =
+          await _auth.signInWithEmailAndPassword(email: email, password: password);
       User firebaseUser = result.user;
       return _userFromFirebaseUser(firebaseUser);
     } catch (e) {
@@ -21,10 +21,10 @@ class AuthMethods {
     }
   }
 
-  Future SignUpWithEmailAndPassword(String email, String password) async {
+  Future signUpWithEmailAndPassword(String email, String password) async {
     try {
-      UserCredential result = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      UserCredential result =
+          await _auth.createUserWithEmailAndPassword(email: email, password: password);
       User firebaseUser = result.user;
       return _userFromFirebaseUser(firebaseUser);
     } catch (e) {

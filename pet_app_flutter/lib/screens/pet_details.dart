@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_app/configuration/configuration.dart';
-import 'package:share/share.dart';
 
 // ignore: must_be_immutable
 class PetDetails extends StatefulWidget {
@@ -54,39 +52,38 @@ class _PetDetailsState extends State<PetDetails> {
                               Expanded(
                                 child: ListTile(
                                   leading: CircleAvatar(
-                                    backgroundImage:
-                                        AssetImage('images/pet_cat1.png'),
+                                    backgroundImage: AssetImage('images/pet_cat1.png'),
                                   ),
-                                  title: Text('Maya Berkovskaya',
+                                  title: Text(
+                                    'Maya Berkovskaya',
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.grey[700]
-                                    ),),
-                                  subtitle: Text('Owner',
+                                        fontWeight: FontWeight.bold, color: Colors.grey[700]),
+                                  ),
+                                  subtitle: Text(
+                                    'Owner',
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.grey[400]
-                                    ),
+                                        fontWeight: FontWeight.bold, color: Colors.grey[400]),
                                   ),
                                 ),
                               ),
-
-                              Text('May 25, 2019',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey[400]
-                              ),),
+                              Text(
+                                'May 25, 2019',
+                                style:
+                                    TextStyle(fontWeight: FontWeight.bold, color: Colors.grey[400]),
+                              ),
                             ],
                           ),
                           Padding(
                             padding: const EdgeInsets.all(10.0),
-                            child: Text(details,
+                            child: Text(
+                              details,
                               textAlign: TextAlign.justify,
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey[500],
-                                  letterSpacing: 0.7,
-                              ),),
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey[500],
+                                letterSpacing: 0.7,
+                              ),
+                            ),
                           )
                         ],
                       ),
@@ -221,9 +218,8 @@ class _PetDetailsState extends State<PetDetails> {
               height: 120,
               decoration: BoxDecoration(
                 color: Colors.grey[200],
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20)),
+                borderRadius:
+                    BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),

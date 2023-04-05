@@ -1,7 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:pet_app/drawer/hidden_drawer.dart';
-import 'package:pet_app/screens/home_screen.dart';
 import 'package:pet_app/screens/splash_screen.dart';
 
 Future main() async {
