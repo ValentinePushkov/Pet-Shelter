@@ -79,6 +79,7 @@ class _SplashScreenState extends State<SplashScreen> {
             'email': _emailController.text,
           };
 
+          databaseMethods.uploadUserInfo(userInfoMap);
           sharedPrefHelper.saveUserEmailSharedPref(_emailController.text);
           sharedPrefHelper.saveUserLoggedInSharedPref(true);
 
