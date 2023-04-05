@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pet_app/drawer/drawer_screen.dart';
+import 'package:pet_app/drawer/hidden_drawer.dart';
 import 'package:pet_app/screens/home_screen.dart';
 import 'package:pet_app/screens/splash_screen.dart';
 
@@ -13,11 +14,21 @@ void main() {
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          SplashScreen(),
-        ],
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          shadowColor: Colors.transparent,
+        ),
+      ),
+      home: Scaffold(
+        body: Stack(
+          children: [
+            HiddenDrawer(),
+          ],
+        ),
       ),
     );
   }

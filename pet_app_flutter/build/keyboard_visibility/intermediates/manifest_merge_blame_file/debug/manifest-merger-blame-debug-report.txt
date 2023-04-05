@@ -3,6 +3,6 @@
 3    package="com.github.adee42.keyboardvisibility" >
 4
 5    <uses-sdk android:minSdkVersion="16" />
-5-->C:\Users\Valson\AppData\Local\Pub\Cache\hosted\pub.dev\keyboard_visibility-0.5.6\android\src\main\AndroidManifest.xml
+5-->C:\Users\Vaslon\AppData\Local\Pub\Cache\hosted\pub.dev\keyboard_visibility-0.5.6\android\src\main\AndroidManifest.xml
 6
 7</manifest>

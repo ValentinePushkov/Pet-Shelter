@@ -1,4 +1,4 @@
-#Tue Apr 04 22:27:22 MSK 2023
-base.0=D\:\\Unic\\PetShelter\\Pet-Shelter\\pet_app_flutter\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+#Wed Apr 05 12:11:52 MSK 2023
+base.0=F\:\\Univer\\Pet Shelter\\Pet-Shelter\\pet_app_flutter\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 renamed.0=classes.dex
 path.0=classes.dex
