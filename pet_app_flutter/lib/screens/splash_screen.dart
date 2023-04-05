@@ -4,6 +4,11 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
+import 'package:pet_app/drawer/hidden_drawer.dart';
+
+import '../utils/helpers/shared_pref_helper.dart';
+import '../utils/services/auth.dart';
+import '../utils/services/database.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key key}) : super(key: key);
@@ -13,6 +18,9 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  TextEditingController _emailController;
+  TextEditingController _passwordController;
+
   int _pageState = 0;
 
   var _backgourndColor = Colors.white;
@@ -35,9 +43,19 @@ class _SplashScreenState extends State<SplashScreen> {
 
   bool _keyboardVisible = false;
 
+  bool isLoading = false;
+
+  AuthMethods authMethods = new AuthMethods();
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+  SharedPrefHelper sharedPrefHelper = new SharedPrefHelper();
+  final formKey = GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
+    _emailController = TextEditingController(text: "");
+    _passwordController = TextEditingController(text: "");
     KeyboardVisibilityNotification().addNewListener(
       onChange: (bool visible) {
         setState(() {
@@ -45,6 +63,40 @@ class _SplashScreenState extends State<SplashScreen> {
         });
       },
     );
+  }
+
+  void signUpUser() {
+    if (formKey.currentState.validate()) {
+      setState(() {
+        isLoading = true;
+      });
+
+      authMethods.SignUpWithEmailAndPassword(
+              _emailController.text, _passwordController.text)
+          .then((val) {
+        if (val != null) {
+          Map<String, String> userInfoMap = {
+            'email': _emailController.text,
+          };
+
+          sharedPrefHelper.saveUserEmailSharedPref(_emailController.text);
+          sharedPrefHelper.saveUserLoggedInSharedPref(true);
+
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => SplashScreen()));
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+          SnackBar snackBar = SnackBar(
+            content: Text('Email already exists!',
+                style: TextStyle(color: Colors.white)),
+            backgroundColor: Colors.red,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+      });
+    }
   }
 
   @override
@@ -264,34 +316,50 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(bottom: 20),
-                    child: Text(
-                      "Create New Account",
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Color(0xFFB306060),
+              Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                      child: Text(
+                        "Create New Account",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Color(0xFFB306060),
+                        ),
                       ),
                     ),
-                  ),
-                  InputWithIcon(
-                    icon: Icons.email,
-                    hint: "Enter Email...",
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  InputWithIcon(
-                    icon: Icons.vpn_key,
-                    hint: "Enter Password...",
-                  ),
-                ],
+                    InputWithIcon(
+                      icon: Icons.email,
+                      hint: "Enter Email...",
+                      validator: (value) {
+                        return RegExp(
+                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(value)
+                            ? null
+                            : "Enter correct email";
+                      },
+                      controller: _emailController,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    InputWithIcon(
+                      icon: Icons.vpn_key,
+                      hint: "Enter Password...",
+                      validator: (value) {
+                        return value.length < 6 ? "Password too small" : null;
+                      },
+                      controller: _passwordController,
+                    ),
+                  ],
+                ),
               ),
               Column(children: [
                 PrimaryButton(
                   buttonText: "Create Account",
+                  press: signUpUser,
                 ),
                 SizedBox(
                   height: 20,
@@ -316,9 +384,11 @@ class _SplashScreenState extends State<SplashScreen> {
 }
 
 class InputWithIcon extends StatefulWidget {
+  final Function validator;
+  final TextEditingController controller;
   final IconData icon;
   final String hint;
-  InputWithIcon({this.icon, this.hint});
+  InputWithIcon({this.icon, this.hint, this.controller, this.validator});
 
   @override
   State<InputWithIcon> createState() => _InputWithIconState();
@@ -343,7 +413,9 @@ class _InputWithIconState extends State<InputWithIcon> {
             ),
           ),
           Expanded(
-            child: TextField(
+            child: TextFormField(
+              validator: widget.validator,
+              controller: widget.controller,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(vertical: 20),
                 border: InputBorder.none,
@@ -359,7 +431,8 @@ class _InputWithIconState extends State<InputWithIcon> {
 
 class PrimaryButton extends StatefulWidget {
   final String buttonText;
-  PrimaryButton({this.buttonText});
+  final Function press;
+  PrimaryButton({this.buttonText, this.press});
 
   @override
   State<PrimaryButton> createState() => _PrimaryButtonState();
@@ -368,18 +441,21 @@ class PrimaryButton extends StatefulWidget {
 class _PrimaryButtonState extends State<PrimaryButton> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Color(0xFFB306060),
-        borderRadius: BorderRadius.circular(50),
-      ),
-      padding: EdgeInsets.all(20),
-      child: Center(
-        child: Text(
-          widget.buttonText,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
+    return GestureDetector(
+      onTap: widget.press,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Color(0xFFB306060),
+          borderRadius: BorderRadius.circular(50),
+        ),
+        padding: EdgeInsets.all(20),
+        child: Center(
+          child: Text(
+            widget.buttonText,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
           ),
         ),
       ),

@@ -31,6 +31,13 @@ dependencies:
   share: ^2.0.4
   keyboard_visibility: ^0.5.6
   hidden_drawer_menu: ^3.0.1
+  cloud_firestore: ^4.5.0
+  device_info_plus: ^8.1.0
+  package_info_plus: ^3.0.3
+  firebase_core: ^2.9.0
+  firebase_auth: ^4.4.0
+  google_sign_in: ^6.0.2
+  shared_preferences: ^2.1.0
 
 dev_dependencies:
   flutter_test:

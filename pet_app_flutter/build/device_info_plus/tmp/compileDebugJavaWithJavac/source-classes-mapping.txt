@@ -1,0 +1,2 @@
+dev/fluttercommunity/plus/device_info/BuildConfig.java
+ dev.fluttercommunity.plus.device_info.BuildConfig

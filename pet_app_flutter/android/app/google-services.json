@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "668843053791",
+    "project_id": "petshelter-37c42",
+    "storage_bucket": "petshelter-37c42.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:668843053791:android:18f408381c2fad1335cf6a",
+        "android_client_info": {
+          "package_name": "com.valentin.pet_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "668843053791-bjmqt0avvc9deput257is3svb302lvv4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRremuLOpIa_T-mgwHXOES5k9dlWvTPX0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "668843053791-bjmqt0avvc9deput257is3svb302lvv4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "D:\\Unic\\PetShelter\\Pet-Shelter\\pet_app_flutter\\build\\google_sign_in_android\\intermediates\\res\\merged\\debug\\drawable-watch-v20\\common_google_signin_btn_text_light_normal.xml",
+        "source": "C:\\Users\\Valson\\.gradle\\caches\\transforms-2\\files-2.1\\bf5b974c58164622e4fbd6b8eeaea49c\\jetified-play-services-auth-20.4.1\\res\\drawable-watch-v20\\common_google_signin_btn_text_light_normal.xml"
+    },
+    {
+        "merged": "D:\\Unic\\PetShelter\\Pet-Shelter\\pet_app_flutter\\build\\google_sign_in_android\\intermediates\\res\\merged\\debug\\drawable-watch-v20\\common_google_signin_btn_text_disabled.xml",
+        "source": "C:\\Users\\Valson\\.gradle\\caches\\transforms-2\\files-2.1\\bf5b974c58164622e4fbd6b8eeaea49c\\jetified-play-services-auth-20.4.1\\res\\drawable-watch-v20\\common_google_signin_btn_text_disabled.xml"
+    },
+    {
+        "merged": "D:\\Unic\\PetShelter\\Pet-Shelter\\pet_app_flutter\\build\\google_sign_in_android\\intermediates\\res\\merged\\debug\\drawable-watch-v20\\common_google_signin_btn_text_dark_normal.xml",
+        "source": "C:\\Users\\Valson\\.gradle\\caches\\transforms-2\\files-2.1\\bf5b974c58164622e4fbd6b8eeaea49c\\jetified-play-services-auth-20.4.1\\res\\drawable-watch-v20\\common_google_signin_btn_text_dark_normal.xml"
+    }
+]
