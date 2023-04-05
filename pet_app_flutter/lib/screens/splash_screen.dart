@@ -157,232 +157,239 @@ class _SplashScreenState extends State<SplashScreen> {
         break;
     }
     return Scaffold(
-      body: Stack(
-        children: [
-          AnimatedContainer(
-            duration: Duration(milliseconds: 1000),
-            curve: Curves.fastLinearToSlowEaseIn,
-            color: _backgourndColor,
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _pageState = 0;
-                      });
-                    },
-                    child: Container(
-                      child: Column(
-                        children: [
-                          AnimatedContainer(
-                            duration: Duration(milliseconds: 1000),
-                            curve: Curves.fastLinearToSlowEaseIn,
-                            margin: EdgeInsets.only(top: _headingTop),
-                            child: Text(
-                              "Make A New Friend!",
-                              style: TextStyle(
-                                fontSize: 28,
-                                color: _headingColor,
+      key: scaffoldKey,
+      body: isLoading
+          ? Container(
+              child: Center(child: CircularProgressIndicator()),
+            )
+          : Stack(
+              children: [
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 1000),
+                  curve: Curves.fastLinearToSlowEaseIn,
+                  color: _backgourndColor,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _pageState = 0;
+                            });
+                          },
+                          child: Container(
+                            child: Column(
+                              children: [
+                                AnimatedContainer(
+                                  duration: Duration(milliseconds: 1000),
+                                  curve: Curves.fastLinearToSlowEaseIn,
+                                  margin: EdgeInsets.only(top: _headingTop),
+                                  child: Text(
+                                    "Make A New Friend!",
+                                    style: TextStyle(
+                                      fontSize: 28,
+                                      color: _headingColor,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 32),
+                                  margin: EdgeInsets.all(20),
+                                  child: Text(
+                                    "Pets have so much love to give and the won't ever stop giving it to you once you let them into your heart.",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: _headingColor,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          child: Center(
+                            child: Image.asset("images/Pets.png"),
+                          ),
+                        ),
+                        Container(
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                if (_pageState != 0) {
+                                  _pageState = 0;
+                                } else {
+                                  _pageState = 1;
+                                }
+                              });
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  top: 32, bottom: 100, left: 32, right: 32),
+                              padding: EdgeInsets.all(20),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  color: Color(0xFFB306060),
+                                  borderRadius: BorderRadius.circular(50)),
+                              child: Center(
+                                child: Text(
+                                  "Get Started!",
+                                  style: TextStyle(color: Colors.white),
+                                ),
                               ),
                             ),
                           ),
+                        )
+                      ]),
+                ),
+                AnimatedContainer(
+                  padding: EdgeInsets.all(32),
+                  height: _loginHeight,
+                  width: _loginWidth,
+                  duration: Duration(milliseconds: 1000),
+                  curve: Curves.fastLinearToSlowEaseIn,
+                  transform: Matrix4.translationValues(
+                      _loginXOffset, _loginYOffset, 1),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(_loginOpacity),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 32),
-                            margin: EdgeInsets.all(20),
+                            margin: EdgeInsets.only(bottom: 20),
                             child: Text(
-                              "Pets have so much love to give and the won't ever stop giving it to you once you let them into your heart.",
+                              "Login To Continue",
                               style: TextStyle(
-                                fontSize: 16,
-                                color: _headingColor,
+                                fontSize: 20,
+                                color: Color(0xFFB306060),
                               ),
+                            ),
+                          ),
+                          InputWithIcon(
+                            icon: Icons.email,
+                            hint: "Enter Email...",
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          InputWithIcon(
+                            icon: Icons.vpn_key,
+                            hint: "Enter Password...",
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          PrimaryButton(
+                            buttonText: "Login",
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _pageState = 2;
+                              });
+                            },
+                            child: OutlineButton(
+                              buttonText: "Create New Account",
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                  Container(
-                    child: Center(
-                      child: Image.asset("images/Pets.png"),
-                    ),
-                  ),
-                  Container(
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          if (_pageState != 0) {
-                            _pageState = 0;
-                          } else {
-                            _pageState = 1;
-                          }
-                        });
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            top: 32, bottom: 100, left: 32, right: 32),
-                        padding: EdgeInsets.all(20),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            color: Color(0xFFB306060),
-                            borderRadius: BorderRadius.circular(50)),
-                        child: Center(
-                          child: Text(
-                            "Get Started!",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                ]),
-          ),
-          AnimatedContainer(
-            padding: EdgeInsets.all(32),
-            height: _loginHeight,
-            width: _loginWidth,
-            duration: Duration(milliseconds: 1000),
-            curve: Curves.fastLinearToSlowEaseIn,
-            transform:
-                Matrix4.translationValues(_loginXOffset, _loginYOffset, 1),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(_loginOpacity),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(25),
-                topRight: Radius.circular(25),
-              ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(bottom: 20),
-                      child: Text(
-                        "Login To Continue",
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Color(0xFFB306060),
-                        ),
-                      ),
-                    ),
-                    InputWithIcon(
-                      icon: Icons.email,
-                      hint: "Enter Email...",
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    InputWithIcon(
-                      icon: Icons.vpn_key,
-                      hint: "Enter Password...",
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    PrimaryButton(
-                      buttonText: "Login",
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _pageState = 2;
-                        });
-                      },
-                      child: OutlineButton(
-                        buttonText: "Create New Account",
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          AnimatedContainer(
-            height: _registerHeight,
-            padding: EdgeInsets.all(32),
-            duration: Duration(milliseconds: 1000),
-            curve: Curves.fastLinearToSlowEaseIn,
-            transform: Matrix4.translationValues(0, _registerYOffset, 1),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(25),
-                topRight: Radius.circular(25),
-              ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(bottom: 20),
-                        child: Text(
-                          "Create New Account",
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Color(0xFFB306060),
-                          ),
-                        ),
-                      ),
-                      InputWithIcon(
-                        icon: Icons.email,
-                        hint: "Enter Email...",
-                        validator: (value) {
-                          return RegExp(
-                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                  .hasMatch(value)
-                              ? null
-                              : "Enter correct email";
-                        },
-                        controller: _emailController,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      InputWithIcon(
-                        icon: Icons.vpn_key,
-                        hint: "Enter Password...",
-                        validator: (value) {
-                          return value.length < 6 ? "Password too small" : null;
-                        },
-                        controller: _passwordController,
-                      ),
                     ],
                   ),
                 ),
-                Column(children: [
-                  PrimaryButton(
-                    buttonText: "Create Account",
-                    press: signUpUser,
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _pageState = 1;
-                      });
-                    },
-                    child: OutlineButton(
-                      buttonText: "Back to Login",
+                AnimatedContainer(
+                  height: _registerHeight,
+                  padding: EdgeInsets.all(32),
+                  duration: Duration(milliseconds: 1000),
+                  curve: Curves.fastLinearToSlowEaseIn,
+                  transform: Matrix4.translationValues(0, _registerYOffset, 1),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
                     ),
                   ),
-                ]),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Form(
+                        key: formKey,
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(bottom: 20),
+                              child: Text(
+                                "Create New Account",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Color(0xFFB306060),
+                                ),
+                              ),
+                            ),
+                            InputWithIcon(
+                              icon: Icons.email,
+                              hint: "Enter Email...",
+                              validator: (value) {
+                                return RegExp(
+                                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                        .hasMatch(value)
+                                    ? null
+                                    : "Enter correct email";
+                              },
+                              controller: _emailController,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            InputWithIcon(
+                              icon: Icons.vpn_key,
+                              hint: "Enter Password...",
+                              validator: (value) {
+                                return value.length < 6
+                                    ? "Password too small"
+                                    : null;
+                              },
+                              controller: _passwordController,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(children: [
+                        PrimaryButton(
+                          buttonText: "Create Account",
+                          press: signUpUser,
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _pageState = 1;
+                            });
+                          },
+                          child: OutlineButton(
+                            buttonText: "Back to Login",
+                          ),
+                        ),
+                      ]),
+                    ],
+                  ),
+                ),
               ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }
