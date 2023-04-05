@@ -18,16 +18,18 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
 
     _pages = [
       ScreenHiddenDrawer(
-          ItemHiddenMenu(
-              name: "Pets",
-              baseStyle: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 24,
-              ),
-              selectedStyle: TextStyle(),
-              colorLineSelected: Colors.white),
-          HomeScreen()),
+        ItemHiddenMenu(
+          name: "Pets",
+          baseStyle: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+          selectedStyle: TextStyle(),
+          colorLineSelected: Colors.white,
+        ),
+        HomeScreen(),
+      ),
     ];
   }
 

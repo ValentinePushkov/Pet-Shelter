@@ -57,12 +57,16 @@ class _PetDetailsState extends State<PetDetails> {
                                   title: Text(
                                     'Maya Berkovskaya',
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold, color: Colors.grey[700]),
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey[700],
+                                    ),
                                   ),
                                   subtitle: Text(
                                     'Owner',
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold, color: Colors.grey[400]),
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey[400],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -111,9 +115,11 @@ class _PetDetailsState extends State<PetDetails> {
                   ),
                   IconButton(
                     onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text("Sharing Pet File"),
-                      ));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Sharing Pet File"),
+                        ),
+                      );
                     },
                     icon: Icon(
                       Icons.ios_share,
@@ -194,9 +200,7 @@ class _PetDetailsState extends State<PetDetails> {
                           color: primaryColor,
                           size: 18,
                         ),
-                        SizedBox(
-                          width: 3,
-                        ),
+                        SizedBox(width: 3),
                         Text(
                           widget.catDetailsMap['location'],
                           style: TextStyle(
@@ -218,8 +222,10 @@ class _PetDetailsState extends State<PetDetails> {
               height: 120,
               decoration: BoxDecoration(
                 color: Colors.grey[200],
-                borderRadius:
-                    BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -238,6 +244,11 @@ class _PetDetailsState extends State<PetDetails> {
                       child: Container(
                         height: 50,
                         width: 50,
+                        decoration: BoxDecoration(
+                          color: primaryColor,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: shadowList,
+                        ),
                         child: isFavorite
                             ? Icon(
                                 Icons.favorite_rounded,
@@ -247,20 +258,18 @@ class _PetDetailsState extends State<PetDetails> {
                                 Icons.favorite_border_rounded,
                                 color: Colors.white,
                               ),
+                      ),
+                    ),
+                    SizedBox(width: 30),
+                    Expanded(
+                      child: Container(
+                        height: 50,
+                        width: 50,
                         decoration: BoxDecoration(
                           color: primaryColor,
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: shadowList,
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 30,
-                    ),
-                    Expanded(
-                      child: Container(
-                        height: 50,
-                        width: 50,
                         child: Center(
                           child: Text(
                             'Adoption',
@@ -270,11 +279,6 @@ class _PetDetailsState extends State<PetDetails> {
                               color: Colors.white,
                             ),
                           ),
-                        ),
-                        decoration: BoxDecoration(
-                          color: primaryColor,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: shadowList,
                         ),
                       ),
                     )

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
-import '../utils/helpers/shared_pref_helper.dart';
-import '../utils/services/auth.dart';
-import '../utils/services/database.dart';
+import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
+import 'package:pet_app/utils/services/auth.dart';
+import 'package:pet_app/utils/services/database.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key key}) : super(key: key);
@@ -79,7 +79,11 @@ class _SplashScreenState extends State<SplashScreen> {
           sharedPrefHelper.saveUserLoggedInSharedPref(true);
 
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => SplashScreen()));
+            context,
+            MaterialPageRoute(
+              builder: (context) => SplashScreen(),
+            ),
+          );
         } else {
           setState(() {
             isLoading = false;
@@ -153,23 +157,22 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       key: scaffoldKey,
       body: isLoading
-          ? Container(
-              child: Center(child: CircularProgressIndicator()),
-            )
+          ? Center(child: CircularProgressIndicator())
           : Stack(
               children: [
                 AnimatedContainer(
                   duration: Duration(milliseconds: 1000),
                   curve: Curves.fastLinearToSlowEaseIn,
                   color: _backgourndColor,
-                  child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _pageState = 0;
-                        });
-                      },
-                      child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _pageState = 0;
+                          });
+                        },
                         child: Column(
                           children: [
                             AnimatedContainer(
@@ -198,14 +201,10 @@ class _SplashScreenState extends State<SplashScreen> {
                           ],
                         ),
                       ),
-                    ),
-                    Container(
-                      child: Center(
+                      Center(
                         child: Image.asset("images/Pets.png"),
                       ),
-                    ),
-                    Container(
-                      child: GestureDetector(
+                      GestureDetector(
                         onTap: () {
                           setState(() {
                             if (_pageState != 0) {
@@ -220,7 +219,9 @@ class _SplashScreenState extends State<SplashScreen> {
                           padding: EdgeInsets.all(20),
                           width: double.infinity,
                           decoration: BoxDecoration(
-                              color: Color(0xFFB306060), borderRadius: BorderRadius.circular(50)),
+                            color: Color(0xFFB306060),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
                           child: Center(
                             child: Text(
                               "Get Started!",
@@ -228,9 +229,9 @@ class _SplashScreenState extends State<SplashScreen> {
                             ),
                           ),
                         ),
-                      ),
-                    )
-                  ]),
+                      )
+                    ],
+                  ),
                 ),
                 AnimatedContainer(
                   padding: EdgeInsets.all(32),
@@ -279,9 +280,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           PrimaryButton(
                             buttonText: "Login",
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          SizedBox(height: 20),
                           GestureDetector(
                             onTap: () {
                               setState(() {
@@ -332,16 +331,14 @@ class _SplashScreenState extends State<SplashScreen> {
                               hint: "Enter Email...",
                               validator: (value) {
                                 return RegExp(
-                                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                        .hasMatch(value)
+                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+                                ).hasMatch(value)
                                     ? null
                                     : "Enter correct email";
                               },
                               controller: _emailController,
                             ),
-                            SizedBox(
-                              height: 20,
-                            ),
+                            SizedBox(height: 20),
                             InputWithIcon(
                               icon: Icons.vpn_key,
                               hint: "Enter Password...",
@@ -353,25 +350,25 @@ class _SplashScreenState extends State<SplashScreen> {
                           ],
                         ),
                       ),
-                      Column(children: [
-                        PrimaryButton(
-                          buttonText: "Create Account",
-                          press: signUpUser,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _pageState = 1;
-                            });
-                          },
-                          child: OutlineButton(
-                            buttonText: "Back to Login",
+                      Column(
+                        children: [
+                          PrimaryButton(
+                            buttonText: "Create Account",
+                            press: signUpUser,
                           ),
-                        ),
-                      ]),
+                          SizedBox(height: 20),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _pageState = 1;
+                              });
+                            },
+                            child: OutlineButton(
+                              buttonText: "Back to Login",
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -402,7 +399,7 @@ class _InputWithIconState extends State<InputWithIcon> {
       ),
       child: Row(
         children: [
-          Container(
+          SizedBox(
             width: 60,
             child: Icon(
               widget.icon,

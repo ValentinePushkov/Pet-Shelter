@@ -6,10 +6,12 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  runApp(MaterialApp(
-    home: Home(),
-    debugShowCheckedModeBanner: false,
-  ));
+  runApp(
+    MaterialApp(
+      home: Home(),
+      debugShowCheckedModeBanner: false,
+    ),
+  );
 }
 
 class Home extends StatelessWidget {
