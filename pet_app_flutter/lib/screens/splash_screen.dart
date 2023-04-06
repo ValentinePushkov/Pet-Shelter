@@ -1,14 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
-import 'package:pet_app/drawer/hidden_drawer.dart';
 
-import '../utils/helpers/shared_pref_helper.dart';
-import '../utils/services/auth.dart';
-import '../utils/services/database.dart';
+import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
+import 'package:pet_app/utils/services/auth.dart';
+import 'package:pet_app/utils/services/database.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key key}) : super(key: key);
@@ -71,8 +66,8 @@ class _SplashScreenState extends State<SplashScreen> {
         isLoading = true;
       });
 
-      authMethods.SignUpWithEmailAndPassword(
-              _emailController.text, _passwordController.text)
+      authMethods
+          .signUpWithEmailAndPassword(_emailController.text, _passwordController.text)
           .then((val) {
         if (val != null) {
           Map<String, String> userInfoMap = {
@@ -84,14 +79,17 @@ class _SplashScreenState extends State<SplashScreen> {
           sharedPrefHelper.saveUserLoggedInSharedPref(true);
 
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => SplashScreen()));
+            context,
+            MaterialPageRoute(
+              builder: (context) => SplashScreen(),
+            ),
+          );
         } else {
           setState(() {
             isLoading = false;
           });
           SnackBar snackBar = SnackBar(
-            content: Text('Email already exists!',
-                style: TextStyle(color: Colors.white)),
+            content: Text('Email already exists!', style: TextStyle(color: Colors.white)),
             backgroundColor: Colors.red,
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -159,9 +157,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       key: scaffoldKey,
       body: isLoading
-          ? Container(
-              child: Center(child: CircularProgressIndicator()),
-            )
+          ? Center(child: CircularProgressIndicator())
           : Stack(
               children: [
                 AnimatedContainer(
@@ -169,78 +165,73 @@ class _SplashScreenState extends State<SplashScreen> {
                   curve: Curves.fastLinearToSlowEaseIn,
                   color: _backgourndColor,
                   child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _pageState = 0;
-                            });
-                          },
-                          child: Container(
-                            child: Column(
-                              children: [
-                                AnimatedContainer(
-                                  duration: Duration(milliseconds: 1000),
-                                  curve: Curves.fastLinearToSlowEaseIn,
-                                  margin: EdgeInsets.only(top: _headingTop),
-                                  child: Text(
-                                    "Make A New Friend!",
-                                    style: TextStyle(
-                                      fontSize: 28,
-                                      color: _headingColor,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 32),
-                                  margin: EdgeInsets.all(20),
-                                  child: Text(
-                                    "Pets have so much love to give and the won't ever stop giving it to you once you let them into your heart.",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: _headingColor,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: Center(
-                            child: Image.asset("images/Pets.png"),
-                          ),
-                        ),
-                        Container(
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                if (_pageState != 0) {
-                                  _pageState = 0;
-                                } else {
-                                  _pageState = 1;
-                                }
-                              });
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                  top: 32, bottom: 100, left: 32, right: 32),
-                              padding: EdgeInsets.all(20),
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                  color: Color(0xFFB306060),
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: Center(
-                                child: Text(
-                                  "Get Started!",
-                                  style: TextStyle(color: Colors.white),
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _pageState = 0;
+                          });
+                        },
+                        child: Column(
+                          children: [
+                            AnimatedContainer(
+                              duration: Duration(milliseconds: 1000),
+                              curve: Curves.fastLinearToSlowEaseIn,
+                              margin: EdgeInsets.only(top: _headingTop),
+                              child: Text(
+                                "Make A New Friend!",
+                                style: TextStyle(
+                                  fontSize: 28,
+                                  color: _headingColor,
                                 ),
                               ),
                             ),
+                            Container(
+                              padding: EdgeInsets.symmetric(horizontal: 32),
+                              margin: EdgeInsets.all(20),
+                              child: Text(
+                                "Pets have so much love to give and the won't ever stop giving it to you once you let them into your heart.",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: _headingColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Center(
+                        child: Image.asset("images/Pets.png"),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            if (_pageState != 0) {
+                              _pageState = 0;
+                            } else {
+                              _pageState = 1;
+                            }
+                          });
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(top: 32, bottom: 100, left: 32, right: 32),
+                          padding: EdgeInsets.all(20),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFB306060),
+                            borderRadius: BorderRadius.circular(50),
                           ),
-                        )
-                      ]),
+                          child: Center(
+                            child: Text(
+                              "Get Started!",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 AnimatedContainer(
                   padding: EdgeInsets.all(32),
@@ -248,8 +239,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   width: _loginWidth,
                   duration: Duration(milliseconds: 1000),
                   curve: Curves.fastLinearToSlowEaseIn,
-                  transform: Matrix4.translationValues(
-                      _loginXOffset, _loginYOffset, 1),
+                  transform: Matrix4.translationValues(_loginXOffset, _loginYOffset, 1),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(_loginOpacity),
                     borderRadius: BorderRadius.only(
@@ -290,9 +280,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           PrimaryButton(
                             buttonText: "Login",
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          SizedBox(height: 20),
                           GestureDetector(
                             onTap: () {
                               setState(() {
@@ -343,48 +331,44 @@ class _SplashScreenState extends State<SplashScreen> {
                               hint: "Enter Email...",
                               validator: (value) {
                                 return RegExp(
-                                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                        .hasMatch(value)
+                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+                                ).hasMatch(value)
                                     ? null
                                     : "Enter correct email";
                               },
                               controller: _emailController,
                             ),
-                            SizedBox(
-                              height: 20,
-                            ),
+                            SizedBox(height: 20),
                             InputWithIcon(
                               icon: Icons.vpn_key,
                               hint: "Enter Password...",
                               validator: (value) {
-                                return value.length < 6
-                                    ? "Password too small"
-                                    : null;
+                                return value.length < 6 ? "Password too small" : null;
                               },
                               controller: _passwordController,
                             ),
                           ],
                         ),
                       ),
-                      Column(children: [
-                        PrimaryButton(
-                          buttonText: "Create Account",
-                          press: signUpUser,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _pageState = 1;
-                            });
-                          },
-                          child: OutlineButton(
-                            buttonText: "Back to Login",
+                      Column(
+                        children: [
+                          PrimaryButton(
+                            buttonText: "Create Account",
+                            press: signUpUser,
                           ),
-                        ),
-                      ]),
+                          SizedBox(height: 20),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _pageState = 1;
+                              });
+                            },
+                            child: OutlineButton(
+                              buttonText: "Back to Login",
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -415,7 +399,7 @@ class _InputWithIconState extends State<InputWithIcon> {
       ),
       child: Row(
         children: [
-          Container(
+          SizedBox(
             width: 60,
             child: Icon(
               widget.icon,

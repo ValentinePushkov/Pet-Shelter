@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../../models/user.dart';
-import '../helpers/shared_pref_helper.dart';
+import 'package:pet_app/models/user.dart';
+import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -10,22 +10,20 @@ class AuthMethods {
     return firebaseUser != null ? UserClass(userID: firebaseUser.uid) : null;
   }
 
-  Future LoginWithEmailAndPassword(String email, String password) async {
+  Future loginWithEmailAndPassword(String email, String password) async {
     try {
-      UserCredential result = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      User firebaseUser = result.user;
+      final result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      final firebaseUser = result.user;
       return _userFromFirebaseUser(firebaseUser);
     } catch (e) {
       print(e);
     }
   }
 
-  Future SignUpWithEmailAndPassword(String email, String password) async {
+  Future signUpWithEmailAndPassword(String email, String password) async {
     try {
-      UserCredential result = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      User firebaseUser = result.user;
+      final result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      final firebaseUser = result.user;
       return _userFromFirebaseUser(firebaseUser);
     } catch (e) {
       print(e);
