@@ -6,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/models/user.dart';
 import 'package:pet_app/screens/splash_screen.dart';
-import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
 import 'package:pet_app/utils/services/auth.dart';
 import 'package:pet_app/utils/services/database.dart';
 
@@ -32,15 +31,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    SharedPrefHelper().getUsernameSharedPref().then((val) {
+    /*SharedPrefHelper().getUsernameSharedPref().then((val) {
       username = val;
-    });
+    });*/
 
     databaseMethods.getUserInfoByUsername(Constants.currentUser).then((val) {
       setState(() {
         user = val;
-        nameEditingController.text = user.name;
-        avatar = user.avatar;
+        nameEditingController.text = val.username;
+        avatar = val.avatar;
       });
     });
     super.initState();
@@ -222,13 +221,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           ProfileTextField(
                             context,
-                            "Name",
+                            "Имя",
                             "Enter name",
                             nameEditingController,
                           ),
                           ProfileTextField(
                             context,
-                            "Bio",
+                            "Описание",
                             "Enter bio",
                             bioEditingController,
                           ),
