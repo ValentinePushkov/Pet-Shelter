@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
+import 'package:pet_app/drawer/hidden_drawer.dart';
 
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
 import 'package:pet_app/utils/services/auth.dart';
@@ -15,6 +17,8 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   TextEditingController _emailController;
   TextEditingController _passwordController;
+  TextEditingController _loginEmailController;
+  TextEditingController _loginPasswordController;
 
   int _pageState = 0;
 
@@ -44,6 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
   DatabaseMethods databaseMethods = new DatabaseMethods();
   SharedPrefHelper sharedPrefHelper = new SharedPrefHelper();
   final formKey = GlobalKey<FormState>();
+  final loginFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -51,6 +56,8 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     _emailController = TextEditingController(text: "");
     _passwordController = TextEditingController(text: "");
+    _loginEmailController = TextEditingController(text: "");
+    _loginPasswordController = TextEditingController(text: "");
     KeyboardVisibilityNotification().addNewListener(
       onChange: (bool visible) {
         setState(() {
@@ -67,7 +74,8 @@ class _SplashScreenState extends State<SplashScreen> {
       });
 
       authMethods
-          .signUpWithEmailAndPassword(_emailController.text, _passwordController.text)
+          .signUpWithEmailAndPassword(
+              _emailController.text, _passwordController.text)
           .then((val) {
         if (val != null) {
           Map<String, String> userInfoMap = {
@@ -89,7 +97,44 @@ class _SplashScreenState extends State<SplashScreen> {
             isLoading = false;
           });
           SnackBar snackBar = SnackBar(
-            content: Text('Email already exists!', style: TextStyle(color: Colors.white)),
+            content: Text('Email already exists!',
+                style: TextStyle(color: Colors.white)),
+            backgroundColor: Colors.red,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+      });
+    }
+  }
+
+  void loginUser() {
+    if (loginFormKey.currentState.validate()) {
+      setState(() {
+        isLoading = true;
+      });
+
+      authMethods
+          .loginWithEmailAndPassword(
+              _loginEmailController.text, _loginPasswordController.text)
+          .then((val) async {
+        if (val != null) {
+          QuerySnapshot loginSnapshot = await databaseMethods
+              .getUserInfoByEmail(_loginEmailController.text);
+          sharedPrefHelper
+              .saveUserEmailSharedPref(loginSnapshot.docs[0]["email"]);
+          /*sharedPrefHelper
+              .saveUsernameSharedPref(loginSnapshot.docs[0]["username"]);*/
+          sharedPrefHelper.saveUserLoggedInSharedPref(true);
+
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => HiddenDrawer()));
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+          SnackBar snackBar = SnackBar(
+            content: Text('Email or Password incorrect!',
+                style: TextStyle(color: Colors.white)),
             backgroundColor: Colors.red,
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -215,7 +260,8 @@ class _SplashScreenState extends State<SplashScreen> {
                           });
                         },
                         child: Container(
-                          margin: EdgeInsets.only(top: 32, bottom: 100, left: 32, right: 32),
+                          margin: EdgeInsets.only(
+                              top: 32, bottom: 100, left: 32, right: 32),
                           padding: EdgeInsets.all(20),
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -239,7 +285,8 @@ class _SplashScreenState extends State<SplashScreen> {
                   width: _loginWidth,
                   duration: Duration(milliseconds: 1000),
                   curve: Curves.fastLinearToSlowEaseIn,
-                  transform: Matrix4.translationValues(_loginXOffset, _loginYOffset, 1),
+                  transform: Matrix4.translationValues(
+                      _loginXOffset, _loginYOffset, 1),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(_loginOpacity),
                     borderRadius: BorderRadius.only(
@@ -250,35 +297,53 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(bottom: 20),
-                            child: Text(
-                              "Login To Continue",
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Color(0xFFB306060),
+                      Form(
+                        key: loginFormKey,
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(bottom: 20),
+                              child: Text(
+                                "Login To Continue",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Color(0xFFB306060),
+                                ),
                               ),
                             ),
-                          ),
-                          InputWithIcon(
-                            icon: Icons.email,
-                            hint: "Enter Email...",
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          InputWithIcon(
-                            icon: Icons.vpn_key,
-                            hint: "Enter Password...",
-                          ),
-                        ],
+                            InputWithIcon(
+                              icon: Icons.email,
+                              hint: "Enter Email...",
+                              controller: _loginEmailController,
+                              validator: (value) {
+                                return RegExp(
+                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+                                ).hasMatch(value)
+                                    ? null
+                                    : "Enter correct email";
+                              },
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            InputWithIcon(
+                              icon: Icons.vpn_key,
+                              hint: "Enter Password...",
+                              controller: _loginPasswordController,
+                              validator: (value) {
+                                return value.length < 6
+                                    ? "Password too small"
+                                    : null;
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                       Column(
                         children: [
                           PrimaryButton(
                             buttonText: "Login",
+                            press: loginUser,
                           ),
                           SizedBox(height: 20),
                           GestureDetector(
@@ -343,7 +408,9 @@ class _SplashScreenState extends State<SplashScreen> {
                               icon: Icons.vpn_key,
                               hint: "Enter Password...",
                               validator: (value) {
-                                return value.length < 6 ? "Password too small" : null;
+                                return value.length < 6
+                                    ? "Password too small"
+                                    : null;
                               },
                               controller: _passwordController,
                             ),

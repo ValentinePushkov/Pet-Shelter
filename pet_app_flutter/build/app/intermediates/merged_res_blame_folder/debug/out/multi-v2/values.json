@@ -4,79 +4,7 @@
             "outputFile": "com.alaminkarno.pet_app-mergeDebugResources-15:/values/values.xml",
             "map": [
                 {
-                    "source": "D:\\Unic\\PetShelter\\Pet-Shelter\\pet_app_flutter\\build\\app\\generated\\res\\google-services\\debug\\values\\values.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "55,199,281,385,494,614,714",
-                        "endColumns": "143,81,103,108,119,99,76",
-                        "endOffsets": "194,276,380,489,609,709,786"
-                    },
-                    "to": {
-                        "startLines": "126,130,131,132,133,134,135",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "8973,9332,9414,9518,9627,9747,9847",
-                        "endColumns": "143,81,103,108,119,99,76",
-                        "endOffsets": "9112,9409,9513,9622,9742,9842,9919"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Valson\\.gradle\\caches\\transforms-3\\40ff8c014bc3b03149787e1d45a42dea\\transformed\\jetified-window-1.0.0-beta04\\res\\values\\values.xml",
-                    "from": {
-                        "startLines": "2,7,8,9,10,11,19,23,34,51",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,234,294,346,391,451,869,1066,1790,2904",
-                        "endLines": "6,7,8,9,10,18,22,33,50,58",
-                        "endColumns": "11,59,51,44,59,24,24,24,24,24",
-                        "endOffsets": "229,289,341,386,446,864,1061,1785,2899,3292"
-                    },
-                    "to": {
-                        "startLines": "3,8,9,10,86,157,163,305,313,325",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "165,344,404,456,5445,11242,11437,15975,16257,16697",
-                        "endLines": "7,8,9,10,86,162,166,312,324,332",
-                        "endColumns": "11,59,51,44,59,24,24,24,24,24",
-                        "endOffsets": "339,399,451,496,5500,11432,11563,16252,16692,17001"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Valson\\.gradle\\caches\\transforms-3\\c1463af6cb467bf02a2c891016443d37\\transformed\\browser-1.4.0\\res\\values\\values.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,113,179,242,304,375,447,515,582,661",
-                        "endColumns": "57,65,62,61,70,71,67,66,78,68",
-                        "endOffsets": "108,174,237,299,370,442,510,577,656,725"
-                    },
-                    "to": {
-                        "startLines": "13,14,15,16,27,28,125,127,128,129",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "661,719,785,848,1713,1784,8905,9117,9184,9263",
-                        "endColumns": "57,65,62,61,70,71,67,66,78,68",
-                        "endOffsets": "714,780,843,905,1779,1851,8968,9179,9258,9327"
-                    }
-                },
-                {
-                    "source": "D:\\Unic\\PetShelter\\Pet-Shelter\\pet_app_flutter\\android\\app\\src\\main\\res\\values\\styles.xml",
-                    "from": {
-                        "startLines": "3,14",
-                        "startColumns": "4,4",
-                        "startOffsets": "176,830",
-                        "endLines": "7,16",
-                        "endColumns": "12,12",
-                        "endOffsets": "472,996"
-                    },
-                    "to": {
-                        "startLines": "137,141",
-                        "startColumns": "4,4",
-                        "startOffsets": "9995,10176",
-                        "endLines": "140,143",
-                        "endColumns": "12,12",
-                        "endOffsets": "10171,10340"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Valson\\.gradle\\caches\\transforms-3\\1141b72fb8be4e566e7814849b1aa3a2\\transformed\\core-1.6.0\\res\\values\\values.xml",
+                    "source": "C:\\Users\\Vaslon\\.gradle\\caches\\transforms-3\\1141b72fb8be4e566e7814849b1aa3a2\\transformed\\core-1.6.0\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,89,90,94,95,96,97,104,111,159,191,228",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -95,7 +23,41 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Valson\\.gradle\\caches\\transforms-3\\8f31701e663a8c1514b353cc4d7239a2\\transformed\\jetified-play-services-base-18.0.1\\res\\values\\values.xml",
+                    "source": "C:\\Users\\Vaslon\\.gradle\\caches\\transforms-3\\ad3fb7e0e58165c0e3c87f8f0d79631f\\transformed\\jetified-play-services-basement-18.1.0\\res\\values\\values.xml",
+                    "from": {
+                        "startLines": "4,7",
+                        "startColumns": "0,0",
+                        "startOffsets": "243,406",
+                        "endColumns": "63,166",
+                        "endOffsets": "306,572"
+                    },
+                    "to": {
+                        "startLines": "105,115",
+                        "startColumns": "4,4",
+                        "startOffsets": "6434,7612",
+                        "endColumns": "67,166",
+                        "endOffsets": "6497,7774"
+                    }
+                },
+                {
+                    "source": "F:\\Univer\\Pet Shelter\\Pet-Shelter\\pet_app_flutter\\build\\app\\generated\\res\\google-services\\debug\\values\\values.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "55,199,281,385,494,614,714",
+                        "endColumns": "143,81,103,108,119,99,76",
+                        "endOffsets": "194,276,380,489,609,709,786"
+                    },
+                    "to": {
+                        "startLines": "126,130,131,132,133,134,135",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "8973,9332,9414,9518,9627,9747,9847",
+                        "endColumns": "143,81,103,108,119,99,76",
+                        "endOffsets": "9112,9409,9513,9622,9742,9842,9919"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Vaslon\\.gradle\\caches\\transforms-3\\8f31701e663a8c1514b353cc4d7239a2\\transformed\\jetified-play-services-base-18.0.1\\res\\values\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,33,46",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -114,20 +76,58 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Valson\\.gradle\\caches\\transforms-3\\ad3fb7e0e58165c0e3c87f8f0d79631f\\transformed\\jetified-play-services-basement-18.1.0\\res\\values\\values.xml",
+                    "source": "C:\\Users\\Vaslon\\.gradle\\caches\\transforms-3\\40ff8c014bc3b03149787e1d45a42dea\\transformed\\jetified-window-1.0.0-beta04\\res\\values\\values.xml",
                     "from": {
-                        "startLines": "4,7",
-                        "startColumns": "0,0",
-                        "startOffsets": "243,406",
-                        "endColumns": "63,166",
-                        "endOffsets": "306,572"
+                        "startLines": "2,7,8,9,10,11,19,23,34,51",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,234,294,346,391,451,869,1066,1790,2904",
+                        "endLines": "6,7,8,9,10,18,22,33,50,58",
+                        "endColumns": "11,59,51,44,59,24,24,24,24,24",
+                        "endOffsets": "229,289,341,386,446,864,1061,1785,2899,3292"
                     },
                     "to": {
-                        "startLines": "105,115",
+                        "startLines": "3,8,9,10,86,157,163,305,313,325",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "165,344,404,456,5445,11242,11437,15975,16257,16697",
+                        "endLines": "7,8,9,10,86,162,166,312,324,332",
+                        "endColumns": "11,59,51,44,59,24,24,24,24,24",
+                        "endOffsets": "339,399,451,496,5500,11432,11563,16252,16692,17001"
+                    }
+                },
+                {
+                    "source": "F:\\Univer\\Pet Shelter\\Pet-Shelter\\pet_app_flutter\\android\\app\\src\\main\\res\\values\\styles.xml",
+                    "from": {
+                        "startLines": "3,14",
                         "startColumns": "4,4",
-                        "startOffsets": "6434,7612",
-                        "endColumns": "67,166",
-                        "endOffsets": "6497,7774"
+                        "startOffsets": "173,816",
+                        "endLines": "7,16",
+                        "endColumns": "12,12",
+                        "endOffsets": "465,980"
+                    },
+                    "to": {
+                        "startLines": "137,141",
+                        "startColumns": "4,4",
+                        "startOffsets": "9995,10176",
+                        "endLines": "140,143",
+                        "endColumns": "12,12",
+                        "endOffsets": "10171,10340"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Vaslon\\.gradle\\caches\\transforms-3\\c1463af6cb467bf02a2c891016443d37\\transformed\\browser-1.4.0\\res\\values\\values.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,113,179,242,304,375,447,515,582,661",
+                        "endColumns": "57,65,62,61,70,71,67,66,78,68",
+                        "endOffsets": "108,174,237,299,370,442,510,577,656,725"
+                    },
+                    "to": {
+                        "startLines": "13,14,15,16,27,28,125,127,128,129",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "661,719,785,848,1713,1784,8905,9117,9184,9263",
+                        "endColumns": "57,65,62,61,70,71,67,66,78,68",
+                        "endOffsets": "714,780,843,905,1779,1851,8968,9179,9258,9327"
                     }
                 }
             ]

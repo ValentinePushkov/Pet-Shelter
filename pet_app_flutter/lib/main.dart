@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_app/drawer/hidden_drawer.dart';
 import 'package:pet_app/screens/splash_screen.dart';
+import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -8,13 +10,35 @@ Future main() async {
 
   runApp(
     MaterialApp(
-      home: Home(),
+      home: MyApp(),
       debugShowCheckedModeBanner: false,
     ),
   );
 }
 
-class Home extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool isLoggedIn;
+  @override
+  void initState() {
+    setState(() {
+      getLoggedInState();
+    });
+    super.initState();
+  }
+
+  getLoggedInState() async {
+    await SharedPrefHelper().getUserLoggedInSharedPref().then((val) {
+      setState(() {
+        isLoggedIn = val;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,13 +50,11 @@ class Home extends StatelessWidget {
           shadowColor: Colors.transparent,
         ),
       ),
-      home: Scaffold(
-        body: Stack(
-          children: [
-            SplashScreen(),
-          ],
-        ),
-      ),
+      home: isLoggedIn != null
+          ? isLoggedIn
+              ? HiddenDrawer()
+              : SplashScreen()
+          : SplashScreen(),
     );
   }
 }

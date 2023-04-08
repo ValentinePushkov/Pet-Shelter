@@ -4,7 +4,7 @@
             "outputFile": "com.alaminkarno.pet_app-mergeDebugResources-15:/values-watch-v20/values-watch-v20.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Valson\\.gradle\\caches\\transforms-3\\3be2969864d386eae3cc7aac04558c8d\\transformed\\jetified-play-services-auth-20.4.1\\res\\values-watch-v20\\values.xml",
+                    "source": "C:\\Users\\Vaslon\\.gradle\\caches\\transforms-3\\3be2969864d386eae3cc7aac04558c8d\\transformed\\jetified-play-services-auth-20.4.1\\res\\values-watch-v20\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11",
                         "startColumns": "0,0,0,0,0,0,0,0",
