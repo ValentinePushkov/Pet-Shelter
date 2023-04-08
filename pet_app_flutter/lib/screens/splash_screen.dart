@@ -77,7 +77,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
       authMethods
           .signUpWithEmailAndPassword(
-              _emailController.text, _passwordController.text)
+        _emailController.text,
+        _passwordController.text,
+      )
           .then((val) {
         if (val != null) {
           Map<String, String> userInfoMap = {
@@ -86,7 +88,9 @@ class _SplashScreenState extends State<SplashScreen> {
           };
 
           databaseMethods.uploadUserInfo(
-              _signupUserNameController.text, userInfoMap);
+            _signupUserNameController.text,
+            userInfoMap,
+          );
           sharedPrefHelper.saveUsernameSharedPref(_loginEmailController.text);
           sharedPrefHelper.saveUserEmailSharedPref(_emailController.text);
           sharedPrefHelper.saveUserLoggedInSharedPref(true);
@@ -102,8 +106,10 @@ class _SplashScreenState extends State<SplashScreen> {
             isLoading = false;
           });
           SnackBar snackBar = SnackBar(
-            content: Text('Email already exists!',
-                style: TextStyle(color: Colors.white)),
+            content: Text(
+              'Email already exists!',
+              style: TextStyle(color: Colors.white),
+            ),
             backgroundColor: Colors.red,
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -120,7 +126,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
       authMethods
           .loginWithEmailAndPassword(
-              _loginEmailController.text, _loginPasswordController.text)
+        _loginEmailController.text,
+        _loginPasswordController.text,
+      )
           .then((val) async {
         if (val != null) {
           QuerySnapshot loginSnapshot = await databaseMethods
@@ -132,14 +140,18 @@ class _SplashScreenState extends State<SplashScreen> {
           sharedPrefHelper.saveUserLoggedInSharedPref(true);
 
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => HiddenDrawer()));
+            context,
+            MaterialPageRoute(builder: (context) => HiddenDrawer()),
+          );
         } else {
           setState(() {
             isLoading = false;
           });
           SnackBar snackBar = SnackBar(
-            content: Text('Email or Password incorrect!',
-                style: TextStyle(color: Colors.white)),
+            content: Text(
+              'Email or Password incorrect!',
+              style: TextStyle(color: Colors.white),
+            ),
             backgroundColor: Colors.red,
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -266,7 +278,11 @@ class _SplashScreenState extends State<SplashScreen> {
                         },
                         child: Container(
                           margin: EdgeInsets.only(
-                              top: 32, bottom: 100, left: 32, right: 32),
+                            top: 32,
+                            bottom: 100,
+                            left: 32,
+                            right: 32,
+                          ),
                           padding: EdgeInsets.all(20),
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -291,7 +307,10 @@ class _SplashScreenState extends State<SplashScreen> {
                   duration: Duration(milliseconds: 1000),
                   curve: Curves.fastLinearToSlowEaseIn,
                   transform: Matrix4.translationValues(
-                      _loginXOffset, _loginYOffset, 1),
+                    _loginXOffset,
+                    _loginYOffset,
+                    1,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(_loginOpacity),
                     borderRadius: BorderRadius.only(

@@ -50,10 +50,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
 
     if (isNameValid && isBioValid) {
-      databaseMethods.updateUserInfo(Constants.currentUser,
-          NameEditingController.text, BioEditingController.text);
+      databaseMethods.updateUserInfo(
+        Constants.currentUser,
+        NameEditingController.text,
+        BioEditingController.text,
+      );
       SnackBar snackBar = SnackBar(
-          duration: Duration(seconds: 2), content: Text('Profile updated!'));
+        duration: Duration(seconds: 2),
+        content: Text('Profile updated!'),
+      );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       FocusScope.of(context).unfocus();
     }
@@ -61,14 +66,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future pickImage(ImageSource source) async {
     final temp = await picker.pickImage(
-        source: source, maxHeight: 480, maxWidth: 640, imageQuality: 30);
+      source: source,
+      maxHeight: 480,
+      maxWidth: 640,
+      imageQuality: 30,
+    );
     if (temp == null) {
       Navigator.pop(context);
     } else {
       setState(() {
         imageFile = File(temp.path);
       });
-      SnackBar snackBar = SnackBar(content: Text('Profile Picture updated!'));
+      SnackBar snackBar = SnackBar(
+        content: Text('Profile Picture updated!'),
+      );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       final url = await uploadImage();
       databaseMethods.updateUserProfilePic(Constants.currentUser, url);
@@ -95,7 +106,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               key: scaffoldKey,
               body: Container(
                 padding: EdgeInsets.symmetric(
-                    vertical: screenSize.height * 0.05, horizontal: 15),
+                  vertical: screenSize.height * 0.05,
+                  horizontal: 15,
+                ),
                 child: ListView(
                   children: [
                     Center(
@@ -106,54 +119,60 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             height: 130,
                             decoration: BoxDecoration(
                               border: Border.all(
-                                  width: 4,
-                                  color: Theme.of(context)
-                                      .scaffoldBackgroundColor),
+                                width: 4,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                              ),
                               boxShadow: [
                                 BoxShadow(
-                                    spreadRadius: 2,
-                                    blurRadius: 10,
-                                    color: Colors.black.withOpacity(0.1),
-                                    offset: Offset(0, 10))
+                                  spreadRadius: 2,
+                                  blurRadius: 10,
+                                  color: Colors.black.withOpacity(0.1),
+                                  offset: Offset(0, 10),
+                                )
                               ],
                               shape: BoxShape.circle,
                               image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: AssetImage("images/cat.png"),
-                                /*image: image != null
-                                    ? image
-                                    : AssetImage("images/cat.png"),*/
+                                //image: AssetImage("images/cat.png"),
+                                image: imageFile != null
+                                    ? FileImage(imageFile)
+                                    : NetworkImage(
+                                        searchUserSnapshot.docs[0]['picUrl'],
+                                      ),
                               ),
                             ),
                           ),
                           Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: Container(
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    width: 4,
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
-                                  ),
-                                  color: Theme.of(context).primaryColor,
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  width: 4,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                 ),
-                                child: InkWell(
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        builder: (builder) =>
-                                            bottomSheet(screenSize));
-                                  },
-                                  child: Icon(
-                                    Icons.camera_alt_rounded,
-                                    color: Colors.white,
-                                  ),
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              child: InkWell(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (builder) =>
+                                        bottomSheet(screenSize),
+                                  );
+                                },
+                                child: Icon(
+                                  Icons.camera_alt_rounded,
+                                  color: Colors.white,
                                 ),
-                              )),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -162,13 +181,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Text(
                           '@${searchUserSnapshot.docs[0]['username']}',
                           style: TextStyle(
-                              color:
-                                  MediaQuery.of(context).platformBrightness ==
-                                          Brightness.light
-                                      ? Constants.kPrimaryColor
-                                      : Constants.kSecondaryColor,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
+                            color: MediaQuery.of(context).platformBrightness ==
+                                    Brightness.light
+                                ? Constants.kPrimaryColor
+                                : Constants.kSecondaryColor,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
@@ -177,16 +196,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Container(
                       padding: EdgeInsets.symmetric(
-                          horizontal: screenSize.width * 0.05),
+                        horizontal: screenSize.width * 0.05,
+                      ),
                       child: Column(
                         children: [
-                          ProfileTextField(context, "Name", "Enter name",
-                              NameEditingController),
-                          ProfileTextField(context, "Bio", "Enter bio",
-                              BioEditingController),
+                          ProfileTextField(
+                            context,
+                            "Name",
+                            "Enter name",
+                            NameEditingController,
+                          ),
+                          ProfileTextField(
+                            context,
+                            "Bio",
+                            "Enter bio",
+                            BioEditingController,
+                          ),
                           Padding(
                             padding: EdgeInsets.symmetric(
-                                horizontal: screenSize.width * 0.1),
+                              horizontal: screenSize.width * 0.1,
+                            ),
                             child: ElevatedButton(
                               onPressed: () {
                                 updateUserInfo();
@@ -205,13 +234,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               child: Text(
                                 "UPDATE",
                                 style: TextStyle(
-                                    fontSize: 14,
-                                    letterSpacing: 2.2,
-                                    color: MediaQuery.of(context)
-                                                .platformBrightness ==
-                                            Brightness.light
-                                        ? Colors.white
-                                        : Colors.black87),
+                                  fontSize: 14,
+                                  letterSpacing: 2.2,
+                                  color: MediaQuery.of(context)
+                                              .platformBrightness ==
+                                          Brightness.light
+                                      ? Colors.white
+                                      : Colors.black87,
+                                ),
                               ),
                             ),
                           )
@@ -248,29 +278,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SizedBox(
             height: 20,
           ),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            TextButton.icon(
-              icon: Icon(Icons.camera),
-              onPressed: () {
-                pickImage(ImageSource.camera);
-              },
-              label: Text("Camera"),
-            ),
-            TextButton.icon(
-              icon: Icon(Icons.image),
-              onPressed: () {
-                pickImage(ImageSource.gallery);
-              },
-              label: Text("Gallery"),
-            ),
-          ])
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton.icon(
+                icon: Icon(Icons.camera),
+                onPressed: () {
+                  pickImage(ImageSource.camera);
+                },
+                label: Text("Camera"),
+              ),
+              TextButton.icon(
+                icon: Icon(Icons.image),
+                onPressed: () {
+                  pickImage(ImageSource.gallery);
+                },
+                label: Text("Gallery"),
+              ),
+            ],
+          )
         ],
       ),
     );
   }
 
-  Widget ProfileTextField(BuildContext context, String labelText,
-      String placeholder, TextEditingController controller) {
+  Widget ProfileTextField(
+    BuildContext context,
+    String labelText,
+    String placeholder,
+    TextEditingController controller,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 35.0),
       child: TextField(
@@ -279,49 +316,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
           fontWeight: FontWeight.bold,
         ),
         decoration: InputDecoration(
-            prefixIcon: Icon(
-              labelText == 'Bio'
-                  ? Icons.info_outline_rounded
-                  : Icons.account_circle_rounded,
+          prefixIcon: Icon(
+            labelText == 'Bio'
+                ? Icons.info_outline_rounded
+                : Icons.account_circle_rounded,
+            color: MediaQuery.of(context).platformBrightness == Brightness.light
+                ? Constants.kPrimaryColor
+                : Colors.grey,
+          ),
+          suffixIcon: IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.edit,
               color:
                   MediaQuery.of(context).platformBrightness == Brightness.light
-                      ? Constants.kPrimaryColor
-                      : Colors.grey,
+                      ? Colors.grey
+                      : Constants.kPrimaryColor,
             ),
-            suffixIcon: IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.edit,
-                color: MediaQuery.of(context).platformBrightness ==
-                        Brightness.light
-                    ? Colors.grey
-                    : Constants.kPrimaryColor,
-              ),
-            ),
-            contentPadding: EdgeInsets.only(bottom: 3),
-            labelText: labelText,
-            labelStyle: TextStyle(
-                color: MediaQuery.of(context).platformBrightness ==
-                        Brightness.light
-                    ? Colors.black45
-                    : Colors.grey),
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-            hintText: placeholder,
-            errorText: labelText == 'Name'
-                ? (isNameValid ? null : "Name too short")
-                : (isBioValid
-                    ? null
-                    : BioEditingController.text.trim().isEmpty
-                        ? "Bio too short"
-                        : "Bio too long"),
-            hintStyle: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.normal,
-              color:
-                  MediaQuery.of(context).platformBrightness == Brightness.light
-                      ? Colors.black
-                      : Colors.white70,
-            )),
+          ),
+          contentPadding: EdgeInsets.only(bottom: 3),
+          labelText: labelText,
+          labelStyle: TextStyle(
+            color: MediaQuery.of(context).platformBrightness == Brightness.light
+                ? Colors.black45
+                : Colors.grey,
+          ),
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          hintText: placeholder,
+          errorText: labelText == 'Name'
+              ? (isNameValid ? null : "Name too short")
+              : (isBioValid
+                  ? null
+                  : BioEditingController.text.trim().isEmpty
+                      ? "Bio too short"
+                      : "Bio too long"),
+          hintStyle: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.normal,
+            color: MediaQuery.of(context).platformBrightness == Brightness.light
+                ? Colors.black
+                : Colors.white70,
+          ),
+        ),
       ),
     );
   }
