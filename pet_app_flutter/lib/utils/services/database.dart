@@ -1,15 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pet_app/utils/models/user.dart';
 
 class DatabaseMethods {
   getAllUsers() async {
     return await FirebaseFirestore.instance.collection('users').get();
   }
 
-  getUserInfoByUsername(String username) async {
-    return await FirebaseFirestore.instance
+  Future<User> getUserInfoByUsername(String username) async {
+    final snapshot = await FirebaseFirestore.instance
         .collection('users')
         .where('username', isEqualTo: username)
         .get();
+    return User(
+      username: snapshot.docs[0].data()['username'],
+      avatar: snapshot.docs[0].data()['picUrl'],
+    );
   }
 
   updateUserInfo(String username, String name, String bio) async {
@@ -34,17 +39,11 @@ class DatabaseMethods {
   }
 
   uploadUserInfo(String username, Map<String, String> userInfoMap) {
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(username)
-        .set(userInfoMap);
+    FirebaseFirestore.instance.collection('users').doc(username).set(userInfoMap);
   }
 
   createChatRoom(String chatRoomID, Map<String, dynamic> chatRoomMap) {
-    FirebaseFirestore.instance
-        .collection('ChatRooms')
-        .doc(chatRoomID)
-        .set(chatRoomMap);
+    FirebaseFirestore.instance.collection('ChatRooms').doc(chatRoomID).set(chatRoomMap);
   }
 
   addChatMessage(String chatRoomID, Map<String, dynamic> chatMessageMap) {
