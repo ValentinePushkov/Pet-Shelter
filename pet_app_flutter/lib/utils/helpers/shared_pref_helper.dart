@@ -5,35 +5,33 @@ class SharedPrefHelper {
   String sharedPrefUsernameKey = 'USERNAMEKEY';
   String sharedPrefUserEmailKey = 'USEREMAILKEY';
 
-  //Saving user shared prefs
+  Future<SharedPreferences> get _prefs async {
+    return await SharedPreferences.getInstance();
+  }
+
+  //Saving user shared _prefs
   Future<bool> saveUserLoggedInSharedPref(bool isUserLoggedIn) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return await prefs.setBool(sharedPrefUserLoggedInKey, isUserLoggedIn);
+    return _prefs.then((prefs) => prefs.setBool(sharedPrefUserLoggedInKey, isUserLoggedIn));
   }
 
   Future<bool> saveUsernameSharedPref(String username) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return await prefs.setString(sharedPrefUsernameKey, username);
+    return _prefs.then((prefs) => prefs.setString(sharedPrefUsernameKey, username));
   }
 
   Future<bool> saveUserEmailSharedPref(String userEmail) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return await prefs.setString(sharedPrefUserEmailKey, userEmail);
+    return _prefs.then((prefs) => prefs.setString(sharedPrefUserEmailKey, userEmail));
   }
 
-  //Getting user shared prefs
+  //Getting user shared _prefs
   Future<bool> getUserLoggedInSharedPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(sharedPrefUserLoggedInKey);
+    return _prefs.then((prefs) => prefs.getBool(sharedPrefUserLoggedInKey));
   }
 
   Future<String> getUsernameSharedPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(sharedPrefUsernameKey);
+    return _prefs.then((prefs) => prefs.getString(sharedPrefUsernameKey));
   }
 
   Future<String> getUserEmailSharedPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(sharedPrefUserEmailKey);
+    return _prefs.then((prefs) => prefs.getString(sharedPrefUserEmailKey));
   }
 }
