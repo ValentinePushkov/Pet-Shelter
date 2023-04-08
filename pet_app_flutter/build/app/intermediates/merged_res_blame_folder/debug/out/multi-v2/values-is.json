@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.alaminkarno.pet_app-mergeDebugResources-15:/values-is/values-is.xml",
+            "outputFile": "com.alaminkarno.pet_app-mergeDebugResources-22:/values-is/values-is.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Vaslon\\.gradle\\caches\\transforms-3\\8f31701e663a8c1514b353cc4d7239a2\\transformed\\jetified-play-services-base-18.0.1\\res\\values-is\\values.xml",
+                    "source": "C:\\Users\\Valson\\.gradle\\caches\\transforms-3\\8f31701e663a8c1514b353cc4d7239a2\\transformed\\jetified-play-services-base-18.0.1\\res\\values-is\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -21,7 +21,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Vaslon\\.gradle\\caches\\transforms-3\\c1463af6cb467bf02a2c891016443d37\\transformed\\browser-1.4.0\\res\\values-is\\values-is.xml",
+                    "source": "C:\\Users\\Valson\\.gradle\\caches\\transforms-3\\ad3fb7e0e58165c0e3c87f8f0d79631f\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-is\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "195",
+                        "endColumns": "124",
+                        "endOffsets": "319"
+                    },
+                    "to": {
+                        "startLines": "10",
+                        "startColumns": "4",
+                        "startOffsets": "1029",
+                        "endColumns": "128",
+                        "endOffsets": "1153"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Valson\\.gradle\\caches\\transforms-3\\c1463af6cb467bf02a2c891016443d37\\transformed\\browser-1.4.0\\res\\values-is\\values-is.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -38,7 +55,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Vaslon\\.gradle\\caches\\transforms-3\\1141b72fb8be4e566e7814849b1aa3a2\\transformed\\core-1.6.0\\res\\values-is\\values-is.xml",
+                    "source": "C:\\Users\\Valson\\.gradle\\caches\\transforms-3\\9008b2a9fb01102d26fd2f78c055a96b\\transformed\\core-1.9.0\\res\\values-is\\values-is.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -52,23 +69,6 @@
                         "startOffsets": "2615",
                         "endColumns": "100",
                         "endOffsets": "2711"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Vaslon\\.gradle\\caches\\transforms-3\\ad3fb7e0e58165c0e3c87f8f0d79631f\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-is\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "195",
-                        "endColumns": "124",
-                        "endOffsets": "319"
-                    },
-                    "to": {
-                        "startLines": "10",
-                        "startColumns": "4",
-                        "startOffsets": "1029",
-                        "endColumns": "128",
-                        "endOffsets": "1153"
                     }
                 }
             ]

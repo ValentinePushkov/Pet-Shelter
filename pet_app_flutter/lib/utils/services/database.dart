@@ -33,12 +33,18 @@ class DatabaseMethods {
         .get();
   }
 
-  uploadUserInfo(Map<String, String> userInfoMap) {
-    FirebaseFirestore.instance.collection('users').doc().set(userInfoMap);
+  uploadUserInfo(String username, Map<String, String> userInfoMap) {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(username)
+        .set(userInfoMap);
   }
 
   createChatRoom(String chatRoomID, Map<String, dynamic> chatRoomMap) {
-    FirebaseFirestore.instance.collection('ChatRooms').doc(chatRoomID).set(chatRoomMap);
+    FirebaseFirestore.instance
+        .collection('ChatRooms')
+        .doc(chatRoomID)
+        .set(chatRoomMap);
   }
 
   addChatMessage(String chatRoomID, Map<String, dynamic> chatMessageMap) {

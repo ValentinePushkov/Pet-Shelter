@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/drawer/hidden_drawer.dart';
 import 'package:pet_app/screens/splash_screen.dart';
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
@@ -27,6 +28,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     setState(() {
       getLoggedInState();
+      setLoggedInUsername();
     });
     super.initState();
   }
@@ -35,6 +37,14 @@ class _MyAppState extends State<MyApp> {
     await SharedPrefHelper().getUserLoggedInSharedPref().then((val) {
       setState(() {
         isLoggedIn = val;
+      });
+    });
+  }
+
+  setLoggedInUsername() async {
+    await SharedPrefHelper().getUsernameSharedPref().then((val) {
+      setState(() {
+        Constants.currentUser = val;
       });
     });
   }

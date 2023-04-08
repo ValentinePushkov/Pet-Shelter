@@ -19,6 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   TextEditingController _passwordController;
   TextEditingController _loginEmailController;
   TextEditingController _loginPasswordController;
+  TextEditingController _signupUserNameController;
 
   int _pageState = 0;
 
@@ -58,6 +59,7 @@ class _SplashScreenState extends State<SplashScreen> {
     _passwordController = TextEditingController(text: "");
     _loginEmailController = TextEditingController(text: "");
     _loginPasswordController = TextEditingController(text: "");
+    _signupUserNameController = TextEditingController(text: "");
     KeyboardVisibilityNotification().addNewListener(
       onChange: (bool visible) {
         setState(() {
@@ -79,10 +81,13 @@ class _SplashScreenState extends State<SplashScreen> {
           .then((val) {
         if (val != null) {
           Map<String, String> userInfoMap = {
+            'username': _signupUserNameController.text,
             'email': _emailController.text,
           };
 
-          databaseMethods.uploadUserInfo(userInfoMap);
+          databaseMethods.uploadUserInfo(
+              _signupUserNameController.text, userInfoMap);
+          sharedPrefHelper.saveUsernameSharedPref(_loginEmailController.text);
           sharedPrefHelper.saveUserEmailSharedPref(_emailController.text);
           sharedPrefHelper.saveUserLoggedInSharedPref(true);
 
@@ -122,8 +127,8 @@ class _SplashScreenState extends State<SplashScreen> {
               .getUserInfoByEmail(_loginEmailController.text);
           sharedPrefHelper
               .saveUserEmailSharedPref(loginSnapshot.docs[0]["email"]);
-          /*sharedPrefHelper
-              .saveUsernameSharedPref(loginSnapshot.docs[0]["username"]);*/
+          sharedPrefHelper
+              .saveUsernameSharedPref(loginSnapshot.docs[0]["username"]);
           sharedPrefHelper.saveUserLoggedInSharedPref(true);
 
           Navigator.pushReplacement(
@@ -304,7 +309,7 @@ class _SplashScreenState extends State<SplashScreen> {
                             Container(
                               margin: EdgeInsets.only(bottom: 20),
                               child: Text(
-                                "Login To Continue",
+                                "Войдите для продолжения",
                                 style: TextStyle(
                                   fontSize: 20,
                                   color: Color(0xFFB306060),
@@ -313,14 +318,14 @@ class _SplashScreenState extends State<SplashScreen> {
                             ),
                             InputWithIcon(
                               icon: Icons.email,
-                              hint: "Enter Email...",
+                              hint: "Email",
                               controller: _loginEmailController,
                               validator: (value) {
                                 return RegExp(
                                   r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
                                 ).hasMatch(value)
                                     ? null
-                                    : "Enter correct email";
+                                    : "Введите корректный email";
                               },
                             ),
                             SizedBox(
@@ -328,11 +333,11 @@ class _SplashScreenState extends State<SplashScreen> {
                             ),
                             InputWithIcon(
                               icon: Icons.vpn_key,
-                              hint: "Enter Password...",
+                              hint: "Введите пароль...",
                               controller: _loginPasswordController,
                               validator: (value) {
                                 return value.length < 6
-                                    ? "Password too small"
+                                    ? "Пароль слишком короткий"
                                     : null;
                               },
                             ),
@@ -353,7 +358,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               });
                             },
                             child: OutlineButton(
-                              buttonText: "Create New Account",
+                              buttonText: "Создать новый аккаунт",
                             ),
                           ),
                         ],
@@ -384,7 +389,7 @@ class _SplashScreenState extends State<SplashScreen> {
                             Container(
                               margin: EdgeInsets.only(bottom: 20),
                               child: Text(
-                                "Create New Account",
+                                "Создать новый аккаунт",
                                 style: TextStyle(
                                   fontSize: 20,
                                   color: Color(0xFFB306060),
@@ -393,23 +398,36 @@ class _SplashScreenState extends State<SplashScreen> {
                             ),
                             InputWithIcon(
                               icon: Icons.email,
-                              hint: "Enter Email...",
+                              hint: "Email",
                               validator: (value) {
                                 return RegExp(
                                   r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
                                 ).hasMatch(value)
                                     ? null
-                                    : "Enter correct email";
+                                    : "Введите корректный email";
                               },
                               controller: _emailController,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            InputWithIcon(
+                              icon: Icons.supervised_user_circle,
+                              hint: "Имя пользователя",
+                              controller: _signupUserNameController,
+                              validator: (value) {
+                                return value.length < 2
+                                    ? "Имя слишком короткое"
+                                    : null;
+                              },
                             ),
                             SizedBox(height: 20),
                             InputWithIcon(
                               icon: Icons.vpn_key,
-                              hint: "Enter Password...",
+                              hint: "Пароль",
                               validator: (value) {
                                 return value.length < 6
-                                    ? "Password too small"
+                                    ? "Пароль слишком короткий"
                                     : null;
                               },
                               controller: _passwordController,
@@ -431,7 +449,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               });
                             },
                             child: OutlineButton(
-                              buttonText: "Back to Login",
+                              buttonText: "Вернутся к Регистрации",
                             ),
                           ),
                         ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 import 'package:pet_app/screens/home_screen.dart';
+import 'package:pet_app/screens/profile_screen.dart';
 
 class HiddenDrawer extends StatefulWidget {
   const HiddenDrawer({Key key}) : super(key: key);
@@ -19,7 +20,7 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
     _pages = [
       ScreenHiddenDrawer(
         ItemHiddenMenu(
-          name: "Pets",
+          name: "Питомцы",
           baseStyle: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -29,6 +30,19 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
           colorLineSelected: Colors.white,
         ),
         HomeScreen(),
+      ),
+      ScreenHiddenDrawer(
+        ItemHiddenMenu(
+          name: "Профиль",
+          baseStyle: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+          selectedStyle: TextStyle(),
+          colorLineSelected: Colors.white,
+        ),
+        ProfileScreen(),
       ),
     ];
   }
