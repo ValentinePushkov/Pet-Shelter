@@ -5,6 +5,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pet_app/constants/constants.dart';
+import 'package:pet_app/screens/splash_screen.dart';
+import 'package:pet_app/utils/services/auth.dart';
 import 'package:pet_app/utils/services/database.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -14,6 +16,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  AuthMethods authMethods = new AuthMethods();
   DatabaseMethods databaseMethods = new DatabaseMethods();
   QuerySnapshot searchUserSnapshot;
   TextEditingController NameEditingController = new TextEditingController();
@@ -94,6 +97,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return task.ref.getDownloadURL();
   }
 
+  logout() {
+    authMethods.signOut();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return SplashScreen();
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -110,6 +125,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   horizontal: 15,
                 ),
                 child: ListView(
+                  physics: NeverScrollableScrollPhysics(),
                   children: [
                     Center(
                       child: Stack(
@@ -232,7 +248,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                               child: Text(
-                                "UPDATE",
+                                "Обновить",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  letterSpacing: 2.2,
+                                  color: MediaQuery.of(context)
+                                              .platformBrightness ==
+                                          Brightness.light
+                                      ? Colors.white
+                                      : Colors.black87,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.symmetric(
+                              vertical: screenSize.height * 0.25,
+                            ),
+                            /*padding: EdgeInsets.symmetric(
+                              horizontal: screenSize.width * 0.1,
+                            ),*/
+                            child: ElevatedButton(
+                              onPressed: () {
+                                logout();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 130,
+                                  vertical: 20,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              child: Text(
+                                "Выход",
                                 style: TextStyle(
                                   fontSize: 14,
                                   letterSpacing: 2.2,
@@ -270,10 +321,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Column(
         children: [
           Text(
-            "Choose Profile photo",
-            style: TextStyle(
-              fontSize: 20.0,
-            ),
+            "Выберите изображение",
+            style: TextStyle(fontSize: 20.0, color: Constants.kPrimaryColor),
           ),
           SizedBox(
             height: 20,
@@ -282,18 +331,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextButton.icon(
-                icon: Icon(Icons.camera),
+                icon: Icon(
+                  Icons.camera,
+                  color: Constants.kPrimaryColor,
+                ),
                 onPressed: () {
                   pickImage(ImageSource.camera);
                 },
-                label: Text("Camera"),
+                label: Text(
+                  "Камера",
+                  style: TextStyle(color: Constants.kPrimaryColor),
+                ),
+              ),
+              SizedBox(
+                width: screenSize.width * 0.2,
               ),
               TextButton.icon(
-                icon: Icon(Icons.image),
+                icon: Icon(
+                  Icons.image,
+                  color: Constants.kPrimaryColor,
+                ),
                 onPressed: () {
                   pickImage(ImageSource.gallery);
                 },
-                label: Text("Gallery"),
+                label: Text(
+                  "Галерея",
+                  style: TextStyle(color: Constants.kPrimaryColor),
+                ),
               ),
             ],
           )
