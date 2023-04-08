@@ -4,9 +4,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pet_app/constants/constants.dart';
+import 'package:pet_app/models/user.dart';
 import 'package:pet_app/screens/splash_screen.dart';
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
-import 'package:pet_app/utils/models/user.dart';
 import 'package:pet_app/utils/services/auth.dart';
 import 'package:pet_app/utils/services/database.dart';
 
@@ -26,7 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   File imageFile;
   String avatar;
-  User user;
+  UserClass user;
   String username;
   final picker = ImagePicker();
 
@@ -36,7 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       username = val;
     });
 
-    databaseMethods.getUserInfoByUsername(username).then((val) {
+    databaseMethods.getUserInfoByUsername(Constants.currentUser).then((val) {
       setState(() {
         user = val;
         nameEditingController.text = user.name;
@@ -48,10 +48,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   updateUserInfo() {
     setState(() {
-      nameEditingController.text.trim().length < 3 || nameEditingController.text.trim().isEmpty
+      nameEditingController.text.trim().length < 3 ||
+              nameEditingController.text.trim().isEmpty
           ? isNameValid = false
           : isNameValid = true;
-      bioEditingController.text.trim().length > 30 || bioEditingController.text.trim().isEmpty
+      bioEditingController.text.trim().length > 30 ||
+              bioEditingController.text.trim().isEmpty
           ? isBioValid = false
           : isBioValid = true;
     });
@@ -93,8 +95,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   uploadImage() async {
-    final firebaseStorageRef =
-        FirebaseStorage.instance.ref().child(Constants.currentUser + DateTime.now().toString());
+    final firebaseStorageRef = FirebaseStorage.instance
+        .ref()
+        .child(Constants.currentUser + DateTime.now().toString());
     final task = await firebaseStorageRef.putFile(imageFile);
     return task.ref.getDownloadURL();
   }
@@ -138,7 +141,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             decoration: BoxDecoration(
                               border: Border.all(
                                 width: 4,
-                                color: Theme.of(context).scaffoldBackgroundColor,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                               ),
                               boxShadow: [
                                 BoxShadow(
@@ -171,7 +175,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 shape: BoxShape.circle,
                                 border: Border.all(
                                   width: 4,
-                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                 ),
                                 color: Theme.of(context).primaryColor,
                               ),
@@ -179,7 +184,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 onTap: () {
                                   showModalBottomSheet(
                                     context: context,
-                                    builder: (builder) => bottomSheet(screenSize),
+                                    builder: (builder) =>
+                                        bottomSheet(screenSize),
                                   );
                                 },
                                 child: Icon(
@@ -196,7 +202,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Text(
                         '@${user.username}',
                         style: TextStyle(
-                          color: MediaQuery.of(context).platformBrightness == Brightness.light
+                          color: MediaQuery.of(context).platformBrightness ==
+                                  Brightness.light
                               ? Constants.kPrimaryColor
                               : Constants.kSecondaryColor,
                           fontSize: 15,
@@ -235,7 +242,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                    MediaQuery.of(context).platformBrightness == Brightness.light
+                                    MediaQuery.of(context).platformBrightness ==
+                                            Brightness.light
                                         ? Constants.kPrimaryColor
                                         : Constants.kSecondaryColor,
                                 padding: EdgeInsets.symmetric(horizontal: 50),
@@ -248,10 +256,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 style: TextStyle(
                                   fontSize: 14,
                                   letterSpacing: 2.2,
-                                  color:
-                                      MediaQuery.of(context).platformBrightness == Brightness.light
-                                          ? Colors.white
-                                          : Colors.black87,
+                                  color: MediaQuery.of(context)
+                                              .platformBrightness ==
+                                          Brightness.light
+                                      ? Colors.white
+                                      : Colors.black87,
                                 ),
                               ),
                             ),
@@ -282,10 +291,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 style: TextStyle(
                                   fontSize: 14,
                                   letterSpacing: 2.2,
-                                  color:
-                                      MediaQuery.of(context).platformBrightness == Brightness.light
-                                          ? Colors.white
-                                          : Colors.black87,
+                                  color: MediaQuery.of(context)
+                                              .platformBrightness ==
+                                          Brightness.light
+                                      ? Colors.white
+                                      : Colors.black87,
                                 ),
                               ),
                             ),
@@ -375,7 +385,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         decoration: InputDecoration(
           prefixIcon: Icon(
-            labelText == 'Bio' ? Icons.info_outline_rounded : Icons.account_circle_rounded,
+            labelText == 'Bio'
+                ? Icons.info_outline_rounded
+                : Icons.account_circle_rounded,
             color: MediaQuery.of(context).platformBrightness == Brightness.light
                 ? Constants.kPrimaryColor
                 : Colors.grey,
@@ -384,9 +396,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: () {},
             icon: Icon(
               Icons.edit,
-              color: MediaQuery.of(context).platformBrightness == Brightness.light
-                  ? Colors.grey
-                  : Constants.kPrimaryColor,
+              color:
+                  MediaQuery.of(context).platformBrightness == Brightness.light
+                      ? Colors.grey
+                      : Constants.kPrimaryColor,
             ),
           ),
           contentPadding: EdgeInsets.only(bottom: 3),
