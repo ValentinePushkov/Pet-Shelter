@@ -28,7 +28,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     setState(() {
       getLoggedInState();
-      setLoggedInUsername();
     });
     super.initState();
   }
@@ -37,14 +36,6 @@ class _MyAppState extends State<MyApp> {
     await SharedPrefHelper().getUserLoggedInSharedPref().then((val) {
       setState(() {
         isLoggedIn = val;
-      });
-    });
-  }
-
-  setLoggedInUsername() async {
-    await SharedPrefHelper().getUsernameSharedPref().then((val) {
-      setState(() {
-        Constants.currentUser = val;
       });
     });
   }

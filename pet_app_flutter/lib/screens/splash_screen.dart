@@ -242,7 +242,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               curve: Curves.fastLinearToSlowEaseIn,
                               margin: EdgeInsets.only(top: _headingTop),
                               child: Text(
-                                "Make A New Friend!",
+                                "Заведи нового друга!",
                                 style: TextStyle(
                                   fontSize: 28,
                                   color: _headingColor,
@@ -253,7 +253,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               padding: EdgeInsets.symmetric(horizontal: 32),
                               margin: EdgeInsets.all(20),
                               child: Text(
-                                "Pets have so much love to give and the won't ever stop giving it to you once you let them into your heart.",
+                                "Домашние животные могут дарить так много любви, и они никогда не перестанут дарить ее вам, как только вы впустите их в свое сердце.",
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: _headingColor,
@@ -291,7 +291,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           ),
                           child: Center(
                             child: Text(
-                              "Get Started!",
+                              "Начать!",
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
@@ -352,7 +352,7 @@ class _SplashScreenState extends State<SplashScreen> {
                             ),
                             InputWithIcon(
                               icon: Icons.vpn_key,
-                              hint: "Введите пароль...",
+                              hint: "Пароль",
                               controller: _loginPasswordController,
                               validator: (value) {
                                 return value.length < 6
@@ -366,7 +366,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       Column(
                         children: [
                           PrimaryButton(
-                            buttonText: "Login",
+                            buttonText: "Вход",
                             press: loginUser,
                           ),
                           SizedBox(height: 20),
@@ -457,7 +457,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       Column(
                         children: [
                           PrimaryButton(
-                            buttonText: "Create Account",
+                            buttonText: "Создать аккаунт",
                             press: signUpUser,
                           ),
                           SizedBox(height: 20),

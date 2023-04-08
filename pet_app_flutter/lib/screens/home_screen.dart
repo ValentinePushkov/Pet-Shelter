@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pet_app/configuration/configuration.dart';
+import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/screens/pet_details.dart';
+import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -13,6 +15,22 @@ class _HomeScreenState extends State<HomeScreen> {
   double scaleFactor = 1;
 
   bool isDrawerOpen = false;
+
+  setLoggedInUsername() async {
+    await SharedPrefHelper().getUsernameSharedPref().then((val) {
+      setState(() {
+        Constants.currentUser = val;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    setState(() {
+      setLoggedInUsername();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,10 +69,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.grey[400],
                         ),
                         hintText: 'Search pet',
-                        hintStyle: TextStyle(letterSpacing: 1, color: Colors.grey[400]),
+                        hintStyle: TextStyle(
+                          letterSpacing: 1,
+                          color: Colors.grey[400],
+                        ),
                         filled: true,
                         fillColor: Colors.white,
-                        suffixIcon: Icon(Icons.tune_sharp, color: Colors.grey[400]),
+                        suffixIcon:
+                            Icon(Icons.tune_sharp, color: Colors.grey[400]),
                       ),
                     ),
                   ),
@@ -77,7 +99,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   boxShadow: shadowList,
                                 ),
                                 child: Image(
-                                  image: AssetImage(categories[index]['imagePath']),
+                                  image: AssetImage(
+                                    categories[index]['imagePath'],
+                                  ),
                                   height: 50,
                                   width: 50,
                                 ),
@@ -136,7 +160,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Hero(
                                           tag: 'pet${catMapList[index]['id']}',
-                                          child: Image.asset(catMapList[index]['imagePath']),
+                                          child: Image.asset(
+                                            catMapList[index]['imagePath'],
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -156,11 +182,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                     boxShadow: shadowList,
                                   ),
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             catMapList[index]['name'],
@@ -189,15 +218,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       Text(
-                                        catMapList[index]['year'] + ' years old',
+                                        catMapList[index]['year'] +
+                                            ' years old',
                                         style: TextStyle(
                                           fontSize: 12,
                                           color: Colors.grey[400],
                                         ),
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: [
                                           Icon(
                                             Icons.location_on,
@@ -208,7 +240,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             width: 3,
                                           ),
                                           Text(
-                                            'Distance: ' + catMapList[index]['distance'],
+                                            'Distance: ' +
+                                                catMapList[index]['distance'],
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               color: Colors.grey[400],

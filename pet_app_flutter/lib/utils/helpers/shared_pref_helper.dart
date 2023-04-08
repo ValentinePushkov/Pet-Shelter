@@ -34,4 +34,11 @@ class SharedPrefHelper {
   Future<String> getUserEmailSharedPref() async {
     return _prefs.then((prefs) => prefs.getString(sharedPrefUserEmailKey));
   }
+
+  void deleteUserSharedPref() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove("ISLOGGEDIN");
+    await prefs.remove("USERNAMEKEY");
+    await prefs.remove("USEREMAILKEY");
+  }
 }
