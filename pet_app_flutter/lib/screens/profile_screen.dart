@@ -98,6 +98,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         .ref()
         .child(Constants.currentUser + DateTime.now().toString());
     final task = await firebaseStorageRef.putFile(imageFile);
+    if (user.avatar != null) {
+      Reference photoRef = FirebaseStorage.instance.refFromURL(user.avatar);
+      await photoRef.delete();
+    }
     return task.ref.getDownloadURL();
   }
 
