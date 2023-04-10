@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pet_app/models/homeless_pet.dart';
 import 'package:pet_app/models/user.dart';
 
 class DatabaseMethods {
@@ -96,4 +97,11 @@ class DatabaseMethods {
         .where('chatRoomID', isEqualTo: chatRoomID)
         .get();
   }
+
+  Stream<List<HomelessPet>> getHomelessPets() => FirebaseFirestore.instance
+      .collection("homeless_pets")
+      .snapshots()
+      .map((snapshot) => snapshot.docs
+          .map((doc) => HomelessPet.fromJson(doc.data()))
+          .toList());
 }

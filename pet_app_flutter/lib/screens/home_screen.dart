@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pet_app/configuration/configuration.dart';
 import 'package:pet_app/constants/constants.dart';
+import 'package:pet_app/models/homeless_pet.dart';
 import 'package:pet_app/screens/pet_details.dart';
+import 'package:pet_app/screens/profile_screen.dart';
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
+import 'package:pet_app/utils/services/database.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -15,6 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
   double scaleFactor = 1;
 
   bool isDrawerOpen = false;
+
+  final databaseMethods = DatabaseMethods();
 
   setLoggedInUsername() async {
     await SharedPrefHelper().getUsernameSharedPref().then((val) {
@@ -120,142 +125,126 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   SizedBox(height: 20.0),
-                  ListView.builder(
-                    physics: ScrollPhysics(),
-                    itemCount: catMapList.length,
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PetDetails(
-                                catDetailsMap: catMapList[index],
-                              ),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          height: 230,
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: (index % 2 == 0)
-                                            ? Colors.blueGrey[200]
-                                            : Colors.orangeAccent[200],
-                                        borderRadius: BorderRadius.circular(20),
-                                        boxShadow: shadowList,
-                                      ),
-                                      margin: EdgeInsets.only(top: 40),
-                                    ),
-                                    Align(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Hero(
-                                          tag: 'pet${catMapList[index]['id']}',
-                                          child: Image.asset(
-                                            catMapList[index]['imagePath'],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                  StreamBuilder<List<HomelessPet>>(
+                    stream: databaseMethods.getHomelessPets(),
+                    builder: (context, snapshot) {
+                      final homelessPets = snapshot.data;
+                      return ListView.builder(
+                        physics: ScrollPhysics(),
+                        itemCount: homelessPets.length,
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProfileScreen(),
                                 ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.only(top: 65, bottom: 20),
-                                  padding: EdgeInsets.all(15),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(20),
-                                      bottomRight: Radius.circular(20),
-                                    ),
-                                    boxShadow: shadowList,
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            catMapList[index]['name'],
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 21.0,
-                                              color: Colors.grey[600],
+                              );
+                            },
+                            child: Container(
+                              height: 230,
+                              margin: EdgeInsets.symmetric(horizontal: 20),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: (index % 2 == 0)
+                                                ? Colors.blueGrey[200]
+                                                : Colors.orangeAccent[200],
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            boxShadow: shadowList,
+                                          ),
+                                          margin: EdgeInsets.only(top: 40),
+                                        ),
+                                        Align(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Hero(
+                                              tag:
+                                                  'pet${homelessPets[index].petID}',
+                                              child: Image.network(
+                                                homelessPets[index].image,
+                                              ),
                                             ),
                                           ),
-                                          (catMapList[index]['sex'] == 'male')
-                                              ? Icon(
-                                                  Icons.male_rounded,
-                                                  color: Colors.grey[500],
-                                                )
-                                              : Icon(
-                                                  Icons.female_rounded,
-                                                  color: Colors.grey[500],
-                                                ),
-                                        ],
-                                      ),
-                                      Text(
-                                        catMapList[index]['Species'],
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.grey[500],
                                         ),
-                                      ),
-                                      Text(
-                                        catMapList[index]['year'] +
-                                            ' years old',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey[400],
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      margin:
+                                          EdgeInsets.only(top: 65, bottom: 20),
+                                      padding: EdgeInsets.all(15),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(20),
+                                          bottomRight: Radius.circular(20),
                                         ),
+                                        boxShadow: shadowList,
                                       ),
-                                      Row(
+                                      child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                            MainAxisAlignment.spaceAround,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Icon(
-                                            Icons.location_on,
-                                            color: primaryColor,
-                                            size: 18,
-                                          ),
-                                          SizedBox(
-                                            width: 3,
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                homelessPets[index].name,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 21.0,
+                                                  color: Colors.grey[600],
+                                                ),
+                                              ),
+                                              (homelessPets[index].sex ==
+                                                      'самец')
+                                                  ? Icon(
+                                                      Icons.male_rounded,
+                                                      color: Colors.grey[500],
+                                                    )
+                                                  : Icon(
+                                                      Icons.female_rounded,
+                                                      color: Colors.grey[500],
+                                                    ),
+                                            ],
                                           ),
                                           Text(
-                                            'Distance: ' +
-                                                catMapList[index]['distance'],
+                                            homelessPets[index].species,
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
+                                              color: Colors.grey[500],
+                                            ),
+                                          ),
+                                          Text(
+                                            homelessPets[index].age.toString() +
+                                                'лет',
+                                            style: TextStyle(
+                                              fontSize: 12,
                                               color: Colors.grey[400],
                                             ),
                                           ),
                                         ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
                       );
                     },
                   ),
