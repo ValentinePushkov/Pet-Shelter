@@ -1,11 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_app/configuration/configuration.dart';
 
 // ignore: must_be_immutable
 class PetDetails extends StatefulWidget {
-  PetDetails({this.catDetailsMap});
+  PetDetails({this.petDetails});
 
-  Map catDetailsMap;
+  final DocumentSnapshot petDetails;
 
   @override
   _PetDetailsState createState() => _PetDetailsState();
@@ -23,16 +24,11 @@ class _PetDetailsState extends State<PetDetails> {
             child: Column(
               children: [
                 Expanded(
-                  child: Container(
-                    color: (widget.catDetailsMap['id'] % 2 == 0)
-                        ? Colors.blueGrey[200]
-                        : Colors.orangeAccent[200],
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Hero(
-                        tag: 'pet${widget.catDetailsMap['id']}',
-                        child: Image.asset(widget.catDetailsMap['imagePath']),
-                      ),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Hero(
+                      tag: 'pet${widget.petDetails['petID']}',
+                      child: Image.network(widget.petDetails['image']),
                     ),
                   ),
                 ),
@@ -52,10 +48,11 @@ class _PetDetailsState extends State<PetDetails> {
                               Expanded(
                                 child: ListTile(
                                   leading: CircleAvatar(
-                                    backgroundImage: AssetImage('images/pet_cat1.png'),
+                                    backgroundImage:
+                                        AssetImage('images/pet_cat1.png'),
                                   ),
                                   title: Text(
-                                    'Maya Berkovskaya',
+                                    widget.petDetails['owner'],
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.grey[700],
@@ -71,9 +68,11 @@ class _PetDetailsState extends State<PetDetails> {
                                 ),
                               ),
                               Text(
-                                'May 25, 2019',
-                                style:
-                                    TextStyle(fontWeight: FontWeight.bold, color: Colors.grey[400]),
+                                widget.petDetails['date'],
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey[400],
+                                ),
                               ),
                             ],
                           ),
@@ -149,14 +148,14 @@ class _PetDetailsState extends State<PetDetails> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          widget.catDetailsMap['name'],
+                          widget.petDetails['name'],
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 21.0,
                             color: Colors.grey[600],
                           ),
                         ),
-                        (widget.catDetailsMap['sex'] == 'male')
+                        (widget.petDetails['sex'] == 'самец')
                             ? Icon(
                                 Icons.male_rounded,
                                 color: Colors.grey[500],
@@ -173,7 +172,7 @@ class _PetDetailsState extends State<PetDetails> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          widget.catDetailsMap['Species'],
+                          widget.petDetails['species'],
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.grey[500],
@@ -181,7 +180,7 @@ class _PetDetailsState extends State<PetDetails> {
                           ),
                         ),
                         Text(
-                          widget.catDetailsMap['year'] + ' years old',
+                          widget.petDetails['age'].toString() + ' лет',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.grey[500],
@@ -202,7 +201,7 @@ class _PetDetailsState extends State<PetDetails> {
                         ),
                         SizedBox(width: 3),
                         Text(
-                          widget.catDetailsMap['location'],
+                          widget.petDetails['location'],
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.grey[400],

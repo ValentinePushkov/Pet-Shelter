@@ -98,10 +98,13 @@ class DatabaseMethods {
         .get();
   }
 
-  Stream<List<HomelessPet>> getHomelessPets() => FirebaseFirestore.instance
-      .collection("homeless_pets")
-      .snapshots()
-      .map((snapshot) => snapshot.docs
-          .map((doc) => HomelessPet.fromJson(doc.data()))
-          .toList());
+  Stream<List<HomelessPet>> getHomelessPets() =>
+      FirebaseFirestore.instance.collection("homeless_pets").snapshots().map(
+            (snapshot) => snapshot.docs
+                .map((doc) => HomelessPet.fromJson(doc.data()))
+                .toList(),
+          );
+
+  CollectionReference<Map<String, dynamic>> getAllHomelessPets() =>
+      FirebaseFirestore.instance.collection("homeless_pets");
 }

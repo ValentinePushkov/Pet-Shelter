@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomelessPet {
   String petID;
@@ -10,6 +9,7 @@ class HomelessPet {
   double age;
   String location;
   String description;
+  String date;
   String image;
   String owner;
   String status;
@@ -23,6 +23,7 @@ class HomelessPet {
     this.age,
     this.location,
     this.description,
+    this.date,
     this.image,
     this.owner,
     this.status,
@@ -37,6 +38,7 @@ class HomelessPet {
         age: double.parse(json['age'].toString()),
         location: json['location'],
         description: json['description'],
+        date: json['date'],
         image: json['image'],
         owner: json['owner'],
         status: json['status'],

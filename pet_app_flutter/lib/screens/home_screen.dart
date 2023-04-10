@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_app/configuration/configuration.dart';
 import 'package:pet_app/constants/constants.dart';
@@ -43,9 +44,6 @@ class _HomeScreenState extends State<HomeScreen> {
       child: SafeArea(
         child: Column(
           children: [
-            SizedBox(
-              height: 5.0,
-            ),
             Container(
               decoration: BoxDecoration(
                 color: Colors.grey[200],
@@ -73,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Icons.search,
                           color: Colors.grey[400],
                         ),
-                        hintText: 'Search pet',
+                        hintText: 'Поиск питомца',
                         hintStyle: TextStyle(
                           letterSpacing: 1,
                           color: Colors.grey[400],
@@ -125,127 +123,126 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   SizedBox(height: 20.0),
-                  StreamBuilder<List<HomelessPet>>(
-                    stream: databaseMethods.getHomelessPets(),
-                    builder: (context, snapshot) {
-                      final homelessPets = snapshot.data;
-                      return ListView.builder(
-                        physics: ScrollPhysics(),
-                        itemCount: homelessPets.length,
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ProfileScreen(),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              height: 230,
-                              margin: EdgeInsets.symmetric(horizontal: 20),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: (index % 2 == 0)
-                                                ? Colors.blueGrey[200]
-                                                : Colors.orangeAccent[200],
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            boxShadow: shadowList,
-                                          ),
-                                          margin: EdgeInsets.only(top: 40),
-                                        ),
-                                        Align(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Hero(
-                                              tag:
-                                                  'pet${homelessPets[index].petID}',
-                                              child: Image.network(
-                                                homelessPets[index].image,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                  StreamBuilder<QuerySnapshot>(
+                    stream: databaseMethods.getAllHomelessPets().snapshots(),
+                    //initialData: [],
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                          physics: ScrollPhysics(),
+                          itemCount: snapshot.data.docs.length,
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            final DocumentSnapshot homelessPet =
+                                snapshot.data.docs[index];
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        PetDetails(petDetails: homelessPet),
                                   ),
-                                  Expanded(
-                                    child: Container(
-                                      margin:
-                                          EdgeInsets.only(top: 65, bottom: 20),
-                                      padding: EdgeInsets.all(15),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(20),
-                                          bottomRight: Radius.circular(20),
-                                        ),
-                                        boxShadow: shadowList,
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                );
+                              },
+                              child: Container(
+                                height: 230,
+                                margin: EdgeInsets.symmetric(horizontal: 20),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Stack(
                                         children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                homelessPets[index].name,
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 21.0,
-                                                  color: Colors.grey[600],
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                              boxShadow: shadowList,
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                  homelessPet['image'],
                                                 ),
                                               ),
-                                              (homelessPets[index].sex ==
-                                                      'самец')
-                                                  ? Icon(
-                                                      Icons.male_rounded,
-                                                      color: Colors.grey[500],
-                                                    )
-                                                  : Icon(
-                                                      Icons.female_rounded,
-                                                      color: Colors.grey[500],
-                                                    ),
-                                            ],
-                                          ),
-                                          Text(
-                                            homelessPets[index].species,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey[500],
                                             ),
-                                          ),
-                                          Text(
-                                            homelessPets[index].age.toString() +
-                                                'лет',
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.grey[400],
-                                            ),
+                                            margin: EdgeInsets.only(top: 40),
                                           ),
                                         ],
                                       ),
                                     ),
-                                  )
-                                ],
+                                    Expanded(
+                                      child: Container(
+                                        margin: EdgeInsets.only(
+                                          top: 65,
+                                          bottom: 20,
+                                        ),
+                                        padding: EdgeInsets.all(15),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(20),
+                                            bottomRight: Radius.circular(20),
+                                          ),
+                                          boxShadow: shadowList,
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  homelessPet['name'],
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 21.0,
+                                                    color: Colors.grey[600],
+                                                  ),
+                                                ),
+                                                (homelessPet['sex'] == 'самец')
+                                                    ? Icon(
+                                                        Icons.male_rounded,
+                                                        color: Colors.grey[500],
+                                                      )
+                                                    : Icon(
+                                                        Icons.female_rounded,
+                                                        color: Colors.grey[500],
+                                                      ),
+                                              ],
+                                            ),
+                                            Text(
+                                              homelessPet['species'],
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey[500],
+                                              ),
+                                            ),
+                                            Text(
+                                              homelessPet['age'].toString() +
+                                                  ' лет',
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.grey[400],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      );
+                            );
+                          },
+                        );
+                      } else {
+                        return Center(child: CircularProgressIndicator());
+                      }
                     },
                   ),
                 ],
