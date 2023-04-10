@@ -1,12 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_app/configuration/configuration.dart';
+import 'package:pet_app/models/homeless_pet.dart';
 
 // ignore: must_be_immutable
 class PetDetails extends StatefulWidget {
-  PetDetails({this.petDetails});
+  PetDetails({this.petDetailsMap});
 
-  final DocumentSnapshot petDetails;
+  HomelessPet petDetailsMap;
 
   @override
   _PetDetailsState createState() => _PetDetailsState();
@@ -27,8 +27,8 @@ class _PetDetailsState extends State<PetDetails> {
                   child: Align(
                     alignment: Alignment.center,
                     child: Hero(
-                      tag: 'pet${widget.petDetails['petID']}',
-                      child: Image.network(widget.petDetails['image']),
+                      tag: 'pet${widget.petDetailsMap.petID}',
+                      child: Image.network(widget.petDetailsMap.image),
                     ),
                   ),
                 ),
@@ -52,7 +52,7 @@ class _PetDetailsState extends State<PetDetails> {
                                         AssetImage('images/pet_cat1.png'),
                                   ),
                                   title: Text(
-                                    widget.petDetails['owner'],
+                                    widget.petDetailsMap.owner,
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.grey[700],
@@ -68,7 +68,7 @@ class _PetDetailsState extends State<PetDetails> {
                                 ),
                               ),
                               Text(
-                                widget.petDetails['date'],
+                                widget.petDetailsMap.date,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.grey[400],
@@ -148,14 +148,14 @@ class _PetDetailsState extends State<PetDetails> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          widget.petDetails['name'],
+                          widget.petDetailsMap.name,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 21.0,
                             color: Colors.grey[600],
                           ),
                         ),
-                        (widget.petDetails['sex'] == 'самец')
+                        (widget.petDetailsMap.sex == 'самец')
                             ? Icon(
                                 Icons.male_rounded,
                                 color: Colors.grey[500],
@@ -172,7 +172,7 @@ class _PetDetailsState extends State<PetDetails> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          widget.petDetails['species'],
+                          widget.petDetailsMap.species,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.grey[500],
@@ -180,7 +180,7 @@ class _PetDetailsState extends State<PetDetails> {
                           ),
                         ),
                         Text(
-                          widget.petDetails['age'].toString() + ' лет',
+                          widget.petDetailsMap.age.toString() + ' лет',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.grey[500],
@@ -201,7 +201,7 @@ class _PetDetailsState extends State<PetDetails> {
                         ),
                         SizedBox(width: 3),
                         Text(
-                          widget.petDetails['location'],
+                          widget.petDetailsMap.location,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.grey[400],

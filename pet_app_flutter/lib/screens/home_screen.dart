@@ -1,10 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_app/configuration/configuration.dart';
 import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/models/homeless_pet.dart';
 import 'package:pet_app/screens/pet_details.dart';
-import 'package:pet_app/screens/profile_screen.dart';
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
 import 'package:pet_app/utils/services/database.dart';
 
@@ -20,7 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool isDrawerOpen = false;
 
-  final databaseMethods = DatabaseMethods();
+  final Stream<List<HomelessPet>> databaseMethods =
+      DatabaseMethods().getHomelessPets();
 
   setLoggedInUsername() async {
     await SharedPrefHelper().getUsernameSharedPref().then((val) {
@@ -122,27 +121,29 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                   ),
-                  SizedBox(height: 20.0),
-                  StreamBuilder<QuerySnapshot>(
-                    stream: databaseMethods.getAllHomelessPets().snapshots(),
-                    //initialData: [],
-                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  SizedBox(height: 10.0),
+                  StreamBuilder<List<HomelessPet>>(
+                    stream: databaseMethods,
+                    initialData: [],
+                    builder: (context, snapshot) {
                       if (snapshot.hasData) {
+                        final homelessPets = snapshot.data;
                         return ListView.builder(
                           physics: ScrollPhysics(),
-                          itemCount: snapshot.data.docs.length,
+                          itemCount: homelessPets.length,
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
-                            final DocumentSnapshot homelessPet =
-                                snapshot.data.docs[index];
+                            final homelessPet = homelessPets[index];
+                            if (homelessPet != null) {}
                             return GestureDetector(
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        PetDetails(petDetails: homelessPet),
+                                    builder: (context) => PetDetails(
+                                      petDetailsMap: homelessPet,
+                                    ),
                                   ),
                                 );
                               },
@@ -161,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               boxShadow: shadowList,
                                               image: DecorationImage(
                                                 image: NetworkImage(
-                                                  homelessPet['image'],
+                                                  homelessPet.image,
                                                 ),
                                               ),
                                             ),
@@ -197,14 +198,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       .spaceBetween,
                                               children: [
                                                 Text(
-                                                  homelessPet['name'],
+                                                  homelessPet.name,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 21.0,
                                                     color: Colors.grey[600],
                                                   ),
                                                 ),
-                                                (homelessPet['sex'] == 'самец')
+                                                (homelessPet.sex == 'самец')
                                                     ? Icon(
                                                         Icons.male_rounded,
                                                         color: Colors.grey[500],
@@ -216,14 +217,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ],
                                             ),
                                             Text(
-                                              homelessPet['species'],
+                                              homelessPet.species,
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.grey[500],
                                               ),
                                             ),
                                             Text(
-                                              homelessPet['age'].toString() +
+                                              homelessPet.age.toString() +
                                                   ' лет',
                                               style: TextStyle(
                                                 fontSize: 12,
