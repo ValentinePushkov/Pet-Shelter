@@ -61,11 +61,18 @@ class DatabaseMethods {
         .add(chatMessageMap);
   }
 
-  addLastChat(String chatRoomID, String lastChatMessage, int time) {
+  updateLastChat(String chatRoomID, String lastChatMessage, int time) {
     FirebaseFirestore.instance
         .collection('ChatRooms')
         .doc(chatRoomID)
         .update({'LastChat.Message': lastChatMessage, 'LastChat.Time': time});
+  }
+
+  addLastChat(String chatRoomID, Map<String, dynamic> lastMessage) {
+    FirebaseFirestore.instance
+        .collection('ChatRooms')
+        .doc(chatRoomID)
+        .set(lastMessage, SetOptions(merge: true));
   }
 
   getChatMessage(String chatRoomID) async {
@@ -104,7 +111,4 @@ class DatabaseMethods {
                 .map((doc) => HomelessPet.fromJson(doc.data()))
                 .toList(),
           );
-
-  CollectionReference<Map<String, dynamic>> getAllHomelessPets() =>
-      FirebaseFirestore.instance.collection("homeless_pets");
 }

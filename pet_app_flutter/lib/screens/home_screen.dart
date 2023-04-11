@@ -46,10 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(
               decoration: BoxDecoration(
                 color: Colors.grey[200],
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(25),
-                  topLeft: Radius.circular(25),
-                ),
               ),
               child: Column(
                 children: [
@@ -90,6 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemCount: categories.length,
                       itemBuilder: (context, index) {
                         return Container(
+                          margin: EdgeInsets.only(left: 10),
                           padding: EdgeInsets.all(10),
                           child: Column(
                             children: [

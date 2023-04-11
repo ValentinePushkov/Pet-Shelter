@@ -60,13 +60,13 @@ class _SplashScreenState extends State<SplashScreen> {
     _loginEmailController = TextEditingController(text: "");
     _loginPasswordController = TextEditingController(text: "");
     _signupUserNameController = TextEditingController(text: "");
-    KeyboardVisibilityNotification().addNewListener(
+    /*KeyboardVisibilityNotification().addNewListener(
       onChange: (bool visible) {
         setState(() {
           _keyboardVisible = visible;
         });
       },
-    );
+    );*/
   }
 
   void signUpUser() {

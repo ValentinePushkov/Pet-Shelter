@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pet_app/configuration/configuration.dart';
 import 'package:pet_app/models/homeless_pet.dart';
+import 'package:pet_app/models/user.dart';
+import 'package:pet_app/utils/services/database.dart';
 
 // ignore: must_be_immutable
 class PetDetails extends StatefulWidget {
@@ -14,6 +16,20 @@ class PetDetails extends StatefulWidget {
 
 class _PetDetailsState extends State<PetDetails> {
   bool isFavorite = false;
+  DatabaseMethods databaseMethods = DatabaseMethods();
+  UserClass user;
+
+  @override
+  void initState() {
+    databaseMethods
+        .getUserInfoByUsername(widget.petDetailsMap.owner)
+        .then((val) {
+      setState(() {
+        user = val;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

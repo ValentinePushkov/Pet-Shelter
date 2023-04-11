@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
+import 'package:pet_app/screens/chat_rooms_screen.dart';
 import 'package:pet_app/screens/home_screen.dart';
 import 'package:pet_app/screens/profile_screen.dart';
 
@@ -44,6 +45,19 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
         ),
         ProfileScreen(),
       ),
+      ScreenHiddenDrawer(
+        ItemHiddenMenu(
+          name: "Сообщения",
+          baseStyle: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+          selectedStyle: TextStyle(),
+          colorLineSelected: Colors.white,
+        ),
+        ChatRooms(),
+      ),
     ];
   }
 
@@ -53,7 +67,7 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
       backgroundColorMenu: Color(0xFFB306060),
       screens: _pages,
       initPositionSelected: 0,
-      slidePercent: 40,
+      slidePercent: 50,
     );
   }
 }
