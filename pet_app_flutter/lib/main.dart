@@ -5,6 +5,7 @@ import 'package:pet_app/drawer/hidden_drawer.dart';
 import 'package:pet_app/models/homeless_pet.dart';
 import 'package:pet_app/screens/splash_screen.dart';
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
+import 'package:pet_app/utils/services/auth.dart';
 import 'package:pet_app/utils/services/database.dart';
 import 'package:provider/provider.dart';
 
@@ -53,6 +54,9 @@ class _MyAppState extends State<MyApp> {
           create: (context) => getHomelessPets,
           initialData: [],
         ),
+        Provider<AuthMethods>(
+          create: (context) => AuthMethods(),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

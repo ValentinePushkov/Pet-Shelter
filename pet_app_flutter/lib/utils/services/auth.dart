@@ -1,18 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
-
-import 'package:pet_app/models/user.dart';
+import 'package:pet_app/models/firebase_user.dart';
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  UserClass _userFromFirebaseUser(User firebaseUser) {
-    return firebaseUser != null ? UserClass(userID: firebaseUser.uid) : null;
+  FirebaseUser _userFromFirebaseUser(User firebaseUser) {
+    return firebaseUser != null
+        ? FirebaseUser(firebaseUser.uid, firebaseUser.email)
+        : null;
   }
 
   Future loginWithEmailAndPassword(String email, String password) async {
     try {
-      final result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      final result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
       final firebaseUser = result.user;
       return _userFromFirebaseUser(firebaseUser);
     } catch (e) {
@@ -22,7 +24,8 @@ class AuthMethods {
 
   Future signUpWithEmailAndPassword(String email, String password) async {
     try {
-      final result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      final result = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
       final firebaseUser = result.user;
       return _userFromFirebaseUser(firebaseUser);
     } catch (e) {
@@ -37,5 +40,9 @@ class AuthMethods {
     } catch (e) {
       print(e);
     }
+  }
+
+  Stream<FirebaseUser> get user {
+    return _auth.authStateChanges().map(_userFromFirebaseUser);
   }
 }
