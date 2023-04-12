@@ -3,6 +3,7 @@ import 'package:pet_app/configuration/configuration.dart';
 import 'package:pet_app/models/homeless_pet.dart';
 import 'package:pet_app/models/user.dart';
 import 'package:pet_app/utils/services/database.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class PetDetails extends StatefulWidget {
@@ -62,24 +63,38 @@ class _PetDetailsState extends State<PetDetails> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Expanded(
-                                child: ListTile(
-                                  leading: CircleAvatar(
-                                    backgroundImage:
-                                        AssetImage('images/pet_cat1.png'),
-                                  ),
-                                  title: Text(
+                                child: FutureProvider<UserClass>(
+                                  initialData: null,
+                                  create: (context) =>
+                                      databaseMethods.getUserInfoByUsername(
                                     widget.petDetailsMap.owner,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey[700],
-                                    ),
                                   ),
-                                  subtitle: Text(
-                                    'Owner',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey[400],
-                                    ),
+                                  child: Consumer<UserClass>(
+                                    builder: (context, user, child) {
+                                      return (user != null)
+                                          ? ListTile(
+                                              leading: CircleAvatar(
+                                                backgroundImage: NetworkImage(
+                                                  user.avatar,
+                                                ),
+                                              ),
+                                              title: Text(
+                                                widget.petDetailsMap.owner,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.grey[700],
+                                                ),
+                                              ),
+                                              subtitle: Text(
+                                                'Owner',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.grey[400],
+                                                ),
+                                              ),
+                                            )
+                                          : CircularProgressIndicator();
+                                    },
                                   ),
                                 ),
                               ),

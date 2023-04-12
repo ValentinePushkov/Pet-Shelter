@@ -111,4 +111,13 @@ class DatabaseMethods {
                 .map((doc) => HomelessPet.fromJson(doc.data()))
                 .toList(),
           );
+
+  Stream<UserClass> getUser(String username) => FirebaseFirestore.instance
+      .collection("users")
+      .where('username', isEqualTo: username)
+      .snapshots()
+      .map(
+        (snapshot) =>
+            snapshot.docs.map((doc) => UserClass.fromJson(doc.data())).first,
+      );
 }

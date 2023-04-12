@@ -54,7 +54,7 @@ class _SearchScreenState extends State<SearchScreen> {
         "Time": 0
       }
     });
-    Navigator.pushReplacement(
+    Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ChatScreen(chatRoomID)),
     );
@@ -86,7 +86,7 @@ class _SearchScreenState extends State<SearchScreen> {
               );
               databaseMethods.getCurrUserChatRoomsGet(chatRoomID).then((val) {
                 val.size > 0
-                    ? Navigator.pushReplacement(
+                    ? Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => ChatScreen(chatRoomID),

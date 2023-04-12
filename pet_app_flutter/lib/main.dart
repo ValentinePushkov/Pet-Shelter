@@ -2,8 +2,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/drawer/hidden_drawer.dart';
+import 'package:pet_app/models/homeless_pet.dart';
 import 'package:pet_app/screens/splash_screen.dart';
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
+import 'package:pet_app/utils/services/database.dart';
+import 'package:provider/provider.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +26,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final Stream<List<HomelessPet>> getHomelessPets =
+      DatabaseMethods().getHomelessPets();
   bool isLoggedIn;
   @override
   void initState() {
@@ -42,20 +47,28 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          backgroundColor: Constants.kPrimaryColor,
-          foregroundColor: Colors.white,
-          shadowColor: Colors.transparent,
+    return MultiProvider(
+      providers: [
+        StreamProvider<List<HomelessPet>>(
+          create: (context) => getHomelessPets,
+          initialData: [],
         ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          appBarTheme: AppBarTheme(
+            backgroundColor: Constants.kPrimaryColor,
+            foregroundColor: Colors.white,
+            shadowColor: Colors.transparent,
+          ),
+        ),
+        home: isLoggedIn != null
+            ? isLoggedIn
+                ? HiddenDrawer()
+                : SplashScreen()
+            : SplashScreen(),
       ),
-      home: isLoggedIn != null
-          ? isLoggedIn
-              ? HiddenDrawer()
-              : SplashScreen()
-          : SplashScreen(),
     );
   }
 }

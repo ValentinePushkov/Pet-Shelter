@@ -3,6 +3,7 @@ import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/drawer/hidden_drawer.dart';
+import 'package:pet_app/models/user.dart';
 import 'package:pet_app/screens/chat_screen.dart';
 import 'package:pet_app/screens/search_screen.dart';
 import 'package:pet_app/utils/helpers/helper_functions.dart';
@@ -11,6 +12,7 @@ import 'package:pet_app/utils/services/auth.dart';
 import 'package:pet_app/utils/services/database.dart';
 import 'package:pet_app/utils/services/encryption_decryption.dart';
 import 'package:pet_app/widgets/alert_dialog.dart';
+import 'package:provider/provider.dart';
 
 class ChatRooms extends StatefulWidget {
   @override
@@ -163,9 +165,20 @@ class _ChatRoomsState extends State<ChatRooms> {
             Expanded(
               child: Row(
                 children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage("images/dog.png"),
-                    maxRadius: 28,
+                  FutureProvider<UserClass>(
+                    create: (context) =>
+                        databaseMethods.getUserInfoByUsername(username),
+                    initialData: null,
+                    child: Consumer<UserClass>(
+                      builder: (context, user, child) {
+                        return (user != null)
+                            ? CircleAvatar(
+                                backgroundImage: NetworkImage(user.avatar),
+                                maxRadius: 28,
+                              )
+                            : CircularProgressIndicator();
+                      },
+                    ),
                   ),
                   SizedBox(
                     width: 16,

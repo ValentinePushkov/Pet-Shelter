@@ -149,7 +149,9 @@ class _ChatScreenState extends State<ChatScreen> {
         user = val;
       });
     });
-    scrollToEnd();
+    if (controller.hasClients) {
+      scrollToEnd();
+    }
     super.initState();
   }
 

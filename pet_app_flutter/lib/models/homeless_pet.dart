@@ -1,18 +1,18 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class HomelessPet {
-  String petID;
-  String name;
-  String category;
-  String sex;
-  String species;
-  double age;
-  String location;
-  String description;
-  String date;
-  String image;
-  String owner;
-  String status;
+  final String petID;
+  final String name;
+  final String category;
+  final String sex;
+  final String species;
+  final double age;
+  final String location;
+  final String description;
+  final String date;
+  final String image;
+  final String owner;
+  final String status;
 
   HomelessPet({
     this.petID,
