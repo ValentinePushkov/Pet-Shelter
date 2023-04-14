@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
+import 'package:pet_app/screens/adding_pet_screen.dart';
 import 'package:pet_app/screens/chat_rooms_screen.dart';
 import 'package:pet_app/screens/home_screen.dart';
 import 'package:pet_app/screens/profile_screen.dart';
@@ -34,6 +35,32 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
       ),
       ScreenHiddenDrawer(
         ItemHiddenMenu(
+          name: "Создать\nобъявление",
+          baseStyle: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+          selectedStyle: TextStyle(),
+          colorLineSelected: Colors.white,
+        ),
+        AddingPet(),
+      ),
+      ScreenHiddenDrawer(
+        ItemHiddenMenu(
+          name: "Cообщения",
+          baseStyle: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+          selectedStyle: TextStyle(),
+          colorLineSelected: Colors.white,
+        ),
+        ChatRooms(),
+      ),
+      ScreenHiddenDrawer(
+        ItemHiddenMenu(
           name: "Профиль",
           baseStyle: TextStyle(
             color: Colors.white,
@@ -44,19 +71,6 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
           colorLineSelected: Colors.white,
         ),
         ProfileScreen(),
-      ),
-      ScreenHiddenDrawer(
-        ItemHiddenMenu(
-          name: "Сообщения",
-          baseStyle: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-          ),
-          selectedStyle: TextStyle(),
-          colorLineSelected: Colors.white,
-        ),
-        ChatRooms(),
       ),
     ];
   }

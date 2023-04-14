@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   double scaleFactor = 1;
 
   bool isDrawerOpen = false;
-
+  String category;
   final Stream<List<HomelessPet>> databaseMethods =
       DatabaseMethods().getHomelessPets();
 
@@ -43,6 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var homelessPets = Provider.of<List<HomelessPet>>(context);
+    var sortedPets = category == null
+        ? homelessPets
+        : homelessPets.where((pet) => pet.category == category).toList();
+
     return SingleChildScrollView(
       child: SafeArea(
         child: Column(
@@ -94,19 +98,26 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: EdgeInsets.all(10),
                           child: Column(
                             children: [
-                              Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: shadowList,
-                                ),
-                                child: Image(
-                                  image: AssetImage(
-                                    categories[index]['imagePath'],
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    category = categories[index]['category'];
+                                  });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: shadowList,
                                   ),
-                                  height: 50,
-                                  width: 50,
+                                  child: Image(
+                                    image: AssetImage(
+                                      categories[index]['imagePath'],
+                                    ),
+                                    height: 50,
+                                    width: 50,
+                                  ),
                                 ),
                               ),
                               SizedBox(height: 10.0),
@@ -125,11 +136,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(height: 10.0),
                   ListView.builder(
                     physics: ScrollPhysics(),
-                    itemCount: homelessPets.length,
+                    itemCount: sortedPets.length,
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      final homelessPet = homelessPets[index];
+                      final homelessPet = sortedPets[index];
                       if (homelessPet != null) {}
                       return GestureDetector(
                         onTap: () {

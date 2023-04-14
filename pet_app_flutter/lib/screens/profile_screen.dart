@@ -181,7 +181,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   color:
                                       Theme.of(context).scaffoldBackgroundColor,
                                 ),
-                                color: Theme.of(context).primaryColor,
+                                color: Constants.kPrimaryColor,
                               ),
                               child: InkWell(
                                 onTap: () {

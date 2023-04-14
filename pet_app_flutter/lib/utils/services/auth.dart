@@ -14,7 +14,9 @@ class AuthMethods {
   Future loginWithEmailAndPassword(String email, String password) async {
     try {
       final result = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
+        email: email,
+        password: password,
+      );
       final firebaseUser = result.user;
       return _userFromFirebaseUser(firebaseUser);
     } catch (e) {
@@ -25,7 +27,9 @@ class AuthMethods {
   Future signUpWithEmailAndPassword(String email, String password) async {
     try {
       final result = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+        email: email,
+        password: password,
+      );
       final firebaseUser = result.user;
       return _userFromFirebaseUser(firebaseUser);
     } catch (e) {

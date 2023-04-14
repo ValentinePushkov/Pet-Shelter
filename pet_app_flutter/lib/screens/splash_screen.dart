@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
+import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/drawer/hidden_drawer.dart';
 
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
@@ -498,7 +499,7 @@ class _InputWithIconState extends State<InputWithIcon> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: Color(0xFFBB9B9B9), width: 2),
+        border: Border.all(color: Constants.kPrimaryColor, width: 2),
         borderRadius: BorderRadius.circular(50),
       ),
       child: Row(
@@ -508,11 +509,13 @@ class _InputWithIconState extends State<InputWithIcon> {
             child: Icon(
               widget.icon,
               size: 20,
-              color: Color(0xFFBB9B9B9),
+              color: Constants.kPrimaryColor,
             ),
           ),
           Expanded(
             child: TextFormField(
+              minLines: 1,
+              maxLines: 8,
               validator: widget.validator,
               controller: widget.controller,
               decoration: InputDecoration(

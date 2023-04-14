@@ -13,6 +13,7 @@ class HomelessPet {
   final String image;
   final String owner;
   final String status;
+  final String petStatus;
 
   HomelessPet({
     this.petID,
@@ -27,6 +28,7 @@ class HomelessPet {
     this.image,
     this.owner,
     this.status,
+    this.petStatus,
   });
 
   static HomelessPet fromJson(Map<String, dynamic> json) => HomelessPet(
@@ -42,5 +44,6 @@ class HomelessPet {
         image: json['image'],
         owner: json['owner'],
         status: json['status'],
+        petStatus: json['petStatus'],
       );
 }

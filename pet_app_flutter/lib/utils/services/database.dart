@@ -46,6 +46,10 @@ class DatabaseMethods {
         .set(userInfoMap);
   }
 
+  uploadPetInfo(Map<String, dynamic> petInfo) {
+    FirebaseFirestore.instance.collection("homeless_pets").doc().set(petInfo);
+  }
+
   createChatRoom(String chatRoomID, Map<String, dynamic> chatRoomMap) {
     FirebaseFirestore.instance
         .collection('ChatRooms')
