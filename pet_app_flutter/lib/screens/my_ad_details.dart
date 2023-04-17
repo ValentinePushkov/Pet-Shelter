@@ -37,6 +37,14 @@ class _MyAdDetailsState extends State<MyAdDetails> {
   void deleteAd() {
     databaseMethods.deleteAd(widget.petDetailsMap.name);
     Navigator.pop(context);
+    SnackBar snackBar = SnackBar(
+      content: Text(
+        'Обяъявление удалено!',
+        style: TextStyle(color: Colors.white),
+      ),
+      backgroundColor: Colors.red,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override
