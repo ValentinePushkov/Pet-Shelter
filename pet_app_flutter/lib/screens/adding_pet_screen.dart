@@ -26,14 +26,29 @@ class _AddingPetState extends State<AddingPet> {
   String category;
   String pickedGender = 'самец';
   String _pickedPetSatus = 'бездомный';
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _speciesController = TextEditingController();
-  final TextEditingController _ageController = TextEditingController();
-  final TextEditingController _cityController = TextEditingController();
-  final TextEditingController _streetController = TextEditingController();
-  final TextEditingController _houseController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _nameController;
+  TextEditingController _speciesController;
+  TextEditingController _ageController;
+  TextEditingController _cityController;
+  TextEditingController _streetController;
+  TextEditingController _houseController;
+  TextEditingController _descriptionController;
   DatabaseMethods databaseMethods = DatabaseMethods();
+
+  final formKey = GlobalKey<FormState>();
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    _nameController = TextEditingController(text: "");
+    _speciesController = TextEditingController(text: "");
+    _ageController = TextEditingController(text: "");
+    _cityController = TextEditingController(text: "");
+    _streetController = TextEditingController(text: "");
+    _houseController = TextEditingController(text: "");
+    _descriptionController = TextEditingController(text: "");
+    super.initState();
+  }
 
   Future pickImage(ImageSource source) async {
     final temp = await picker.pickImage(
@@ -59,25 +74,42 @@ class _AddingPetState extends State<AddingPet> {
   }
 
   void uploadPetAd() async {
-    String url = await uploadImage();
-    final DateTime dateToday = new DateTime.now();
-    final String date = dateToday.toString().substring(0, 10);
-    Map<String, dynamic> petInfoMap = {
-      'name': _nameController.text,
-      'species': _speciesController.text,
-      'age': double.parse(_ageController.text),
-      'imgUrl': url,
-      'category': category,
-      'sex': pickedGender,
-      'petStatus': _pickedPetSatus,
-      'owner': Constants.currentUser,
-      'location':
-          '${_cityController.text}, ${_streetController.text} ${_houseController.text}',
-      'status': 'активно',
-      'date': date,
-      'description': _descriptionController.text,
-    };
-    databaseMethods.uploadPetInfo(petInfoMap);
+    if (formKey.currentState.validate()) {
+      setState(() {
+        isLoading = true;
+      });
+      String url = await uploadImage();
+      final DateTime dateToday = new DateTime.now();
+      final String date = dateToday.toString().substring(0, 10);
+      Map<String, dynamic> petInfoMap = {
+        'name': _nameController.text,
+        'species': _speciesController.text,
+        'age': double.parse(_ageController.text),
+        'imgUrl': url,
+        'category': category,
+        'sex': pickedGender,
+        'petStatus': _pickedPetSatus,
+        'owner': Constants.currentUser,
+        'location':
+            '${_cityController.text}, ${_streetController.text} ${_houseController.text}',
+        'status': 'активно',
+        'date': date,
+        'description': _descriptionController.text,
+      };
+      databaseMethods.uploadPetInfo(petInfoMap);
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      SnackBar snackBar = SnackBar(
+        content: Text(
+          'Некорректные поля!',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.red,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 
   void clearControllers() {
@@ -94,321 +126,402 @@ class _AddingPetState extends State<AddingPet> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.symmetric(
-          vertical: screenSize.height * 0.05,
-          horizontal: 15,
-        ),
-        child: ListView(
-          children: [
-            Center(
-              child: Stack(
-                children: [
-                  Container(
-                    width: 160,
-                    height: 160,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      border: Border.all(
-                        width: 4,
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          spreadRadius: 2,
-                          blurRadius: 10,
-                          color: Colors.black.withOpacity(0.1),
-                          offset: Offset(0, 10),
-                        )
-                      ],
-                      shape: BoxShape.rectangle,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: imageFile == null
-                            ? AssetImage("images/cat.png")
-                            : FileImage(imageFile),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          width: 4,
-                          color: Theme.of(context).scaffoldBackgroundColor,
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : Container(
+              padding: EdgeInsets.symmetric(
+                vertical: screenSize.height * 0.05,
+                horizontal: 15,
+              ),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Stack(
+                          children: [
+                            Container(
+                              width: 160,
+                              height: 160,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                border: Border.all(
+                                  width: 4,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    spreadRadius: 2,
+                                    blurRadius: 10,
+                                    color: Colors.black.withOpacity(0.1),
+                                    offset: Offset(0, 10),
+                                  )
+                                ],
+                                shape: BoxShape.rectangle,
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: imageFile == null
+                                      ? AssetImage("images/cat.png")
+                                      : FileImage(imageFile),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    width: 4,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                  ),
+                                  color: Constants.kPrimaryColor,
+                                ),
+                                child: InkWell(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      builder: (builder) =>
+                                          bottomSheet(screenSize),
+                                    );
+                                  },
+                                  child: Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        color: Constants.kPrimaryColor,
                       ),
-                      child: InkWell(
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            builder: (builder) => bottomSheet(screenSize),
-                          );
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Название питомца:",
+                              style: TextStyle(
+                                color: Constants.kPrimaryColor,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          InputWithIcon(
+                            controller: _nameController,
+                            icon: Icons.edit,
+                            hint: "Название",
+                            validator: (String value) {
+                              return value.length > 20 ||
+                                      value.length < 2 ||
+                                      !RegExp(r'^[а-яА-Я][а-яА-Я ]*$')
+                                          .hasMatch(value)
+                                  ? 'Введите корректное название'
+                                  : null;
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Порода питомца:",
+                              style: TextStyle(
+                                color: Constants.kPrimaryColor,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          InputWithIcon(
+                            controller: _speciesController,
+                            icon: Icons.edit,
+                            hint: "Порода",
+                            validator: (value) {
+                              return value.length > 30 ||
+                                      value.length < 2 ||
+                                      !RegExp(r'^[а-яА-Я][а-яА-Я ]*$')
+                                          .hasMatch(value)
+                                  ? 'Введите корректное название'
+                                  : null;
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Возраст питомца:",
+                              style: TextStyle(
+                                color: Constants.kPrimaryColor,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          InputWithIcon(
+                            controller: _ageController,
+                            icon: Icons.edit,
+                            hint: "Возраст",
+                            validator: (value) {
+                              return value.length > 20 ||
+                                      value.length < 2 ||
+                                      value == null
+                                  ? 'Введите корректное название'
+                                  : null;
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Пол питомца:",
+                              style: TextStyle(
+                                color: Constants.kPrimaryColor,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              sexWidget("Самец", Gender.male),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              sexWidget("Cамка", Gender.female)
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Категория питомца:",
+                              style: TextStyle(
+                                color: Constants.kPrimaryColor,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          categoryWidget(),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Город:",
+                              style: TextStyle(
+                                color: Constants.kPrimaryColor,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          InputWithIcon(
+                            controller: _cityController,
+                            icon: Icons.edit,
+                            hint: "Город",
+                            validator: (value) {
+                              return value.length > 20 ||
+                                      value.length < 2 ||
+                                      !RegExp(r'^[а-яА-Я]*$').hasMatch(value)
+                                  ? 'Введите корректное название'
+                                  : null;
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Улица:",
+                              style: TextStyle(
+                                color: Constants.kPrimaryColor,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          InputWithIcon(
+                            controller: _streetController,
+                            icon: Icons.edit,
+                            hint: "Улица",
+                            validator: (value) {
+                              return value.length > 20 ||
+                                      value.length < 2 ||
+                                      !RegExp(r'^[а-яА-Я][а-яА-Я ]*$')
+                                          .hasMatch(value)
+                                  ? 'Введите корректное название'
+                                  : null;
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Номер дома:",
+                              style: TextStyle(
+                                color: Constants.kPrimaryColor,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          InputWithIcon(
+                            controller: _houseController,
+                            icon: Icons.edit,
+                            hint: "Номер дома",
+                            validator: (value) {
+                              return value.length > 20 ||
+                                      value.length < 2 ||
+                                      value == null
+                                  ? 'Введите корректное название'
+                                  : null;
+                            },
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Статус питомца:",
+                                  style: TextStyle(
+                                    color: Constants.kPrimaryColor,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  petStatusWidget("Бездомный", PetStatus.adopt),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  petStatusWidget("Потерян", PetStatus.lost),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Описание:",
+                              style: TextStyle(
+                                color: Constants.kPrimaryColor,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          InputWithIcon(
+                            controller: _descriptionController,
+                            icon: Icons.edit,
+                            hint: "Описание",
+                            validator: (value) {
+                              return value.length > 300 ||
+                                      value.length < 10 ||
+                                      !RegExp(r'^[а-яА-Я][а-яА-Я ,.:-]*$')
+                                          .hasMatch(value)
+                                  ? 'Введите корректное название'
+                                  : null;
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      PrimaryButton(
+                        buttonText: "Создать",
+                        press: () async {
+                          uploadPetAd();
                         },
-                        child: Icon(
-                          Icons.add,
-                          color: Colors.white,
-                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
-            SizedBox(
-              height: 20,
-            ),
-            Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Название питомца:",
-                    style:
-                        TextStyle(color: Constants.kPrimaryColor, fontSize: 20),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InputWithIcon(
-                  controller: _nameController,
-                  icon: Icons.edit,
-                  hint: "Название",
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Порода питомца:",
-                    style:
-                        TextStyle(color: Constants.kPrimaryColor, fontSize: 20),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InputWithIcon(
-                  controller: _speciesController,
-                  icon: Icons.edit,
-                  hint: "Порода",
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Возраст питомца:",
-                    style:
-                        TextStyle(color: Constants.kPrimaryColor, fontSize: 20),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InputWithIcon(
-                  controller: _ageController,
-                  icon: Icons.edit,
-                  hint: "Возраст",
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Пол питомца:",
-                    style:
-                        TextStyle(color: Constants.kPrimaryColor, fontSize: 20),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    sexWidget("Самец", Gender.male),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    sexWidget("Cамка", Gender.female)
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Категория питомца:",
-                    style:
-                        TextStyle(color: Constants.kPrimaryColor, fontSize: 20),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                categoryWidget(),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Город:",
-                    style:
-                        TextStyle(color: Constants.kPrimaryColor, fontSize: 20),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InputWithIcon(
-                  controller: _cityController,
-                  icon: Icons.edit,
-                  hint: "Город",
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Улица:",
-                    style:
-                        TextStyle(color: Constants.kPrimaryColor, fontSize: 20),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InputWithIcon(
-                  controller: _streetController,
-                  icon: Icons.edit,
-                  hint: "Улица",
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Номер дома:",
-                    style:
-                        TextStyle(color: Constants.kPrimaryColor, fontSize: 20),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InputWithIcon(
-                  controller: _houseController,
-                  icon: Icons.edit,
-                  hint: "Номер дома",
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Статус питомца:",
-                        style: TextStyle(
-                          color: Constants.kPrimaryColor,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        petStatusWidget("Бездомный", PetStatus.adopt),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        petStatusWidget("Потерян", PetStatus.lost),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Описание:",
-                    style:
-                        TextStyle(color: Constants.kPrimaryColor, fontSize: 20),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InputWithIcon(
-                  controller: _descriptionController,
-                  icon: Icons.edit,
-                  hint: "Описание",
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            PrimaryButton(
-              buttonText: "Создать",
-              press: () async {
-                uploadPetAd();
-              },
-            ),
-          ],
-        ),
-      ),
     );
   }
 

@@ -3,7 +3,9 @@ import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 import 'package:pet_app/screens/adding_pet_screen.dart';
 import 'package:pet_app/screens/chat_rooms_screen.dart';
 import 'package:pet_app/screens/home_screen.dart';
+import 'package:pet_app/screens/my_ads_screen.dart';
 import 'package:pet_app/screens/profile_screen.dart';
+import 'package:pet_app/screens/qr_generator_screen.dart';
 
 class HiddenDrawer extends StatefulWidget {
   const HiddenDrawer({Key key}) : super(key: key);
@@ -58,6 +60,32 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
           colorLineSelected: Colors.white,
         ),
         ChatRooms(),
+      ),
+      ScreenHiddenDrawer(
+        ItemHiddenMenu(
+          name: "Qr генератор",
+          baseStyle: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+          selectedStyle: TextStyle(),
+          colorLineSelected: Colors.white,
+        ),
+        QrGenerator(),
+      ),
+      ScreenHiddenDrawer(
+        ItemHiddenMenu(
+          name: "Мои\nобъявления",
+          baseStyle: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+          selectedStyle: TextStyle(),
+          colorLineSelected: Colors.white,
+        ),
+        MyAds(),
       ),
       ScreenHiddenDrawer(
         ItemHiddenMenu(

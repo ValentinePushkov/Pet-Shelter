@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/models/homeless_pet.dart';
 import 'package:pet_app/models/user.dart';
 
@@ -109,6 +110,17 @@ class DatabaseMethods {
         .get();
   }
 
+  deleteAd(String name) async {
+    var collection = await FirebaseFirestore.instance
+        .collection('homeless_pets')
+        .where('owner', isEqualTo: Constants.currentUser)
+        .where('name', isEqualTo: name)
+        .get();
+    for (final doc in collection.docs) {
+      await doc.reference.delete();
+    }
+  }
+
   Stream<List<HomelessPet>> getHomelessPets() =>
       FirebaseFirestore.instance.collection("homeless_pets").snapshots().map(
             (snapshot) => snapshot.docs
@@ -124,4 +136,15 @@ class DatabaseMethods {
         (snapshot) =>
             snapshot.docs.map((doc) => UserClass.fromJson(doc.data())).first,
       );
+
+  Stream<List<HomelessPet>> getHomelessPetsByUsername() =>
+      FirebaseFirestore.instance
+          .collection("homeless_pets")
+          .where('username', isEqualTo: Constants.currentUser)
+          .snapshots()
+          .map(
+            (snapshot) => snapshot.docs
+                .map((doc) => HomelessPet.fromJson(doc.data()))
+                .toList(),
+          );
 }
