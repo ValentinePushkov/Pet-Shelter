@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pet_app/configuration/configuration.dart';
 import 'package:pet_app/models/homeless_pet.dart';
 import 'package:pet_app/models/user.dart';
-import 'package:pet_app/screens/home_screen.dart';
 import 'package:pet_app/screens/splash_screen.dart';
 import 'package:pet_app/utils/services/database.dart';
 import 'package:provider/provider.dart';

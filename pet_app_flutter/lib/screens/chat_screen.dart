@@ -256,7 +256,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           ),
                         ),
                         SizedBox(width: 5),
-                        Container(
+                        SizedBox(
                           width: screenSize.width * 0.125,
                           height: screenSize.width * 0.125,
                           child: FloatingActionButton(

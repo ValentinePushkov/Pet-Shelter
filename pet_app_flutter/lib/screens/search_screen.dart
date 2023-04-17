@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/models/user.dart';
@@ -110,34 +109,31 @@ class _SearchScreenState extends State<SearchScreen> {
                           width: 16,
                         ),
                         Expanded(
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      name[0].toUpperCase() +
-                                          name.substring((1)),
-                                      style: TextStyle(fontSize: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    name[0].toUpperCase() + name.substring((1)),
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    ' - @${username}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: MediaQuery.of(context)
+                                                  .platformBrightness ==
+                                              Brightness.light
+                                          ? Colors.black54
+                                          : Colors.white54,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    Text(
-                                      ' - @${username}',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: MediaQuery.of(context)
-                                                    .platformBrightness ==
-                                                Brightness.light
-                                            ? Colors.black54
-                                            : Colors.white54,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(height: 6),
-                              ],
-                            ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: 6),
+                            ],
                           ),
                         )
                       ],
@@ -204,7 +200,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 Row(
                   children: [
                     Expanded(
-                      child: Container(
+                      child: SizedBox(
                         height: screenSize.height * 0.06,
                         child: TextField(
                           controller: SearchEditingController,

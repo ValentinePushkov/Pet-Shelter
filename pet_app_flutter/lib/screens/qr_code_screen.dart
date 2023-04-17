@@ -10,8 +10,8 @@ import 'package:pet_app/constants/constants.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QrCode extends StatefulWidget {
-  String qrData;
   QrCode(this.qrData);
+  final String qrData;
   @override
   State<QrCode> createState() => _QrCodeState();
 }

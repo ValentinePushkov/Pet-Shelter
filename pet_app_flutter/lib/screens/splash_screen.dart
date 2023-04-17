@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/drawer/hidden_drawer.dart';
 
