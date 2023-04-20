@@ -97,6 +97,9 @@ class _AddingPetState extends State<AddingPet> {
         'description': _descriptionController.text,
       };
       databaseMethods.uploadPetInfo(petInfoMap);
+      setState(() {
+        isLoading = false;
+      });
     } else {
       setState(() {
         isLoading = false;
