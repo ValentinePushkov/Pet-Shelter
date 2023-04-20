@@ -209,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               color: Colors.grey[600],
                                             ),
                                           ),
-                                          (homelessPet.sex == 'самец')
+                                          (homelessPet.sex == 'male')
                                               ? Icon(
                                                   Icons.male_rounded,
                                                   color: Colors.grey[500],

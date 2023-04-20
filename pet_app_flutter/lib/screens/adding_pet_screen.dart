@@ -24,7 +24,7 @@ class _AddingPetState extends State<AddingPet> {
   Gender _selectedGender = Gender.male;
   PetStatus _petStatus = PetStatus.adopt;
   String category;
-  String pickedGender = 'самец';
+  String pickedGender = 'male';
   String _pickedPetSatus = 'бездомный';
   TextEditingController _nameController;
   TextEditingController _speciesController;
@@ -85,7 +85,7 @@ class _AddingPetState extends State<AddingPet> {
         'name': _nameController.text,
         'species': _speciesController.text,
         'age': double.parse(_ageController.text),
-        'imgUrl': url,
+        'image': url,
         'category': category,
         'sex': pickedGender,
         'petStatus': _pickedPetSatus,
@@ -319,11 +319,11 @@ class _AddingPetState extends State<AddingPet> {
                           ),
                           Row(
                             children: [
-                              sexWidget("Самец", Gender.male),
+                              sexWidget("male", Gender.male),
                               SizedBox(
                                 width: 20,
                               ),
-                              sexWidget("Cамка", Gender.female)
+                              sexWidget("female", Gender.female)
                             ],
                           ),
                         ],
