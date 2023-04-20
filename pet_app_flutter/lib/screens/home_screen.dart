@@ -228,7 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       Text(
-                                        homelessPet.age.toString() + ' лет',
+                                        homelessPet.petStatus,
                                         style: TextStyle(
                                           fontSize: 12,
                                           color: Colors.grey[400],
