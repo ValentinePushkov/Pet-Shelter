@@ -5,7 +5,8 @@ class PetStatusSelector extends StatefulWidget {
   final PetStatus selected;
   final void Function(PetStatus) onSelect;
 
-  const PetStatusSelector({Key key, this.selected, this.onSelect}) : super(key: key);
+  const PetStatusSelector({Key key, this.selected, this.onSelect})
+      : super(key: key);
 
   @override
   State<PetStatusSelector> createState() => _PetStatusSelectorState();
@@ -26,12 +27,12 @@ class _PetStatusSelectorState extends State<PetStatusSelector> {
       segments: const <ButtonSegment<PetStatus>>[
         ButtonSegment<PetStatus>(
           value: PetStatus.adopt,
-          label: Text('Adopt'),
+          label: Text('Потерян'),
           icon: Icon(Icons.home),
         ),
         ButtonSegment<PetStatus>(
           value: PetStatus.lost,
-          label: Text('Lost'),
+          label: Text('Бездомный'),
           icon: Icon(Icons.close),
         ),
       ],

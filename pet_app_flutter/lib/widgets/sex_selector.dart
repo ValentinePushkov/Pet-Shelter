@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/screens/adding_pet_screen.dart';
 
 class SexSelector extends StatefulWidget {
@@ -26,13 +27,15 @@ class _SexSelectorState extends State<SexSelector> {
       segments: const <ButtonSegment<Gender>>[
         ButtonSegment<Gender>(
           value: Gender.female,
-          label: Text('Female'),
-          icon: Icon(Icons.woman),
+          label: Text(
+            'Самка',
+          ),
+          icon: Icon(Icons.female),
         ),
         ButtonSegment<Gender>(
           value: Gender.male,
-          label: Text('Male'),
-          icon: Icon(Icons.man),
+          label: Text('Самец'),
+          icon: Icon(Icons.male),
         ),
       ],
       selected: {_selected},

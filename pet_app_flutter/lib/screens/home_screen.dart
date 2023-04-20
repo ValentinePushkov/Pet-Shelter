@@ -26,7 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
   String _category;
   Gender _gender;
   PetStatus _petStatus;
-  final Stream<List<HomelessPet>> databaseMethods = DatabaseMethods().getHomelessPets();
+  final Stream<List<HomelessPet>> databaseMethods =
+      DatabaseMethods().getHomelessPets();
 
   setLoggedInUsername() async {
     await SharedPrefHelper().getUsernameSharedPref().then((val) {
@@ -87,87 +88,54 @@ class _HomeScreenState extends State<HomeScreen> {
                           onTap: () => showBottomSheet(
                             enableDrag: true,
                             context: context,
-                            builder: (context) => Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                SizedBox(height: 15.0),
-                                SexSelector(
-                                  selected: _gender,
-                                  onSelect: (gender) => _gender = gender,
-                                ),
-                                SizedBox(height: 15.0),
-                                PetStatusSelector(
-                                  selected: _petStatus,
-                                  onSelect: (petStatus) => _petStatus = petStatus,
-                                ),
-                                SizedBox(height: 15.0),
-                                SizedBox(
-                                  height: 120,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: categories.length,
-                                    itemBuilder: (context, index) {
-                                      return Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        padding: EdgeInsets.all(10),
-                                        child: Column(
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  _category = categories[index]['category'];
-                                                });
-                                              },
-                                              child: Container(
-                                                padding: EdgeInsets.all(10),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(10),
-                                                  boxShadow: shadowList,
-                                                ),
-                                                child: Image(
-                                                  image: AssetImage(
-                                                    categories[index]['imagePath'],
-                                                  ),
-                                                  height: 50,
-                                                  width: 50,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(height: 10.0),
-                                            Text(
-                                              categories[index]['name'],
-                                              style: TextStyle(
-                                                color: Colors.grey[700],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
+                            builder: (context) => SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(height: 15.0),
+                                  SexSelector(
+                                    selected: _gender,
+                                    onSelect: (gender) => _gender = gender,
                                   ),
-                                ),
-                                SizedBox(height: 15.0),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    setState(() {});
-                                  },
-                                  child: Text('Apply filters'),
-                                ),
-                                SizedBox(height: 15.0),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    setState(() {
-                                      _petStatus = null;
-                                      _gender = null;
-                                      _category = null;
-                                    });
-                                  },
-                                  child: Text('Reset filters'),
-                                ),
-                              ],
+                                  SizedBox(height: 15.0),
+                                  PetStatusSelector(
+                                    selected: _petStatus,
+                                    onSelect: (petStatus) =>
+                                        _petStatus = petStatus,
+                                  ),
+                                  SizedBox(height: 15.0),
+                                  SizedBox(height: 15.0),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      setState(() {});
+                                    },
+                                    child: Text(
+                                      'Применить',
+                                      style: TextStyle(
+                                          color: Constants.kPrimaryColor),
+                                    ),
+                                  ),
+                                  SizedBox(height: 15.0),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      setState(() {
+                                        _petStatus = null;
+                                        _gender = null;
+                                        _category = null;
+                                      });
+                                    },
+                                    child: Text(
+                                      'Восстановить фильтры',
+                                      style: TextStyle(
+                                          color: Constants.kPrimaryColor),
+                                    ),
+                                  ),
+                                  SizedBox(height: 15.0),
+                                ],
+                              ),
                             ),
                           ),
                           child: Icon(
@@ -178,7 +146,55 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10.0),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    height: 120,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: categories.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.only(left: 10),
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _category = categories[index]['category'];
+                                  });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: shadowList,
+                                  ),
+                                  child: Image(
+                                    image: AssetImage(
+                                      categories[index]['imagePath'],
+                                    ),
+                                    height: 50,
+                                    width: 50,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 10.0),
+                              Text(
+                                categories[index]['name'],
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                   ListView.builder(
                     physics: ScrollPhysics(),
                     itemCount: sortedPets.length,
@@ -237,11 +253,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                     boxShadow: shadowList,
                                   ),
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             homelessPet.name,
@@ -300,13 +319,15 @@ class _HomeScreenState extends State<HomeScreen> {
   List<HomelessPet> _sortPets(List<HomelessPet> pets) {
     var sortedPets = pets;
     if (_category != null) {
-      sortedPets = sortedPets.where((pet) => pet.category == _category).toList();
+      sortedPets =
+          sortedPets.where((pet) => pet.category == _category).toList();
     }
     if (_gender != null) {
       sortedPets = sortedPets.where((pet) => pet.sex == _gender.name).toList();
     }
     if (_petStatus != null) {
-      sortedPets = sortedPets.where((pet) => pet.petStatus == _petStatus.name).toList();
+      sortedPets =
+          sortedPets.where((pet) => pet.petStatus == _petStatus.name).toList();
     }
     return sortedPets;
   }
