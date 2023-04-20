@@ -1,12 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_app/constants/constants.dart';
-import 'package:pet_app/drawer/hidden_drawer.dart';
 import 'package:pet_app/models/homeless_pet.dart';
-import 'package:pet_app/screens/splash_screen.dart';
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
 import 'package:pet_app/utils/services/auth.dart';
 import 'package:pet_app/utils/services/database.dart';
+import 'package:pet_app/widgets/login_wrapper.dart';
 import 'package:provider/provider.dart';
 
 Future main() async {
@@ -67,11 +66,7 @@ class _MyAppState extends State<MyApp> {
             shadowColor: Colors.transparent,
           ),
         ),
-        home: isLoggedIn != null
-            ? isLoggedIn
-                ? HiddenDrawer()
-                : SplashScreen()
-            : SplashScreen(),
+        home: LoginWrapper(),
       ),
     );
   }

@@ -6,6 +6,7 @@ class EncryptionDecryption {
   static final encrypter = encrypt.Encrypter(encrypt.AES(key));
 
   static encryptMessage(String plainMessageText) {
+    print(key);
     final encrypted = encrypter.encrypt(plainMessageText, iv: iv);
     return encrypted.base64;
   }

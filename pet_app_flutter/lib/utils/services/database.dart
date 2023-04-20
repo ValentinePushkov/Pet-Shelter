@@ -33,11 +33,17 @@ class DatabaseMethods {
         .update({'picUrl': url});
   }
 
-  getUserInfoByEmail(String email) async {
-    return await FirebaseFirestore.instance
+  Future<UserClass> getUserInfoByEmail(String email) async {
+    var snapshot = await FirebaseFirestore.instance
         .collection('users')
         .where('email', isEqualTo: email)
         .get();
+    return UserClass(
+      username: snapshot.docs[0].data()['username'],
+      email: snapshot.docs[0].data()['email'],
+      avatar: snapshot.docs[0].data()['picUrl'],
+      role: snapshot.docs[0].data()['role'],
+    );
   }
 
   uploadUserInfo(String username, Map<String, String> userInfoMap) {

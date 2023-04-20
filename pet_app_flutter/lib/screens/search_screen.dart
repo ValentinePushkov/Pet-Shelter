@@ -30,7 +30,6 @@ class _SearchScreenState extends State<SearchScreen> {
             itemBuilder: (context, index) {
               return UserItem(
                 user.username,
-                user.name,
                 user.avatar,
               );
             },
@@ -67,7 +66,6 @@ class _SearchScreenState extends State<SearchScreen> {
             itemBuilder: (context, index) {
               return UserItem(
                 UsersSnapshot.docs[index]["username"],
-                UsersSnapshot.docs[index]["name"],
                 UsersSnapshot.docs[index]["picUrl"],
               );
             },
@@ -75,7 +73,7 @@ class _SearchScreenState extends State<SearchScreen> {
         : Container();
   }
 
-  Widget UserItem(String username, String name, String avatar) {
+  Widget UserItem(String username, String avatar) {
     return username != Constants.currentUser
         ? InkWell(
             onTap: () {
@@ -115,13 +113,9 @@ class _SearchScreenState extends State<SearchScreen> {
                               Row(
                                 children: [
                                   Text(
-                                    name[0].toUpperCase() + name.substring((1)),
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                  Text(
-                                    ' - @${username}',
+                                    username,
                                     style: TextStyle(
-                                      fontSize: 12,
+                                      fontSize: 16,
                                       color: MediaQuery.of(context)
                                                   .platformBrightness ==
                                               Brightness.light

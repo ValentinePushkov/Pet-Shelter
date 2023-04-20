@@ -1,7 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_app/constants/constants.dart';
+import 'package:pet_app/drawer/admin_hidden_drawer.dart';
 import 'package:pet_app/drawer/hidden_drawer.dart';
+import 'package:pet_app/models/user.dart';
+import 'package:pet_app/screens/forget_password_screen.dart';
 
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
 import 'package:pet_app/utils/services/auth.dart';
@@ -17,6 +19,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   TextEditingController _emailController;
   TextEditingController _passwordController;
+  TextEditingController _repeatPasswordController;
   TextEditingController _loginEmailController;
   TextEditingController _loginPasswordController;
   TextEditingController _signupUserNameController;
@@ -57,6 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     _emailController = TextEditingController(text: "");
     _passwordController = TextEditingController(text: "");
+    _repeatPasswordController = TextEditingController(text: "");
     _loginEmailController = TextEditingController(text: "");
     _loginPasswordController = TextEditingController(text: "");
     _signupUserNameController = TextEditingController(text: "");
@@ -71,50 +75,75 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void signUpUser() {
     if (formKey.currentState.validate()) {
-      setState(() {
-        isLoading = true;
-      });
+      if (_passwordController.text == _repeatPasswordController.text) {
+        setState(() {
+          isLoading = true;
+        });
 
-      authMethods
-          .signUpWithEmailAndPassword(
-        _emailController.text,
-        _passwordController.text,
-      )
-          .then((val) {
-        if (val != null) {
-          Map<String, String> userInfoMap = {
-            'username': _signupUserNameController.text,
-            'email': _emailController.text,
-          };
+        authMethods
+            .signUpWithEmailAndPassword(
+          _emailController.text,
+          _passwordController.text,
+        )
+            .then((val) {
+          if (val != null) {
+            Map<String, String> userInfoMap = {
+              'username': _signupUserNameController.text,
+              'email': _emailController.text,
+            };
 
-          databaseMethods.uploadUserInfo(
-            _signupUserNameController.text,
-            userInfoMap,
-          );
-          sharedPrefHelper.saveUsernameSharedPref(_loginEmailController.text);
-          sharedPrefHelper.saveUserEmailSharedPref(_emailController.text);
-          sharedPrefHelper.saveUserLoggedInSharedPref(true);
+            databaseMethods.uploadUserInfo(
+              _signupUserNameController.text,
+              userInfoMap,
+            );
+            sharedPrefHelper.saveUsernameSharedPref(_loginEmailController.text);
+            sharedPrefHelper.saveUserEmailSharedPref(_emailController.text);
+            sharedPrefHelper.saveUserLoggedInSharedPref(true);
 
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SplashScreen(),
-            ),
-          );
-        } else {
-          setState(() {
-            isLoading = false;
-          });
-          SnackBar snackBar = SnackBar(
-            content: Text(
-              'Email already exists!',
-              style: TextStyle(color: Colors.white),
-            ),
-            backgroundColor: Colors.red,
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        }
-      });
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SplashScreen(),
+              ),
+            );
+          } else {
+            setState(() {
+              isLoading = false;
+            });
+            SnackBar snackBar = SnackBar(
+              content: Text(
+                'Email уже существует',
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.red,
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
+        });
+      } else {
+        SnackBar snackBar = SnackBar(
+          content: Text(
+            'Пароли не совпадают',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.red,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    }
+  }
+
+  void route(String role) {
+    if (role == 'Admin') {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => AdminHiddenDrawer()),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HiddenDrawer()),
+      );
     }
   }
 
@@ -131,18 +160,13 @@ class _SplashScreenState extends State<SplashScreen> {
       )
           .then((val) async {
         if (val != null) {
-          QuerySnapshot loginSnapshot = await databaseMethods
+          UserClass login = await databaseMethods
               .getUserInfoByEmail(_loginEmailController.text);
-          sharedPrefHelper
-              .saveUserEmailSharedPref(loginSnapshot.docs[0]["email"]);
-          sharedPrefHelper
-              .saveUsernameSharedPref(loginSnapshot.docs[0]["username"]);
+          sharedPrefHelper.saveUserEmailSharedPref(login.email);
+          sharedPrefHelper.saveUsernameSharedPref(login.username);
           sharedPrefHelper.saveUserLoggedInSharedPref(true);
 
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => HiddenDrawer()),
-          );
+          route(login.role);
         } else {
           setState(() {
             isLoading = false;
@@ -214,6 +238,22 @@ class _SplashScreenState extends State<SplashScreen> {
 
         _registerYOffset = _keyboardVisible ? 50 : 270;
         _loginXOffset = 20;
+        break;
+
+      case 3:
+        _backgourndColor = Color(0xFFB306060);
+        _headingColor = Colors.white;
+
+        _headingTop = 90;
+
+        _loginWidth = windowWidth;
+        _loginOpacity = 1;
+
+        _loginYOffset = _keyboardVisible ? 40 : 270;
+        _loginHeight = _keyboardVisible ? windowHeight : windowHeight - 270;
+
+        _registerYOffset = windowHeight;
+        _loginXOffset = 0;
         break;
     }
     return Scaffold(
@@ -380,6 +420,26 @@ class _SplashScreenState extends State<SplashScreen> {
                               buttonText: "Создать новый аккаунт",
                             ),
                           ),
+                          SizedBox(height: 20),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ForgetPassword(),
+                                  ),
+                                );
+                              });
+                            },
+                            child: Text(
+                              "Забыли пароль?",
+                              style: TextStyle(
+                                color: Constants.kPrimaryColor,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -450,6 +510,17 @@ class _SplashScreenState extends State<SplashScreen> {
                                     : null;
                               },
                               controller: _passwordController,
+                            ),
+                            SizedBox(height: 20),
+                            InputWithIcon(
+                              icon: Icons.vpn_key,
+                              hint: "Повторите пароль",
+                              validator: (value) {
+                                return value.length < 6
+                                    ? "Пароль слишком короткий"
+                                    : null;
+                              },
+                              controller: _repeatPasswordController,
                             ),
                           ],
                         ),

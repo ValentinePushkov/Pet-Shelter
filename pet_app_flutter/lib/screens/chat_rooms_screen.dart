@@ -33,15 +33,6 @@ class _ChatRoomsState extends State<ChatRooms> {
       new TextEditingController();
   String _searchText = "";
 
-  Widget appBarTitle = new Text(
-    'Чаты',
-    style: TextStyle(
-      color: Colors.white60,
-      fontWeight: FontWeight.bold,
-      fontSize: 20,
-    ),
-  );
-
   _ChatRoomsState() {
     SearchEditingController.addListener(() {
       if (SearchEditingController.text.isNotEmpty) {
@@ -67,36 +58,6 @@ class _ChatRoomsState extends State<ChatRooms> {
         });
       } else {
         getCurrUserandChats();
-      }
-    });
-  }
-
-  void searchChatRoom() {
-    setState(() {
-      if (this.searchIcon.icon == Icons.search) {
-        this.searchIcon = new Icon(Icons.close);
-        this.appBarTitle = new TextField(
-          controller: SearchEditingController,
-          decoration: new InputDecoration(
-            prefixIcon: new Icon(Icons.search, color: Colors.white60),
-            hintText: 'Поиск пользователей',
-            hintStyle: TextStyle(color: Colors.white54),
-            border: InputBorder.none,
-          ),
-          cursorColor: Colors.white54,
-          style: TextStyle(color: Colors.white54),
-        );
-      } else {
-        this.searchIcon = new Icon(Icons.search);
-        this.appBarTitle = new Text(
-          'Чаты',
-          style: TextStyle(
-            color: Colors.white60,
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
-        );
-        SearchEditingController.clear();
       }
     });
   }
@@ -254,21 +215,6 @@ class _ChatRoomsState extends State<ChatRooms> {
   Widget build(BuildContext context) {
     //Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        //centerTitle: true,
-        elevation: 0,
-        title: appBarTitle,
-        leading: IconButton(
-          icon: searchIcon,
-          onPressed: searchChatRoom,
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.exit_to_app),
-            onPressed: LogoutPressed,
-          )
-        ],
-      ),
       body: Container(
         child: chatRoomsList(),
       ),
