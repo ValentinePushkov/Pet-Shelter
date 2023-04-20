@@ -25,7 +25,7 @@ class _AddingPetState extends State<AddingPet> {
   PetStatus _petStatus = PetStatus.adopt;
   String category;
   String pickedGender = 'male';
-  String _pickedPetSatus = 'бездомный';
+  String _pickedPetSatus = 'adopt';
   TextEditingController _nameController;
   TextEditingController _speciesController;
   TextEditingController _ageController;
@@ -618,7 +618,11 @@ class _AddingPetState extends State<AddingPet> {
       onPressed: () {
         setState(() {
           _petStatus = petStatus;
-          _pickedPetSatus = text;
+          if (text == 'потерян') {
+            _pickedPetSatus = 'lost';
+          } else {
+            _pickedPetSatus = 'adopt';
+          }
         });
       },
       style: OutlinedButton.styleFrom(

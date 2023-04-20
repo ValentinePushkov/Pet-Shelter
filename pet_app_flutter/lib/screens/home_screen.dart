@@ -228,7 +228,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       Text(
-                                        homelessPet.petStatus,
+                                        homelessPet.petStatus == 'adopt'
+                                            ? 'Потерян'
+                                            : 'Бездомный',
                                         style: TextStyle(
                                           fontSize: 12,
                                           color: Colors.grey[400],
