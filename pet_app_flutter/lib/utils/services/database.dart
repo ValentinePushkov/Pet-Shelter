@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/models/homeless_pet.dart';
+import 'package:pet_app/models/moderation_per.dart';
 import 'package:pet_app/models/user.dart';
 
 class DatabaseMethods {
@@ -31,6 +32,17 @@ class DatabaseMethods {
         .collection('users')
         .doc(username)
         .update({'picUrl': url});
+  }
+
+  updateAd(String owner, String name) async {
+    var snapshots = await FirebaseFirestore.instance
+        .collection("homeless_pets")
+        .where("owner", isEqualTo: owner)
+        .where("name", isEqualTo: name)
+        .get();
+    for (final doc in snapshots.docs) {
+      await doc.reference.update({'status': 'active'});
+    }
   }
 
   Future<UserClass> getUserInfoByEmail(String email) async {
@@ -127,10 +139,24 @@ class DatabaseMethods {
     }
   }
 
-  Stream<List<HomelessPet>> getHomelessPets() =>
-      FirebaseFirestore.instance.collection("homeless_pets").snapshots().map(
+  Stream<List<HomelessPet>> getHomelessPets() => FirebaseFirestore.instance
+      .collection("homeless_pets")
+      .where('status', isEqualTo: 'active')
+      .snapshots()
+      .map(
+        (snapshot) => snapshot.docs
+            .map((doc) => HomelessPet.fromJson(doc.data()))
+            .toList(),
+      );
+
+  Stream<List<ModerationPet>> getHomelessPetsForModeration() =>
+      FirebaseFirestore.instance
+          .collection("homeless_pets")
+          .where('status', isEqualTo: 'moderation')
+          .snapshots()
+          .map(
             (snapshot) => snapshot.docs
-                .map((doc) => HomelessPet.fromJson(doc.data()))
+                .map((doc) => ModerationPet.fromJson(doc.data()))
                 .toList(),
           );
 

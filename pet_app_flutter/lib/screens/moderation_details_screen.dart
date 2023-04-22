@@ -1,22 +1,24 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_app/configuration/configuration.dart';
-import 'package:pet_app/models/homeless_pet.dart';
+import 'package:pet_app/models/moderation_per.dart';
 import 'package:pet_app/models/user.dart';
 import 'package:pet_app/screens/splash_screen.dart';
 import 'package:pet_app/utils/services/database.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
-class MyAdDetails extends StatefulWidget {
-  MyAdDetails({this.petDetailsMap});
+class ModerationDeatailsScreen extends StatefulWidget {
+  ModerationDeatailsScreen({this.petDetailsMap});
 
-  HomelessPet petDetailsMap;
+  ModerationPet petDetailsMap;
 
   @override
-  _MyAdDetailsState createState() => _MyAdDetailsState();
+  _ModerationDeatailsScreenState createState() =>
+      _ModerationDeatailsScreenState();
 }
 
-class _MyAdDetailsState extends State<MyAdDetails> {
+class _ModerationDeatailsScreenState extends State<ModerationDeatailsScreen> {
   bool isFavorite = false;
   DatabaseMethods databaseMethods = DatabaseMethods();
   UserClass user;
@@ -33,7 +35,26 @@ class _MyAdDetailsState extends State<MyAdDetails> {
     super.initState();
   }
 
-  void deleteAd() {
+  Future<void> accept() async {
+    databaseMethods.updateAd(
+      widget.petDetailsMap.owner,
+      widget.petDetailsMap.name,
+    );
+    Navigator.pop(context);
+    SnackBar snackBar = SnackBar(
+      content: Text(
+        'Обяъявление принятно!',
+        style: TextStyle(color: Colors.white),
+      ),
+      backgroundColor: Colors.green,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  Future<void> deny() async {
+    Reference photoRef =
+        FirebaseStorage.instance.refFromURL(widget.petDetailsMap.image);
+    await photoRef.delete();
     databaseMethods.deleteAd(widget.petDetailsMap.name);
     Navigator.pop(context);
     SnackBar snackBar = SnackBar(
@@ -281,8 +302,23 @@ class _MyAdDetailsState extends State<MyAdDetails> {
                         width: 50,
                         child: Center(
                           child: PrimaryButton(
-                            buttonText: "Удалить объявление",
-                            press: deleteAd,
+                            buttonText: "Принять",
+                            press: accept,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        height: 60,
+                        width: 50,
+                        child: Center(
+                          child: PrimaryButton(
+                            buttonText: "Отклонить",
+                            press: deny,
                           ),
                         ),
                       ),

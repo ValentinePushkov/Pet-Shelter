@@ -123,7 +123,7 @@ class _MyAdsState extends State<MyAds> {
                                               color: Colors.grey[600],
                                             ),
                                           ),
-                                          (homelessPet.sex == 'самец')
+                                          (homelessPet.sex == 'male')
                                               ? Icon(
                                                   Icons.male_rounded,
                                                   color: Colors.grey[500],

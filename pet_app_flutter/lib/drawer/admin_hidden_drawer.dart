@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
+import 'package:pet_app/screens/active_pets_screen.dart';
 import 'package:pet_app/screens/adding_pet_screen.dart';
-import 'package:pet_app/screens/home_screen.dart';
+import 'package:pet_app/screens/moderation_screen.dart';
 import 'package:pet_app/screens/profile_screen.dart';
 
 class AdminHiddenDrawer extends StatefulWidget {
@@ -21,7 +22,7 @@ class _AdminHiddenDrawerState extends State<AdminHiddenDrawer> {
     _pages = [
       ScreenHiddenDrawer(
         ItemHiddenMenu(
-          name: "Питомцы",
+          name: "Модерация\nобъявлений",
           baseStyle: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -30,11 +31,11 @@ class _AdminHiddenDrawerState extends State<AdminHiddenDrawer> {
           selectedStyle: TextStyle(),
           colorLineSelected: Colors.white,
         ),
-        HomeScreen(),
+        ModerationScreen(),
       ),
       ScreenHiddenDrawer(
         ItemHiddenMenu(
-          name: "Создать\nобъявление",
+          name: "Активыне\nобъявления",
           baseStyle: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -43,7 +44,7 @@ class _AdminHiddenDrawerState extends State<AdminHiddenDrawer> {
           selectedStyle: TextStyle(),
           colorLineSelected: Colors.white,
         ),
-        AddingPet(),
+        ActivePetsScreen(),
       ),
       ScreenHiddenDrawer(
         ItemHiddenMenu(

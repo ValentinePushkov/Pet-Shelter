@@ -186,7 +186,7 @@ class _PetDetailsState extends State<PetDetails> {
                             color: Colors.grey[600],
                           ),
                         ),
-                        (widget.petDetailsMap.sex == 'самец')
+                        (widget.petDetailsMap.sex == 'male')
                             ? Icon(
                                 Icons.male_rounded,
                                 color: Colors.grey[500],

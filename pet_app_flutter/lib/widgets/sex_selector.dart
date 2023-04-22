@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/screens/adding_pet_screen.dart';
 
 class SexSelector extends StatefulWidget {

@@ -92,11 +92,19 @@ class _AddingPetState extends State<AddingPet> {
         'owner': Constants.currentUser,
         'location':
             '${_cityController.text}, ${_streetController.text} ${_houseController.text}',
-        'status': 'активно',
+        'status': 'moderation',
         'date': date,
         'description': _descriptionController.text,
       };
       databaseMethods.uploadPetInfo(petInfoMap);
+      SnackBar snackBar = SnackBar(
+        content: Text(
+          'Объявление отправлено на модерацию.',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.green,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       setState(() {
         isLoading = false;
       });
@@ -294,7 +302,7 @@ class _AddingPetState extends State<AddingPet> {
                             hint: "Возраст",
                             validator: (value) {
                               return value.length > 20 ||
-                                      value.length < 2 ||
+                                      value.length < 1 ||
                                       value == null
                                   ? 'Введите корректное название'
                                   : null;
@@ -441,7 +449,7 @@ class _AddingPetState extends State<AddingPet> {
                             hint: "Номер дома",
                             validator: (value) {
                               return value.length > 20 ||
-                                      value.length < 2 ||
+                                      value.length < 1 ||
                                       value == null
                                   ? 'Введите корректное название'
                                   : null;
@@ -589,7 +597,11 @@ class _AddingPetState extends State<AddingPet> {
       onPressed: () {
         setState(() {
           _selectedGender = gender;
-          pickedGender = text;
+          if (text == 'самец') {
+            pickedGender = 'male';
+          } else {
+            pickedGender = 'female';
+          }
         });
       },
       style: OutlinedButton.styleFrom(

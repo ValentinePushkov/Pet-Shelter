@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/models/homeless_pet.dart';
+import 'package:pet_app/models/moderation_per.dart';
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
 import 'package:pet_app/utils/services/auth.dart';
 import 'package:pet_app/utils/services/database.dart';
@@ -26,8 +27,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final Stream<List<HomelessPet>> getHomelessPets =
-      DatabaseMethods().getHomelessPets();
   bool isLoggedIn;
   @override
   void initState() {
@@ -50,7 +49,11 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         StreamProvider<List<HomelessPet>>(
-          create: (context) => getHomelessPets,
+          create: (context) => DatabaseMethods().getHomelessPets(),
+          initialData: [],
+        ),
+        StreamProvider<List<ModerationPet>>(
+          create: (context) => DatabaseMethods().getHomelessPetsForModeration(),
           initialData: [],
         ),
         Provider<AuthMethods>(
