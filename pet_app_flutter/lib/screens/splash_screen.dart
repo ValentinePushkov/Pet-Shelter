@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/drawer/admin_hidden_drawer.dart';
@@ -8,6 +10,8 @@ import 'package:pet_app/screens/forget_password_screen.dart';
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
 import 'package:pet_app/utils/services/auth.dart';
 import 'package:pet_app/utils/services/database.dart';
+import 'package:pet_app/utils/services/encryption.dart';
+import 'package:webcrypto/webcrypto.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key key}) : super(key: key);
@@ -51,6 +55,7 @@ class _SplashScreenState extends State<SplashScreen> {
   AuthMethods authMethods = new AuthMethods();
   DatabaseMethods databaseMethods = new DatabaseMethods();
   SharedPrefHelper sharedPrefHelper = new SharedPrefHelper();
+  Encryption encrypter = new Encryption();
   final formKey = GlobalKey<FormState>();
   final loginFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -85,11 +90,14 @@ class _SplashScreenState extends State<SplashScreen> {
           _emailController.text,
           _passwordController.text,
         )
-            .then((val) {
+            .then((val) async {
           if (val != null) {
-            Map<String, String> userInfoMap = {
+            await encrypter.generateKeys();
+
+            Map<String, dynamic> userInfoMap = {
               'username': _signupUserNameController.text,
               'email': _emailController.text,
+              'publicKey': json.encode(encrypter.publicKeyJwk),
             };
 
             databaseMethods.uploadUserInfo(

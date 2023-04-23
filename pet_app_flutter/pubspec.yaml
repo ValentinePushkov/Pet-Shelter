@@ -46,6 +46,7 @@ dependencies:
   gallery_saver: ^2.3.2
   permission_handler: ^10.2.0
   qr_flutter: ^4.0.0
+  webcrypto: ^0.5.3
 
 dev_dependencies:
   flutter_test:

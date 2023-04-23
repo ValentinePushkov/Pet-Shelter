@@ -205,10 +205,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Text(
                         '@${user.username}',
                         style: TextStyle(
-                          color: MediaQuery.of(context).platformBrightness ==
-                                  Brightness.light
-                              ? Constants.kPrimaryColor
-                              : Constants.kSecondaryColor,
+                          color: Constants.kPrimaryColor,
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                         ),
@@ -244,11 +241,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 updateUserInfo();
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    MediaQuery.of(context).platformBrightness ==
-                                            Brightness.light
-                                        ? Constants.kPrimaryColor
-                                        : Constants.kSecondaryColor,
+                                backgroundColor: Constants.kPrimaryColor,
                                 padding: EdgeInsets.symmetric(horizontal: 50),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
@@ -259,11 +252,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 style: TextStyle(
                                   fontSize: 14,
                                   letterSpacing: 2.2,
-                                  color: MediaQuery.of(context)
-                                              .platformBrightness ==
-                                          Brightness.light
-                                      ? Colors.white
-                                      : Colors.black87,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
@@ -294,11 +283,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 style: TextStyle(
                                   fontSize: 14,
                                   letterSpacing: 2.2,
-                                  color: MediaQuery.of(context)
-                                              .platformBrightness ==
-                                          Brightness.light
-                                      ? Colors.white
-                                      : Colors.black87,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),

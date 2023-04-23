@@ -4,6 +4,7 @@ class UserClass {
   final String name;
   final String avatar;
   final String role;
+  final String publicKey;
 
   UserClass({
     this.username = '',
@@ -12,6 +13,7 @@ class UserClass {
     this.avatar = '',
     String userID,
     this.role = '',
+    this.publicKey = '',
   });
 
   static UserClass fromJson(Map<String, dynamic> json) => UserClass(

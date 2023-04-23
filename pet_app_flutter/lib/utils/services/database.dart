@@ -58,7 +58,7 @@ class DatabaseMethods {
     );
   }
 
-  uploadUserInfo(String username, Map<String, String> userInfoMap) {
+  uploadUserInfo(String username, Map<String, dynamic> userInfoMap) {
     FirebaseFirestore.instance
         .collection('users')
         .doc(username)

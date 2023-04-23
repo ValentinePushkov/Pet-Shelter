@@ -26,8 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
   String _category;
   Gender _gender;
   PetStatus _petStatus;
-  final Stream<List<HomelessPet>> databaseMethods =
-      DatabaseMethods().getHomelessPets();
 
   setLoggedInUsername() async {
     await SharedPrefHelper().getUsernameSharedPref().then((val) {
