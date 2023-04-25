@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
@@ -6,7 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/models/user.dart';
 import 'package:pet_app/utils/services/database.dart';
+import 'package:pet_app/utils/services/encryption.dart';
 import 'package:pet_app/utils/services/encryption_decryption.dart';
+import 'package:provider/provider.dart';
 
 class ChatScreen extends StatefulWidget {
   final String ChatRoomID;
@@ -24,26 +27,38 @@ class _ChatScreenState extends State<ChatScreen> {
   UserClass user;
   ScrollController controller = ScrollController();
 
-  Widget chatMessageList() {
+  Widget chatMessageList(Encryption encryption) {
     return StreamBuilder<QuerySnapshot>(
       stream: ChatMessageStream,
-      builder: (context, snapshot) {
-        return snapshot.hasData
+      builder: (context, querySnapshot) {
+        encryption.deriveKey(
+          json.decode(user.publicKey),
+          json.decode(Constants.privateKey),
+        );
+        return querySnapshot.hasData
             ? ListView.builder(
                 controller: controller,
                 shrinkWrap: true,
-                itemCount: snapshot.data.docs.length,
+                itemCount: querySnapshot.data.docs.length,
                 itemBuilder: (context, index) {
-                  String msg = snapshot.data.docs[index]["message"];
-                  int time = snapshot.data.docs[index]["time"];
-                  return ChatMessageItem(
-                    EncryptionDecryption.decryptMessage(
-                      encrypt.Encrypted.fromBase64(msg),
-                    ),
-                    Constants.currentUser == snapshot.data.docs[index]["sentBy"]
-                        ? true
-                        : false,
-                    DateTime.fromMillisecondsSinceEpoch(time),
+                  String msg = querySnapshot.data.docs[index]["message"];
+                  int time = querySnapshot.data.docs[index]["time"];
+                  return FutureBuilder<Object>(
+                    future: encryption.decrypt(msg, encryption.derivedBits),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return ChatMessageItem(
+                          snapshot.data,
+                          Constants.currentUser ==
+                                  querySnapshot.data.docs[index]["sentBy"]
+                              ? true
+                              : false,
+                          DateTime.fromMillisecondsSinceEpoch(time),
+                        );
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    },
                   );
                 },
               )
@@ -117,10 +132,16 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  sendMessage() {
+  sendMessage(Encryption encryption) async {
     if (textEditingController.text.isNotEmpty) {
-      String encryptedMessage =
-          EncryptionDecryption.encryptMessage(textEditingController.text);
+      await encryption.deriveKey(
+        json.decode(user.publicKey),
+        json.decode(Constants.privateKey),
+      );
+      String encryptedMessage = await encryption.encrypt(
+        textEditingController.text,
+        encryption.derivedBits,
+      );
       int time = DateTime.now().millisecondsSinceEpoch;
       Map<String, dynamic> ChatMessageMap = {
         "message": encryptedMessage,
@@ -129,7 +150,7 @@ class _ChatScreenState extends State<ChatScreen> {
       };
 
       databaseMethods.addChatMessage(widget.ChatRoomID, ChatMessageMap);
-      databaseMethods.updateLastChat(widget.ChatRoomID, encryptedMessage, time);
+      //databaseMethods.updateLastChat(widget.ChatRoomID, encryptedMessage, time);
       textEditingController.text = "";
       scrollToEnd();
     }
@@ -157,6 +178,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var dbProvider = Provider.of<DatabaseMethods>(context);
+    var encryptionProvider = Provider.of<Encryption>(context);
     Size screenSize = MediaQuery.of(context).size;
     String username = widget.ChatRoomID.replaceAll("_", "")
         .replaceAll(Constants.currentUser, "");
@@ -169,7 +192,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CircleAvatar(
-                    backgroundImage: NetworkImage(user.avatar),
+                    backgroundImage: user.avatar != null
+                        ? NetworkImage(user.avatar)
+                        : AssetImage('images/cat.png'),
                     maxRadius: 22,
                   ),
                   SizedBox(
@@ -180,15 +205,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        /*Text(
-                          user.name.toUpperCase(),
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
-                        SizedBox(height: 6),*/
+                        SizedBox(height: 6),
                         Text(
                           username,
                           style: TextStyle(color: Colors.white, fontSize: 20),
@@ -201,7 +218,7 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             body: Column(
               children: [
-                Expanded(child: chatMessageList()),
+                Expanded(child: chatMessageList(encryptionProvider)),
                 Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: 10.0,
@@ -261,7 +278,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           height: screenSize.width * 0.125,
                           child: FloatingActionButton(
                             onPressed: () {
-                              sendMessage();
+                              sendMessage(encryptionProvider);
                             },
                             backgroundColor:
                                 Constants.kPrimaryColor.withOpacity(0.9),

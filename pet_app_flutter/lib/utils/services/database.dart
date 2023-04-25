@@ -17,6 +17,7 @@ class DatabaseMethods {
     return UserClass(
       username: snapshot.docs[0].data()['username'],
       avatar: snapshot.docs[0].data()['picUrl'],
+      publicKey: snapshot.docs[0].data()['publicKey'],
     );
   }
 

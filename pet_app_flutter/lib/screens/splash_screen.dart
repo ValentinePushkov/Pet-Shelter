@@ -11,7 +11,8 @@ import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
 import 'package:pet_app/utils/services/auth.dart';
 import 'package:pet_app/utils/services/database.dart';
 import 'package:pet_app/utils/services/encryption.dart';
-import 'package:webcrypto/webcrypto.dart';
+import 'package:pet_app/utils/services/local_database.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key key}) : super(key: key);
@@ -78,7 +79,7 @@ class _SplashScreenState extends State<SplashScreen> {
     );*/
   }
 
-  void signUpUser() {
+  void signUpUser(LocalDatabaseProvider key, BuildContext context) {
     if (formKey.currentState.validate()) {
       if (_passwordController.text == _repeatPasswordController.text) {
         setState(() {
@@ -93,11 +94,16 @@ class _SplashScreenState extends State<SplashScreen> {
             .then((val) async {
           if (val != null) {
             await encrypter.generateKeys();
+            await key.addKey(
+              _signupUserNameController.text,
+              json.encode(encrypter.privateKeyJwk),
+            );
 
             Map<String, dynamic> userInfoMap = {
               'username': _signupUserNameController.text,
               'email': _emailController.text,
               'publicKey': json.encode(encrypter.publicKeyJwk),
+              'picUrl': null,
             };
 
             databaseMethods.uploadUserInfo(
@@ -194,6 +200,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var key = Provider.of<LocalDatabaseProvider>(context);
     windowHeight = MediaQuery.of(context).size.height;
     windowWidth = MediaQuery.of(context).size.width;
 
@@ -415,7 +422,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         children: [
                           PrimaryButton(
                             buttonText: "Вход",
-                            press: loginUser,
+                            press: () => loginUser(),
                           ),
                           SizedBox(height: 20),
                           GestureDetector(
@@ -537,7 +544,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         children: [
                           PrimaryButton(
                             buttonText: "Создать аккаунт",
-                            press: signUpUser,
+                            press: () => signUpUser(key, context),
                           ),
                           SizedBox(height: 20),
                           GestureDetector(

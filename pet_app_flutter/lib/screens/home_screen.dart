@@ -7,7 +7,7 @@ import 'package:pet_app/models/homeless_pet.dart';
 import 'package:pet_app/screens/adding_pet_screen.dart';
 import 'package:pet_app/screens/pet_details.dart';
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
-import 'package:pet_app/utils/services/database.dart';
+import 'package:pet_app/utils/services/local_database.dart';
 import 'package:pet_app/widgets/pet_status_selector.dart';
 import 'package:pet_app/widgets/sex_selector.dart';
 import 'package:provider/provider.dart';
@@ -26,19 +26,17 @@ class _HomeScreenState extends State<HomeScreen> {
   String _category;
   Gender _gender;
   PetStatus _petStatus;
+  LocalDatabaseProvider localDatabaseProvider = LocalDatabaseProvider();
 
-  setLoggedInUsername() async {
-    await SharedPrefHelper().getUsernameSharedPref().then((val) {
-      setState(() {
-        Constants.currentUser = val;
-      });
-    });
+  setPrivateKey() async {
+    Constants.privateKey = await localDatabaseProvider
+        .getKey(await SharedPrefHelper().getUsernameSharedPref());
   }
 
   @override
   void initState() {
     setState(() {
-      setLoggedInUsername();
+      setPrivateKey();
     });
     super.initState();
   }

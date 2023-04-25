@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class Constants {
   static String currentUser;
+  static String privateKey;
   static final kPrimaryColor = Color(0xFFB306060);
   static final kPrimaryColorLighter = Color.fromRGBO(156, 143, 255, 0.3);
   static final kSecondaryColor =

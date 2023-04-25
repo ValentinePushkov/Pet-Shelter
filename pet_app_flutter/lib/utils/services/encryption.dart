@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:webcrypto/webcrypto.dart';
@@ -6,6 +5,7 @@ import 'package:webcrypto/webcrypto.dart';
 class Encryption {
   Map<String, dynamic> publicKeyJwk;
   Map<String, dynamic> privateKeyJwk;
+  Uint8List derivedBits;
   final Uint8List iv = Uint8List.fromList('Initialization Vector'.codeUnits);
 
   Future<void> generateKeys() async {
@@ -15,7 +15,7 @@ class Encryption {
     privateKeyJwk = await keyPair.privateKey.exportJsonWebKey();
   }
 
-  Future<Uint8List> deriveKey(
+  Future<void> deriveKey(
     Map<String, dynamic> publicKeyJwk,
     Map<String, dynamic> privateKeyJwk,
   ) async {
@@ -27,8 +27,7 @@ class Encryption {
       EllipticCurve.p256,
     );
 
-    Uint8List derivedBits = await ecdhPrivateKey.deriveBits(256, ecdhPublicKey);
-    return derivedBits;
+    derivedBits = await ecdhPrivateKey.deriveBits(256, ecdhPublicKey);
   }
 
   Future<String> encrypt(String message, Uint8List derivedBits) async {

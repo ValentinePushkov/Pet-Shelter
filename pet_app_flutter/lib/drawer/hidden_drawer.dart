@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
+import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/screens/adding_pet_screen.dart';
 import 'package:pet_app/screens/chat_rooms_screen.dart';
 import 'package:pet_app/screens/home_screen.dart';
 import 'package:pet_app/screens/my_ads_screen.dart';
 import 'package:pet_app/screens/profile_screen.dart';
 import 'package:pet_app/screens/qr_generator_screen.dart';
+import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
 
 class HiddenDrawer extends StatefulWidget {
   const HiddenDrawer({Key key}) : super(key: key);
@@ -17,8 +19,19 @@ class HiddenDrawer extends StatefulWidget {
 class _HiddenDrawerState extends State<HiddenDrawer> {
   List<ScreenHiddenDrawer> _pages = [];
 
+  setLoggedInUsername() async {
+    await SharedPrefHelper().getUsernameSharedPref().then((val) {
+      setState(() {
+        Constants.currentUser = val;
+      });
+    });
+  }
+
   @override
   void initState() {
+    setState(() {
+      setLoggedInUsername();
+    });
     super.initState();
 
     _pages = [

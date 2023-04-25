@@ -6,6 +6,8 @@ import 'package:pet_app/models/moderation_per.dart';
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
 import 'package:pet_app/utils/services/auth.dart';
 import 'package:pet_app/utils/services/database.dart';
+import 'package:pet_app/utils/services/encryption.dart';
+import 'package:pet_app/utils/services/local_database.dart';
 import 'package:pet_app/widgets/login_wrapper.dart';
 import 'package:provider/provider.dart';
 
@@ -56,8 +58,17 @@ class _MyAppState extends State<MyApp> {
           create: (context) => DatabaseMethods().getHomelessPetsForModeration(),
           initialData: [],
         ),
+        Provider<Encryption>(
+          create: (context) => Encryption(),
+        ),
         Provider<AuthMethods>(
           create: (context) => AuthMethods(),
+        ),
+        Provider<DatabaseMethods>(
+          create: (context) => DatabaseMethods(),
+        ),
+        Provider<LocalDatabaseProvider>(
+          create: (context) => LocalDatabaseProvider(),
         )
       ],
       child: MaterialApp(

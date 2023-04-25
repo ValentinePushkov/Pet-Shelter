@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 import 'package:pet_app/screens/active_pets_screen.dart';
-import 'package:pet_app/screens/adding_pet_screen.dart';
 import 'package:pet_app/screens/moderation_screen.dart';
 import 'package:pet_app/screens/profile_screen.dart';
 

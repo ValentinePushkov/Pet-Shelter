@@ -100,7 +100,9 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: Row(
                       children: [
                         CircleAvatar(
-                          backgroundImage: NetworkImage(avatar),
+                          backgroundImage: avatar != null
+                              ? NetworkImage(avatar)
+                              : AssetImage('images/cat.png'),
                           maxRadius: 28,
                         ),
                         SizedBox(

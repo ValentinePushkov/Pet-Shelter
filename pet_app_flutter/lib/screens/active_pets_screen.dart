@@ -6,7 +6,6 @@ import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/models/homeless_pet.dart';
 import 'package:pet_app/screens/adding_pet_screen.dart';
 import 'package:pet_app/screens/my_ad_details.dart';
-import 'package:pet_app/screens/pet_details.dart';
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
 import 'package:pet_app/utils/services/database.dart';
 import 'package:pet_app/widgets/pet_status_selector.dart';

@@ -74,21 +74,21 @@ class _ChatRoomsState extends State<ChatRooms> {
                   String ChatRoomID = snapshot.data.docs[index]["chatRoomID"];
                   String lastMessage = "";
                   int lastMessageTime = 0;
-                  if (snapshot.data.docs[index]["LastChat"] != null) {
-                    lastMessage = EncryptionDecryption.decryptMessage(
+                  //if (snapshot.data.docs[index]["LastChat"] != null) {
+                  /*lastMessage = EncryptionDecryption.decryptMessage(
                       encrypt.Encrypted.fromBase64(
                         snapshot.data.docs[index]["LastChat"]["Message"],
                       ),
                     );
                     lastMessageTime =
-                        snapshot.data.docs[index]["LastChat"]["Time"];
-                    return ChatRoomsItem(
-                      ChatRoomID,
-                      lastMessage,
-                      DateTime.fromMillisecondsSinceEpoch(lastMessageTime),
-                    );
-                  }
-                  return Container();
+                        snapshot.data.docs[index]["LastChat"]["Time"];*/
+                  return ChatRoomsItem(
+                    ChatRoomID,
+                    lastMessage,
+                    DateTime.fromMillisecondsSinceEpoch(lastMessageTime),
+                  );
+                  //}
+                  //return Container();
                 },
               )
             : Container();
@@ -134,7 +134,9 @@ class _ChatRoomsState extends State<ChatRooms> {
                       builder: (context, user, child) {
                         return (user != null)
                             ? CircleAvatar(
-                                backgroundImage: NetworkImage(user.avatar),
+                                backgroundImage: user.avatar != null
+                                    ? NetworkImage(user.avatar)
+                                    : AssetImage('images/cat.png'),
                                 maxRadius: 28,
                               )
                             : CircularProgressIndicator();

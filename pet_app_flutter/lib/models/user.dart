@@ -11,7 +11,6 @@ class UserClass {
     this.email = '',
     this.name = '',
     this.avatar = '',
-    String userID,
     this.role = '',
     this.publicKey = '',
   });
@@ -22,5 +21,6 @@ class UserClass {
         name: json['name'],
         avatar: json['picUrl'],
         role: json['role'],
+        publicKey: json['publicKey'],
       );
 }
