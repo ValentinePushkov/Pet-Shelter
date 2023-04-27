@@ -2,11 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/models/user.dart';
-import 'package:pet_app/screens/chat_screen.dart';
-import 'package:pet_app/utils/helpers/helper_functions.dart';
 import 'package:pet_app/utils/services/auth.dart';
 import 'package:pet_app/utils/services/database.dart';
-import 'package:pet_app/utils/services/encryption_decryption.dart';
+import 'package:pet_app/widgets/user_item.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -14,10 +12,10 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  AuthMethods authMethods = new AuthMethods();
-  DatabaseMethods databaseMethods = new DatabaseMethods();
+  AuthMethods authMethods = AuthMethods();
+  DatabaseMethods databaseMethods = DatabaseMethods();
   UserClass user;
-  TextEditingController SearchEditingController = new TextEditingController();
+  TextEditingController SearchEditingController = TextEditingController();
 
   QuerySnapshot UsersSnapshot;
   QuerySnapshot ChatRoomsSnapshot;
@@ -28,34 +26,10 @@ class _SearchScreenState extends State<SearchScreen> {
             shrinkWrap: true,
             itemCount: 1,
             itemBuilder: (context, index) {
-              return UserItem(
-                user.username,
-                user.avatar,
-              );
+              return UserItem(user.username, user.avatar, databaseMethods);
             },
           )
         : Container();
-  }
-
-  createChatRoom(String username) {
-    List<String> users = [username, Constants.currentUser];
-    String chatRoomID =
-        HelperFunctions.getChatRoomId(username, Constants.currentUser);
-    Map<String, dynamic> ChatRoomMap = {
-      'chatRoomID': chatRoomID,
-      'users': users
-    };
-    databaseMethods.createChatRoom(chatRoomID, ChatRoomMap);
-    databaseMethods.addLastChat(chatRoomID, {
-      "LastChat": {
-        "Message": EncryptionDecryption.encryptMessage(" "),
-        "Time": 0
-      }
-    });
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ChatScreen(chatRoomID)),
-    );
   }
 
   Widget userList() {
@@ -67,77 +41,13 @@ class _SearchScreenState extends State<SearchScreen> {
               return UserItem(
                 UsersSnapshot.docs[index]["username"],
                 UsersSnapshot.docs[index]["picUrl"],
+                databaseMethods,
               );
+              /*return UserItem(
+                UsersSnapshot.docs[index]["username"],
+                UsersSnapshot.docs[index]["picUrl"],
+              );*/
             },
-          )
-        : Container();
-  }
-
-  Widget UserItem(String username, String avatar) {
-    return username != Constants.currentUser
-        ? InkWell(
-            onTap: () {
-              String chatRoomID = HelperFunctions.getChatRoomId(
-                username,
-                Constants.currentUser,
-              );
-              databaseMethods.getCurrUserChatRoomsGet(chatRoomID).then((val) {
-                val.size > 0
-                    ? Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ChatScreen(chatRoomID),
-                        ),
-                      )
-                    : createChatRoom(username);
-              });
-            },
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundImage: avatar != null
-                              ? NetworkImage(avatar)
-                              : AssetImage('images/cat.png'),
-                          maxRadius: 28,
-                        ),
-                        SizedBox(
-                          width: 16,
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    username,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: MediaQuery.of(context)
-                                                  .platformBrightness ==
-                                              Brightness.light
-                                          ? Colors.black54
-                                          : Colors.white54,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              SizedBox(height: 6),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
           )
         : Container();
   }

@@ -10,6 +10,7 @@ import 'package:pet_app/screens/adding_pet_screen.dart';
 import 'package:pet_app/screens/pet_details.dart';
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
 import 'package:pet_app/utils/services/local_database.dart';
+import 'package:pet_app/widgets/pet_card.dart';
 import 'package:pet_app/widgets/pet_status_selector.dart';
 import 'package:pet_app/widgets/sex_selector.dart';
 import 'package:provider/provider.dart';
@@ -49,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
     String search;
     var homelessPets = Provider.of<List<HomelessPet>>(context);
     var sortedPets = _sortPets(homelessPets);
-    var searchPets = filterSearchResults(search, sortedPets);
+    //var searchPets = filterSearchResults(search, sortedPets);
 
     return SingleChildScrollView(
       child: SafeArea(
@@ -203,117 +204,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   ListView.builder(
-                    physics: ScrollPhysics(),
-                    itemCount: searchPets.length,
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      final homelessPet = searchPets[index];
-                      if (homelessPet != null) {}
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PetDetails(
-                                petDetailsMap: homelessPet,
-                              ),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          height: 230,
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(25),
-                                        boxShadow: shadowList,
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                            homelessPet.image,
-                                          ),
-                                        ),
-                                      ),
-                                      margin: EdgeInsets.only(top: 40),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.only(
-                                    top: 65,
-                                    bottom: 20,
-                                  ),
-                                  padding: EdgeInsets.all(15),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(20),
-                                      bottomRight: Radius.circular(20),
-                                    ),
-                                    boxShadow: shadowList,
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            homelessPet.name,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 21.0,
-                                              color: Colors.grey[600],
-                                            ),
-                                          ),
-                                          (homelessPet.sex == 'male')
-                                              ? Icon(
-                                                  Icons.male_rounded,
-                                                  color: Colors.grey[500],
-                                                )
-                                              : Icon(
-                                                  Icons.female_rounded,
-                                                  color: Colors.grey[500],
-                                                ),
-                                        ],
-                                      ),
-                                      Text(
-                                        homelessPet.species,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.grey[500],
-                                        ),
-                                      ),
-                                      Text(
-                                        homelessPet.petStatus == 'adopt'
-                                            ? 'Потерян'
-                                            : 'Бездомный',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey[400],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                      physics: ScrollPhysics(),
+                      itemCount: sortedPets.length,
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        final homelessPet = sortedPets[index];
+                        if (homelessPet != null) {}
+                        return PetCard(PetDetails(petDetailsMap: homelessPet),
+                            homelessPet);
+                      })
                 ],
               ),
             ),
