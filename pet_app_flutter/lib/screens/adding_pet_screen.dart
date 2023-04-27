@@ -215,101 +215,15 @@ class _AddingPetState extends State<AddingPet> {
                       SizedBox(
                         height: 20,
                       ),
-                      Column(
-                        children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              Constants.name,
-                              style: TextStyle(
-                                color: Constants.kPrimaryColor,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          InputWithIcon(
-                            controller: _nameController,
-                            icon: Icons.edit,
-                            hint: Constants.nameHint,
-                            validator: (String value) {
-                              return value.length > 20 ||
-                                      value.length < 2 ||
-                                      !RegExp(r'^[а-яА-Я][а-яА-Я ]*$')
-                                          .hasMatch(value)
-                                  ? 'Введите корректное название'
-                                  : null;
-                            },
-                          ),
-                        ],
-                      ),
+                      petName(),
                       SizedBox(
                         height: 20,
                       ),
-                      Column(
-                        children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              Constants.species,
-                              style: TextStyle(
-                                color: Constants.kPrimaryColor,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          InputWithIcon(
-                            controller: _speciesController,
-                            icon: Icons.edit,
-                            hint: Constants.speciesHint,
-                            validator: (value) {
-                              return value.length > 30 ||
-                                      value.length < 2 ||
-                                      !RegExp(r'^[а-яА-Я][а-яА-Я ]*$')
-                                          .hasMatch(value)
-                                  ? 'Введите корректное название'
-                                  : null;
-                            },
-                          ),
-                        ],
-                      ),
+                      petSpecies(),
                       SizedBox(
                         height: 20,
                       ),
-                      Column(
-                        children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              Constants.age,
-                              style: TextStyle(
-                                color: Constants.kPrimaryColor,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          InputWithIcon(
-                            controller: _ageController,
-                            icon: Icons.edit,
-                            hint: Constants.ageHint,
-                            validator: (value) {
-                              return value.length > 20 ||
-                                      value.length < 1 ||
-                                      value == null
-                                  ? 'Введите корректное название'
-                                  : null;
-                            },
-                          ),
-                        ],
-                      ),
+                      petAge(),
                       SizedBox(
                         height: 20,
                       ),
@@ -589,6 +503,100 @@ class _AddingPetState extends State<AddingPet> {
           )
         ],
       ),
+    );
+  }
+
+  Widget petName() {
+    return Column(
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            Constants.name,
+            style: TextStyle(
+              color: Constants.kPrimaryColor,
+              fontSize: 20,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        InputWithIcon(
+          controller: _nameController,
+          icon: Icons.edit,
+          hint: Constants.nameHint,
+          validator: (String value) {
+            return value.length > 20 ||
+                    value.length < 2 ||
+                    !RegExp(r'^[а-яА-Я][а-яА-Я ]*$').hasMatch(value)
+                ? 'Введите корректное название'
+                : null;
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget petSpecies() {
+    return Column(
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            Constants.species,
+            style: TextStyle(
+              color: Constants.kPrimaryColor,
+              fontSize: 20,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        InputWithIcon(
+          controller: _speciesController,
+          icon: Icons.edit,
+          hint: Constants.speciesHint,
+          validator: (value) {
+            return value.length > 30 ||
+                    value.length < 2 ||
+                    !RegExp(r'^[а-яА-Я][а-яА-Я ]*$').hasMatch(value)
+                ? 'Введите корректное название'
+                : null;
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget petAge() {
+    return Column(
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            Constants.age,
+            style: TextStyle(
+              color: Constants.kPrimaryColor,
+              fontSize: 20,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        InputWithIcon(
+          controller: _ageController,
+          icon: Icons.edit,
+          hint: Constants.ageHint,
+          validator: (value) {
+            return value.length > 20 || value.length < 1 || value == null
+                ? 'Введите корректное название'
+                : null;
+          },
+        ),
+      ],
     );
   }
 
