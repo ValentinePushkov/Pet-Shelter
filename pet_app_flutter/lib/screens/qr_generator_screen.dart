@@ -91,11 +91,9 @@ class _QrGeneratorState extends State<QrGenerator> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
         padding: EdgeInsets.symmetric(
-          vertical: screenSize.height * 0.05,
           horizontal: 15,
         ),
         child: SingleChildScrollView(
@@ -415,6 +413,9 @@ class _QrGeneratorState extends State<QrGenerator> {
                   press: () async {
                     uploadPetAd();
                   },
+                ),
+                SizedBox(
+                  height: 20,
                 ),
               ],
             ),

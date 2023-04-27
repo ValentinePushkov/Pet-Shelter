@@ -21,11 +21,11 @@ class DatabaseMethods {
     );
   }
 
-  updateUserInfo(String username, String name, String bio) async {
+  updateUserInfo(String username, String name) async {
     return await FirebaseFirestore.instance
         .collection('users')
         .doc(username)
-        .update({'name': name, 'bio': bio});
+        .update({'name': name});
   }
 
   updateUserProfilePic(String username, String url) async {

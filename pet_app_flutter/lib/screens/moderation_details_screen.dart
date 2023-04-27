@@ -48,7 +48,9 @@ class _ModerationDeatailsScreenState extends State<ModerationDeatailsScreen> {
       ),
       backgroundColor: Colors.green,
     );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    });
   }
 
   Future<void> deny() async {
@@ -64,7 +66,9 @@ class _ModerationDeatailsScreenState extends State<ModerationDeatailsScreen> {
       ),
       backgroundColor: Colors.red,
     );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    });
   }
 
   @override
@@ -109,9 +113,14 @@ class _ModerationDeatailsScreenState extends State<ModerationDeatailsScreen> {
                                       return (user != null)
                                           ? ListTile(
                                               leading: CircleAvatar(
-                                                backgroundImage: NetworkImage(
-                                                  user.avatar,
-                                                ),
+                                                backgroundImage:
+                                                    user.avatar != null
+                                                        ? NetworkImage(
+                                                            user.avatar,
+                                                          )
+                                                        : AssetImage(
+                                                            'images/cat.png',
+                                                          ),
                                               ),
                                               title: Text(
                                                 widget.petDetailsMap.owner,
@@ -303,7 +312,7 @@ class _ModerationDeatailsScreenState extends State<ModerationDeatailsScreen> {
                         child: Center(
                           child: PrimaryButton(
                             buttonText: "Принять",
-                            press: accept,
+                            press: () => accept(),
                           ),
                         ),
                       ),
@@ -318,7 +327,7 @@ class _ModerationDeatailsScreenState extends State<ModerationDeatailsScreen> {
                         child: Center(
                           child: PrimaryButton(
                             buttonText: "Отклонить",
-                            press: deny,
+                            press: () => deny(),
                           ),
                         ),
                       ),

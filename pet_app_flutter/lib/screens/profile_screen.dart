@@ -19,7 +19,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final authMethods = AuthMethods();
   final databaseMethods = DatabaseMethods();
   final nameEditingController = TextEditingController();
-  final bioEditingController = TextEditingController();
   bool isNameValid = true;
   bool isBioValid = true;
 
@@ -51,17 +50,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               nameEditingController.text.trim().isEmpty
           ? isNameValid = false
           : isNameValid = true;
-      bioEditingController.text.trim().length > 30 ||
-              bioEditingController.text.trim().isEmpty
-          ? isBioValid = false
-          : isBioValid = true;
     });
 
     if (isNameValid && isBioValid) {
       databaseMethods.updateUserInfo(
         Constants.currentUser,
         nameEditingController.text,
-        bioEditingController.text,
       );
       SnackBar snackBar = SnackBar(
         duration: Duration(seconds: 2),
@@ -226,12 +220,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             "Enter name",
                             nameEditingController,
                           ),
-                          ProfileTextField(
-                            context,
-                            "Описание",
-                            "Enter bio",
-                            bioEditingController,
-                          ),
                           Padding(
                             padding: EdgeInsets.symmetric(
                               horizontal: screenSize.width * 0.1,
@@ -373,9 +361,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         decoration: InputDecoration(
           prefixIcon: Icon(
-            labelText == 'Bio'
-                ? Icons.info_outline_rounded
-                : Icons.account_circle_rounded,
+            Icons.account_circle_rounded,
             color: MediaQuery.of(context).platformBrightness == Brightness.light
                 ? Constants.kPrimaryColor
                 : Colors.grey,
@@ -399,13 +385,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: placeholder,
-          errorText: labelText == 'Name'
-              ? (isNameValid ? null : "Name too short")
-              : (isBioValid
-                  ? null
-                  : bioEditingController.text.trim().isEmpty
-                      ? "Bio too short"
-                      : "Bio too long"),
+          errorText: isNameValid ? null : "Name too short",
           hintStyle: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.normal,

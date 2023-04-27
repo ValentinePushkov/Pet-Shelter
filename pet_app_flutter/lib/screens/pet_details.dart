@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pet_app/configuration/configuration.dart';
+import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/models/homeless_pet.dart';
 import 'package:pet_app/models/user.dart';
+import 'package:pet_app/screens/chat_screen.dart';
+import 'package:pet_app/utils/helpers/helper_functions.dart';
 import 'package:pet_app/utils/services/database.dart';
+import 'package:pet_app/utils/services/encryption_decryption.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -30,6 +34,46 @@ class _PetDetailsState extends State<PetDetails> {
       });
     });
     super.initState();
+  }
+
+  createChatRoom(String username) {
+    List<String> users = [username, Constants.currentUser];
+    String chatRoomID =
+        HelperFunctions.getChatRoomId(username, Constants.currentUser);
+    Map<String, dynamic> ChatRoomMap = {
+      'chatRoomID': chatRoomID,
+      'users': users
+    };
+
+    databaseMethods.createChatRoom(chatRoomID, ChatRoomMap);
+    /*databaseMethods.addLastChat(chatRoomID, {
+      "LastChat": {
+        "Message": EncryptionDecryption.encryptMessage(" "),
+        "Time": 0
+      }
+    });*/
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ChatScreen(chatRoomID)),
+    );
+  }
+
+  void startChat() {
+    String chatRoomID = HelperFunctions.getChatRoomId(
+      user.username,
+      Constants.currentUser,
+    );
+    databaseMethods.getCurrUserChatRoomsGet(chatRoomID).then((val) {
+      val.size > 0
+          ? Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChatScreen(chatRoomID),
+              ),
+            )
+          : createChatRoom(user.username);
+    });
   }
 
   @override
@@ -74,9 +118,14 @@ class _PetDetailsState extends State<PetDetails> {
                                       return (user != null)
                                           ? ListTile(
                                               leading: CircleAvatar(
-                                                backgroundImage: NetworkImage(
-                                                  user.avatar,
-                                                ),
+                                                backgroundImage:
+                                                    user.avatar != null
+                                                        ? NetworkImage(
+                                                            user.avatar,
+                                                          )
+                                                        : AssetImage(
+                                                            'images/cat.png',
+                                                          ),
                                               ),
                                               title: Text(
                                                 widget.petDetailsMap.owner,
@@ -292,21 +341,24 @@ class _PetDetailsState extends State<PetDetails> {
                     ),
                     SizedBox(width: 30),
                     Expanded(
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: primaryColor,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: shadowList,
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Adoption',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                      child: GestureDetector(
+                        onTap: () => startChat(),
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            color: primaryColor,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: shadowList,
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Cообщение',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),

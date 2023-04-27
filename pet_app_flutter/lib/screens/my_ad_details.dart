@@ -43,7 +43,9 @@ class _MyAdDetailsState extends State<MyAdDetails> {
       ),
       backgroundColor: Colors.red,
     );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    });
   }
 
   @override
