@@ -174,7 +174,7 @@ class _AddingPetState extends State<AddingPet> {
                                 image: DecorationImage(
                                   fit: BoxFit.cover,
                                   image: imageFile == null
-                                      ? AssetImage("images/cat.png")
+                                      ? AssetImage(Constants.catPng)
                                       : FileImage(imageFile),
                                 ),
                               ),
@@ -220,7 +220,7 @@ class _AddingPetState extends State<AddingPet> {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "Название питомца:",
+                              Constants.name,
                               style: TextStyle(
                                 color: Constants.kPrimaryColor,
                                 fontSize: 20,
@@ -233,7 +233,7 @@ class _AddingPetState extends State<AddingPet> {
                           InputWithIcon(
                             controller: _nameController,
                             icon: Icons.edit,
-                            hint: "Название",
+                            hint: Constants.nameHint,
                             validator: (String value) {
                               return value.length > 20 ||
                                       value.length < 2 ||
@@ -253,7 +253,7 @@ class _AddingPetState extends State<AddingPet> {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "Порода питомца:",
+                              Constants.species,
                               style: TextStyle(
                                 color: Constants.kPrimaryColor,
                                 fontSize: 20,
@@ -266,7 +266,7 @@ class _AddingPetState extends State<AddingPet> {
                           InputWithIcon(
                             controller: _speciesController,
                             icon: Icons.edit,
-                            hint: "Порода",
+                            hint: Constants.speciesHint,
                             validator: (value) {
                               return value.length > 30 ||
                                       value.length < 2 ||
@@ -286,7 +286,7 @@ class _AddingPetState extends State<AddingPet> {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "Возраст питомца:",
+                              Constants.age,
                               style: TextStyle(
                                 color: Constants.kPrimaryColor,
                                 fontSize: 20,
@@ -299,7 +299,7 @@ class _AddingPetState extends State<AddingPet> {
                           InputWithIcon(
                             controller: _ageController,
                             icon: Icons.edit,
-                            hint: "Возраст",
+                            hint: Constants.ageHint,
                             validator: (value) {
                               return value.length > 20 ||
                                       value.length < 1 ||
@@ -494,7 +494,7 @@ class _AddingPetState extends State<AddingPet> {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "Описание:",
+                              Constants.description,
                               style: TextStyle(
                                 color: Constants.kPrimaryColor,
                                 fontSize: 20,
@@ -507,7 +507,7 @@ class _AddingPetState extends State<AddingPet> {
                           InputWithIcon(
                             controller: _descriptionController,
                             icon: Icons.edit,
-                            hint: "Описание",
+                            hint: Constants.descriptionHint,
                             validator: (value) {
                               return value.length > 300 ||
                                       value.length < 10 ||
@@ -547,7 +547,7 @@ class _AddingPetState extends State<AddingPet> {
       child: Column(
         children: [
           Text(
-            "Выберите изображение",
+            Constants.chooseImage,
             style: TextStyle(fontSize: 20.0, color: Constants.kPrimaryColor),
           ),
           SizedBox(
@@ -565,7 +565,7 @@ class _AddingPetState extends State<AddingPet> {
                   pickImage(ImageSource.camera);
                 },
                 label: Text(
-                  "Камера",
+                  Constants.camera,
                   style: TextStyle(color: Constants.kPrimaryColor),
                 ),
               ),

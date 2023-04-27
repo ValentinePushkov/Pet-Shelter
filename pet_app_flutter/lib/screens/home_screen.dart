@@ -1,5 +1,7 @@
 // ignore_for_file: require_trailing_commas
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:pet_app/configuration/configuration.dart';
 import 'package:pet_app/constants/constants.dart';
@@ -27,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Gender _gender;
   PetStatus _petStatus;
   LocalDatabaseProvider localDatabaseProvider = LocalDatabaseProvider();
+  TextEditingController textEditingController = TextEditingController();
 
   setPrivateKey() async {
     Constants.privateKey = await localDatabaseProvider
@@ -43,8 +46,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String search;
     var homelessPets = Provider.of<List<HomelessPet>>(context);
     var sortedPets = _sortPets(homelessPets);
+    var searchPets = filterSearchResults(search, sortedPets);
 
     return SingleChildScrollView(
       child: SafeArea(
@@ -60,6 +65,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 15.0),
                     child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          search = value;
+                        });
+                      },
+                      controller: textEditingController,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.transparent),
@@ -124,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       });
                                     },
                                     child: Text(
-                                      'Восстановить фильтры',
+                                      'Очистить фильтры',
                                       style: TextStyle(
                                           color: Constants.kPrimaryColor),
                                     ),
@@ -193,11 +204,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   ListView.builder(
                     physics: ScrollPhysics(),
-                    itemCount: sortedPets.length,
+                    itemCount: searchPets.length,
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      final homelessPet = sortedPets[index];
+                      final homelessPet = searchPets[index];
                       if (homelessPet != null) {}
                       return GestureDetector(
                         onTap: () {
@@ -326,5 +337,18 @@ class _HomeScreenState extends State<HomeScreen> {
           sortedPets.where((pet) => pet.petStatus == _petStatus.name).toList();
     }
     return sortedPets;
+  }
+
+  List<HomelessPet> filterSearchResults(String query, List<HomelessPet> pets) {
+    var searchPets = pets;
+    if (query.isEmpty || query == null) {
+      return searchPets;
+    } else {
+      searchPets = searchPets
+          .where(
+              (item) => item.name.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+      return searchPets;
+    }
   }
 }

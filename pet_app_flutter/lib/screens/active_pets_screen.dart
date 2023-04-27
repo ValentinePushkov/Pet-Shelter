@@ -75,12 +75,12 @@ class _ActivePetsScreenState extends State<ActivePetsScreen> {
                         ),
                         prefixIcon: Icon(
                           Icons.search,
-                          color: Colors.grey[400],
+                          color: Constants.grey400,
                         ),
-                        hintText: 'Поиск питомца',
+                        hintText: Constants.searchPet,
                         hintStyle: TextStyle(
                           letterSpacing: 1,
-                          color: Colors.grey[400],
+                          color: Constants.grey400,
                         ),
                         filled: true,
                         fillColor: Colors.white,
@@ -112,7 +112,7 @@ class _ActivePetsScreenState extends State<ActivePetsScreen> {
                                       setState(() {});
                                     },
                                     child: Text(
-                                      'Применить',
+                                      Constants.apply,
                                       style: TextStyle(
                                           color: Constants.kPrimaryColor),
                                     ),
@@ -128,7 +128,7 @@ class _ActivePetsScreenState extends State<ActivePetsScreen> {
                                       });
                                     },
                                     child: Text(
-                                      'Восстановить фильтры',
+                                      Constants.resetFilters,
                                       style: TextStyle(
                                           color: Constants.kPrimaryColor),
                                     ),
@@ -267,17 +267,17 @@ class _ActivePetsScreenState extends State<ActivePetsScreen> {
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 21.0,
-                                              color: Colors.grey[600],
+                                              color: Constants.grey600,
                                             ),
                                           ),
                                           (homelessPet.sex == 'male')
                                               ? Icon(
                                                   Icons.male_rounded,
-                                                  color: Colors.grey[500],
+                                                  color: Constants.grey500,
                                                 )
                                               : Icon(
                                                   Icons.female_rounded,
-                                                  color: Colors.grey[500],
+                                                  color: Constants.grey500,
                                                 ),
                                         ],
                                       ),
@@ -289,12 +289,12 @@ class _ActivePetsScreenState extends State<ActivePetsScreen> {
                                         ),
                                       ),
                                       Text(
-                                        homelessPet.petStatus == 'adopt'
-                                            ? 'Потерян'
-                                            : 'Бездомный',
+                                        homelessPet.petStatus == 'lost'
+                                            ? Constants.lost
+                                            : Constants.adopt,
                                         style: TextStyle(
                                           fontSize: 12,
-                                          color: Colors.grey[400],
+                                          color: Constants.grey400,
                                         ),
                                       ),
                                     ],
