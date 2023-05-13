@@ -5,6 +5,8 @@ import 'package:pet_app/screens/adding_pet_screen.dart';
 import 'package:pet_app/screens/chat_rooms_screen.dart';
 import 'package:pet_app/screens/home_screen.dart';
 import 'package:pet_app/screens/my_ads_screen.dart';
+import 'package:pet_app/screens/nfc_reader_screen.dart';
+import 'package:pet_app/screens/nfc_screen.dart';
 import 'package:pet_app/screens/profile_screen.dart';
 import 'package:pet_app/screens/qr_generator_screen.dart';
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
@@ -86,6 +88,19 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
           colorLineSelected: Colors.white,
         ),
         QrGenerator(),
+      ),
+      ScreenHiddenDrawer(
+        ItemHiddenMenu(
+          name: "NFC сканер",
+          baseStyle: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+          selectedStyle: TextStyle(),
+          colorLineSelected: Colors.white,
+        ),
+        NFC(),
       ),
       ScreenHiddenDrawer(
         ItemHiddenMenu(

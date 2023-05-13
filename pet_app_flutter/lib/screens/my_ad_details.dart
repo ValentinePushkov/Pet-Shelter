@@ -90,9 +90,14 @@ class _MyAdDetailsState extends State<MyAdDetails> {
                                       return (user != null)
                                           ? ListTile(
                                               leading: CircleAvatar(
-                                                backgroundImage: NetworkImage(
-                                                  user.avatar,
-                                                ),
+                                                backgroundImage:
+                                                    user.avatar != null
+                                                        ? NetworkImage(
+                                                            user.avatar,
+                                                          )
+                                                        : AssetImage(
+                                                            'images/cat.png',
+                                                          ),
                                               ),
                                               title: Text(
                                                 widget.petDetailsMap.owner,

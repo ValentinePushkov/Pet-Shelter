@@ -385,7 +385,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: placeholder,
-          errorText: isNameValid ? null : "Name too short",
+          errorText: isNameValid ? null : "Имя слишком короткое",
           hintStyle: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.normal,

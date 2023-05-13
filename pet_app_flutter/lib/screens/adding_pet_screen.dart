@@ -244,11 +244,11 @@ class _AddingPetState extends State<AddingPet> {
                           ),
                           Row(
                             children: [
-                              sexWidget("male", Gender.male),
+                              sexWidget("Самец", Gender.male),
                               SizedBox(
                                 width: 20,
                               ),
-                              sexWidget("female", Gender.female)
+                              sexWidget("Самка", Gender.female)
                             ],
                           ),
                         ],
@@ -300,7 +300,7 @@ class _AddingPetState extends State<AddingPet> {
                               return value.length > 20 ||
                                       value.length < 2 ||
                                       !RegExp(r'^[а-яА-Я]*$').hasMatch(value)
-                                  ? 'Введите корректное название'
+                                  ? 'Название города должно быть от 2 до 20 символов.'
                                   : null;
                             },
                           ),
@@ -333,7 +333,7 @@ class _AddingPetState extends State<AddingPet> {
                                       value.length < 2 ||
                                       !RegExp(r'^[а-яА-Я][а-яА-Я ]*$')
                                           .hasMatch(value)
-                                  ? 'Введите корректное название'
+                                  ? 'Название улицы должно быть от 2 до 20 символов.'
                                   : null;
                             },
                           ),
@@ -365,7 +365,7 @@ class _AddingPetState extends State<AddingPet> {
                               return value.length > 20 ||
                                       value.length < 1 ||
                                       value == null
-                                  ? 'Введите корректное название'
+                                  ? 'Номер дома должнен быть от 2 до 20 символов. Только цифры.'
                                   : null;
                             },
                           ),
@@ -427,7 +427,7 @@ class _AddingPetState extends State<AddingPet> {
                                       value.length < 10 ||
                                       !RegExp(r'^[а-яА-Я][а-яА-Я ,.:-]*$')
                                           .hasMatch(value)
-                                  ? 'Введите корректное название'
+                                  ? 'Описание должно быть от 10 до 300 символов.'
                                   : null;
                             },
                           ),
@@ -530,7 +530,7 @@ class _AddingPetState extends State<AddingPet> {
             return value.length > 20 ||
                     value.length < 2 ||
                     !RegExp(r'^[а-яА-Я][а-яА-Я ]*$').hasMatch(value)
-                ? 'Введите корректное название'
+                ? 'Название питомца от 2 до 20 символов. Только буквы.'
                 : null;
           },
         ),
@@ -562,7 +562,7 @@ class _AddingPetState extends State<AddingPet> {
             return value.length > 30 ||
                     value.length < 2 ||
                     !RegExp(r'^[а-яА-Я][а-яА-Я ]*$').hasMatch(value)
-                ? 'Введите корректное название'
+                ? 'Порода пиитомца от 2 до 30 символов. Только буквы.'
                 : null;
           },
         ),
@@ -592,7 +592,7 @@ class _AddingPetState extends State<AddingPet> {
           hint: Constants.ageHint,
           validator: (value) {
             return value.length > 20 || value.length < 1 || value == null
-                ? 'Введите корректное название'
+                ? 'Возраст пиитомца от 1 до 20 символов. Только цифры.'
                 : null;
           },
         ),
