@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pet_app/configuration/configuration.dart';
 import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/models/homeless_pet.dart';
-import 'package:pet_app/models/moderation_per.dart';
+import 'package:pet_app/models/moderation_pet.dart';
 import 'package:pet_app/screens/adding_pet_screen.dart';
 import 'package:pet_app/screens/moderation_details_screen.dart';
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';

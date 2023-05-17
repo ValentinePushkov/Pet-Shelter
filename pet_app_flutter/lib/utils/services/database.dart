@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/models/homeless_pet.dart';
-import 'package:pet_app/models/moderation_per.dart';
+import 'package:pet_app/models/moderation_pet.dart';
+import 'package:pet_app/models/store.dart';
 import 'package:pet_app/models/user.dart';
 
 class DatabaseMethods {
@@ -68,6 +69,10 @@ class DatabaseMethods {
 
   uploadPetInfo(Map<String, dynamic> petInfo) {
     FirebaseFirestore.instance.collection("homeless_pets").doc().set(petInfo);
+  }
+
+  uploadStoreInfo(Map<String, dynamic> storeInfo) {
+    FirebaseFirestore.instance.collection("stores").doc().set(storeInfo);
   }
 
   createChatRoom(String chatRoomID, Map<String, dynamic> chatRoomMap) {
@@ -161,6 +166,12 @@ class DatabaseMethods {
                 .toList(),
           );
 
+  Stream<List<Store>> getStores() =>
+      FirebaseFirestore.instance.collection("stores").snapshots().map(
+            (snapshot) =>
+                snapshot.docs.map((doc) => Store.fromJson(doc.data())).toList(),
+          );
+
   Stream<UserClass> getUser(String username) => FirebaseFirestore.instance
       .collection("users")
       .where('username', isEqualTo: username)
@@ -169,6 +180,19 @@ class DatabaseMethods {
         (snapshot) =>
             snapshot.docs.map((doc) => UserClass.fromJson(doc.data())).first,
       );
+
+  Future<HomelessPet> getPetByTagID(String id) async {
+    var homelessPet = await FirebaseFirestore.instance
+        .collection("homeless_pets")
+        .where('nfcTag', isEqualTo: id)
+        .get()
+        .then(
+          (value) => value.docs.map((e) => HomelessPet.fromJson(e.data())),
+        );
+    return homelessPet != null && homelessPet.length > 0
+        ? homelessPet.first
+        : null;
+  }
 
   Stream<List<HomelessPet>> getHomelessPetsByUsername() =>
       FirebaseFirestore.instance

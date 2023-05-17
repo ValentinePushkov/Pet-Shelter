@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/drawer/hidden_drawer.dart';
@@ -10,7 +9,6 @@ import 'package:pet_app/utils/helpers/helper_functions.dart';
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
 import 'package:pet_app/utils/services/auth.dart';
 import 'package:pet_app/utils/services/database.dart';
-import 'package:pet_app/utils/services/encryption_decryption.dart';
 import 'package:pet_app/widgets/alert_dialog.dart';
 import 'package:provider/provider.dart';
 

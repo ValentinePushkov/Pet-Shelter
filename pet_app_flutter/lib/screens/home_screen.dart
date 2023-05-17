@@ -1,7 +1,5 @@
 // ignore_for_file: require_trailing_commas
 
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:pet_app/configuration/configuration.dart';
 import 'package:pet_app/constants/constants.dart';

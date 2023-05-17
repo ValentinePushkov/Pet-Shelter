@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 import 'package:pet_app/screens/active_pets_screen.dart';
+import 'package:pet_app/screens/adding_store_screen.dart';
 import 'package:pet_app/screens/moderation_screen.dart';
 import 'package:pet_app/screens/profile_screen.dart';
 
@@ -34,7 +35,7 @@ class _AdminHiddenDrawerState extends State<AdminHiddenDrawer> {
       ),
       ScreenHiddenDrawer(
         ItemHiddenMenu(
-          name: "Активыне\nобъявления",
+          name: "Активные\nобъявления",
           baseStyle: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -44,6 +45,19 @@ class _AdminHiddenDrawerState extends State<AdminHiddenDrawer> {
           colorLineSelected: Colors.white,
         ),
         ActivePetsScreen(),
+      ),
+      ScreenHiddenDrawer(
+        ItemHiddenMenu(
+          name: "Добавить\nзоомагазин",
+          baseStyle: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+          selectedStyle: TextStyle(),
+          colorLineSelected: Colors.white,
+        ),
+        AddingStore(),
       ),
       ScreenHiddenDrawer(
         ItemHiddenMenu(

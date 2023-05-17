@@ -14,6 +14,7 @@ class HomelessPet {
   final String owner;
   final String status;
   final String petStatus;
+  final String nfcTag;
 
   HomelessPet({
     this.petID,
@@ -29,6 +30,7 @@ class HomelessPet {
     this.owner,
     this.status,
     this.petStatus,
+    this.nfcTag,
   });
 
   static HomelessPet fromJson(Map<String, dynamic> json) => HomelessPet(
@@ -45,5 +47,6 @@ class HomelessPet {
         owner: json['owner'],
         status: json['status'],
         petStatus: json['petStatus'],
+        nfcTag: json['nfcTag'],
       );
 }

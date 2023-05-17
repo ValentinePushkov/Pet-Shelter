@@ -2,7 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/models/homeless_pet.dart';
-import 'package:pet_app/models/moderation_per.dart';
+import 'package:pet_app/models/moderation_pet.dart';
+import 'package:pet_app/models/store.dart';
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
 import 'package:pet_app/utils/services/auth.dart';
 import 'package:pet_app/utils/services/database.dart';
@@ -56,6 +57,10 @@ class _MyAppState extends State<MyApp> {
         ),
         StreamProvider<List<ModerationPet>>(
           create: (context) => DatabaseMethods().getHomelessPetsForModeration(),
+          initialData: [],
+        ),
+        StreamProvider<List<Store>>(
+          create: (context) => DatabaseMethods().getStores(),
           initialData: [],
         ),
         Provider<Encryption>(

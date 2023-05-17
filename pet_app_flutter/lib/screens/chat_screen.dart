@@ -2,13 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/models/user.dart';
 import 'package:pet_app/utils/services/database.dart';
 import 'package:pet_app/utils/services/encryption.dart';
-import 'package:pet_app/utils/services/encryption_decryption.dart';
 import 'package:provider/provider.dart';
 
 class ChatScreen extends StatefulWidget {

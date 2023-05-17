@@ -1,7 +1,7 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_app/configuration/configuration.dart';
-import 'package:pet_app/models/moderation_per.dart';
+import 'package:pet_app/models/moderation_pet.dart';
 import 'package:pet_app/models/user.dart';
 import 'package:pet_app/screens/splash_screen.dart';
 import 'package:pet_app/utils/services/database.dart';
