@@ -35,7 +35,6 @@ class ModerationPet {
         category: json['category'],
         sex: json['sex'],
         species: json['species'],
-        age: double.parse(json['age'].toString()),
         location: json['location'],
         description: json['description'],
         date: json['date'],
