@@ -11,14 +11,14 @@ class Constants {
   static final camera = 'Камера';
   static final chooseImage = 'Выберите изображение';
   static final catPng = 'images/cat.png';
-  static final name = 'Название питомца';
+  static final name = 'Название питомца*:';
   static final nameHint = 'Название';
-  static final species = 'Порода питомца:';
+  static final species = 'Порода питомца*:';
   static final speciesHint = 'Порода';
   static final age = 'Возраст питомца:';
   static final ageHint = 'Возраст';
   static final petCategory = 'Камера';
-  static final description = 'Описание:';
+  static final description = 'Описание*:';
   static final descriptionHint = 'Описание';
 
   static final grey400 = Colors.grey[400];

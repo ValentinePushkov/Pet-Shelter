@@ -164,19 +164,6 @@ class _MyAdDetailsState extends State<MyAdDetails> {
                       color: Colors.white,
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Sharing Pet File"),
-                        ),
-                      );
-                    },
-                    icon: Icon(
-                      Icons.ios_share,
-                      color: Colors.white,
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -225,14 +212,6 @@ class _MyAdDetailsState extends State<MyAdDetails> {
                       children: [
                         Text(
                           widget.petDetailsMap.species,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey[500],
-                            letterSpacing: 0.7,
-                          ),
-                        ),
-                        Text(
-                          widget.petDetailsMap.age.toString() + ' лет',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.grey[500],

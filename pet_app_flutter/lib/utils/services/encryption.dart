@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:webcrypto/webcrypto.dart';
@@ -34,7 +35,7 @@ class Encryption {
     AesGcmSecretKey aesGcmSecretKey =
         await AesGcmSecretKey.importRawKey(derivedBits);
 
-    List<int> list = message.codeUnits;
+    List<int> list = Utf8Encoder().convert(message);
     Uint8List data = Uint8List.fromList(list);
 
     Uint8List encryptedBytes = await aesGcmSecretKey.encryptBytes(data, iv);
@@ -52,7 +53,7 @@ class Encryption {
 
     Uint8List decryptdBytes = await aesGcmSecretKey.decryptBytes(message, iv);
 
-    String decryptdString = String.fromCharCodes(decryptdBytes);
+    String decryptdString = Utf8Decoder().convert(decryptdBytes);
     print('decryptdString $decryptdString');
     return decryptdString;
   }

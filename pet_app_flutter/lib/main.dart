@@ -33,18 +33,7 @@ class _MyAppState extends State<MyApp> {
   bool isLoggedIn;
   @override
   void initState() {
-    setState(() {
-      getLoggedInState();
-    });
     super.initState();
-  }
-
-  getLoggedInState() async {
-    await SharedPrefHelper().getUserLoggedInSharedPref().then((val) {
-      setState(() {
-        isLoggedIn = val;
-      });
-    });
   }
 
   @override

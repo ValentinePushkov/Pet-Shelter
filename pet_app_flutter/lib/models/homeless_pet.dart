@@ -6,7 +6,6 @@ class HomelessPet {
   final String category;
   final String sex;
   final String species;
-  final double age;
   final String location;
   final String description;
   final String date;
@@ -22,7 +21,6 @@ class HomelessPet {
     this.category,
     this.sex,
     this.species,
-    this.age,
     this.location,
     this.description,
     this.date,
@@ -39,7 +37,7 @@ class HomelessPet {
         category: json['category'],
         sex: json['sex'],
         species: json['species'],
-        age: double.parse(json['age'].toString()),
+        nfcTag: json['nfcTag'],
         location: json['location'],
         description: json['description'],
         date: json['date'],
@@ -47,6 +45,5 @@ class HomelessPet {
         owner: json['owner'],
         status: json['status'],
         petStatus: json['petStatus'],
-        nfcTag: json['nfcTag'],
       );
 }

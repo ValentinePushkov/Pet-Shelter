@@ -15,11 +15,13 @@ class DatabaseMethods {
         .collection('users')
         .where('username', isEqualTo: username)
         .get();
-    return UserClass(
-      username: snapshot.docs[0].data()['username'],
-      avatar: snapshot.docs[0].data()['picUrl'],
-      publicKey: snapshot.docs[0].data()['publicKey'],
-    );
+    return snapshot == null || snapshot.size == 0
+        ? null
+        : UserClass(
+            username: snapshot.docs[0].data()['username'],
+            avatar: snapshot.docs[0].data()['picUrl'],
+            publicKey: snapshot.docs[0].data()['publicKey'],
+          );
   }
 
   updateUserInfo(String username, String name) async {

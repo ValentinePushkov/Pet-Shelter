@@ -150,14 +150,6 @@ class _MyAdsState extends State<MyAds> {
                                                 color: Colors.grey[500],
                                               ),
                                             ),
-                                            Text(
-                                              homelessPet.age.toString() +
-                                                  ' лет',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.grey[400],
-                                              ),
-                                            ),
                                           ],
                                         ),
                                       ),

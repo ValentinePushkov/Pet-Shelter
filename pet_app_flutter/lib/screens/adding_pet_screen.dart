@@ -28,7 +28,7 @@ class _AddingPetState extends State<AddingPet> {
   String _pickedPetSatus = 'adopt';
   TextEditingController _nameController;
   TextEditingController _speciesController;
-  TextEditingController _ageController;
+  TextEditingController _nfcTagController;
   TextEditingController _cityController;
   TextEditingController _streetController;
   TextEditingController _houseController;
@@ -42,7 +42,7 @@ class _AddingPetState extends State<AddingPet> {
   void initState() {
     _nameController = TextEditingController(text: "");
     _speciesController = TextEditingController(text: "");
-    _ageController = TextEditingController(text: "");
+    _nfcTagController = TextEditingController(text: "");
     _cityController = TextEditingController(text: "");
     _streetController = TextEditingController(text: "");
     _houseController = TextEditingController(text: "");
@@ -75,39 +75,61 @@ class _AddingPetState extends State<AddingPet> {
 
   void uploadPetAd() async {
     if (formKey.currentState.validate()) {
-      setState(() {
-        isLoading = true;
-      });
-      String url = await uploadImage();
-      final DateTime dateToday = new DateTime.now();
-      final String date = dateToday.toString().substring(0, 10);
-      Map<String, dynamic> petInfoMap = {
-        'name': _nameController.text,
-        'species': _speciesController.text,
-        'age': double.parse(_ageController.text),
-        'image': url,
-        'category': category,
-        'sex': pickedGender,
-        'petStatus': _pickedPetSatus,
-        'owner': Constants.currentUser,
-        'location':
-            '${_cityController.text}, ${_streetController.text} ${_houseController.text}',
-        'status': 'moderation',
-        'date': date,
-        'description': _descriptionController.text,
-      };
-      databaseMethods.uploadPetInfo(petInfoMap);
-      SnackBar snackBar = SnackBar(
-        content: Text(
-          'Объявление отправлено на модерацию.',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.green,
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      setState(() {
-        isLoading = false;
-      });
+      if (imageFile == null) {
+        SnackBar snackBar = SnackBar(
+          content: Text(
+            'Добавьте изображение.',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.red,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      } else {
+        if (category == null) {
+          SnackBar snackBar = SnackBar(
+            content: Text(
+              'Выберите категорию.',
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.red,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else {
+          setState(() {
+            isLoading = true;
+          });
+          String url = await uploadImage();
+          final DateTime dateToday = new DateTime.now();
+          final String date = dateToday.toString().substring(0, 10);
+          Map<String, dynamic> petInfoMap = {
+            'name': _nameController.text,
+            'species': _speciesController.text,
+            'nfcTag': _nfcTagController.text,
+            'image': url,
+            'category': category,
+            'sex': pickedGender,
+            'petStatus': _pickedPetSatus,
+            'owner': Constants.currentUser,
+            'location':
+                '${_cityController.text}, ${_streetController.text} ${_houseController.text}',
+            'status': 'moderation',
+            'date': date,
+            'description': _descriptionController.text,
+          };
+          databaseMethods.uploadPetInfo(petInfoMap);
+          SnackBar snackBar = SnackBar(
+            content: Text(
+              'Объявление отправлено на модерацию.',
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.green,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          setState(() {
+            isLoading = false;
+          });
+        }
+      }
     } else {
       setState(() {
         isLoading = false;
@@ -124,7 +146,7 @@ class _AddingPetState extends State<AddingPet> {
   }
 
   void clearControllers() {
-    _ageController.clear();
+    _nfcTagController.clear();
     _cityController.clear();
     _descriptionController.clear();
     _nameController.clear();
@@ -223,7 +245,7 @@ class _AddingPetState extends State<AddingPet> {
                       SizedBox(
                         height: 20,
                       ),
-                      petAge(),
+                      petNfcTag(),
                       SizedBox(
                         height: 20,
                       ),
@@ -282,7 +304,7 @@ class _AddingPetState extends State<AddingPet> {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "Город:",
+                              "Город*:",
                               style: TextStyle(
                                 color: Constants.kPrimaryColor,
                                 fontSize: 20,
@@ -314,7 +336,7 @@ class _AddingPetState extends State<AddingPet> {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "Улица:",
+                              "Улица*:",
                               style: TextStyle(
                                 color: Constants.kPrimaryColor,
                                 fontSize: 20,
@@ -347,7 +369,7 @@ class _AddingPetState extends State<AddingPet> {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "Номер дома:",
+                              "Номер дома*:",
                               style: TextStyle(
                                 color: Constants.kPrimaryColor,
                                 fontSize: 20,
@@ -562,7 +584,7 @@ class _AddingPetState extends State<AddingPet> {
             return value.length > 30 ||
                     value.length < 2 ||
                     !RegExp(r'^[а-яА-Я][а-яА-Я ]*$').hasMatch(value)
-                ? 'Порода пиитомца от 2 до 30 символов. Только буквы.'
+                ? 'Порода питомца от 2 до 30 символов. Только буквы.'
                 : null;
           },
         ),
@@ -570,13 +592,13 @@ class _AddingPetState extends State<AddingPet> {
     );
   }
 
-  Widget petAge() {
+  Widget petNfcTag() {
     return Column(
       children: [
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            Constants.age,
+            'NFC-метка питомца:',
             style: TextStyle(
               color: Constants.kPrimaryColor,
               fontSize: 20,
@@ -587,14 +609,9 @@ class _AddingPetState extends State<AddingPet> {
           height: 10,
         ),
         InputWithIcon(
-          controller: _ageController,
+          controller: _nfcTagController,
           icon: Icons.edit,
-          hint: Constants.ageHint,
-          validator: (value) {
-            return value.length > 20 || value.length < 1 || value == null
-                ? 'Возраст пиитомца от 1 до 20 символов. Только цифры.'
-                : null;
-          },
+          hint: 'NFC-метка',
         ),
       ],
     );

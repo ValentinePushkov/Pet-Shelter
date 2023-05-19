@@ -23,7 +23,7 @@ class _QrGeneratorState extends State<QrGenerator> {
   String _pickedPetSatus = 'бездомный';
   TextEditingController _nameController;
   TextEditingController _speciesController;
-  TextEditingController _ageController;
+  TextEditingController _nfcTagController;
   TextEditingController _cityController;
   TextEditingController _streetController;
   TextEditingController _houseController;
@@ -37,7 +37,7 @@ class _QrGeneratorState extends State<QrGenerator> {
   void initState() {
     _nameController = TextEditingController(text: "");
     _speciesController = TextEditingController(text: "");
-    _ageController = TextEditingController(text: "");
+    _nfcTagController = TextEditingController(text: "");
     _cityController = TextEditingController(text: "");
     _streetController = TextEditingController(text: "");
     _houseController = TextEditingController(text: "");
@@ -50,7 +50,7 @@ class _QrGeneratorState extends State<QrGenerator> {
       String petInfoMap = {
         'Имя': _nameController.text,
         'Порода': _speciesController.text,
-        'Возраст': double.parse(_ageController.text),
+        'NFC-метка': _nfcTagController.text,
         'Категория': category,
         'Пол': pickedGender,
         'Статус_питомца': _pickedPetSatus,
@@ -80,7 +80,7 @@ class _QrGeneratorState extends State<QrGenerator> {
   }
 
   void clearControllers() {
-    _ageController.clear();
+    _nfcTagController.clear();
     _cityController.clear();
     _descriptionController.clear();
     _nameController.clear();
@@ -109,7 +109,7 @@ class _QrGeneratorState extends State<QrGenerator> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Название питомца:",
+                        "Название питомца*:",
                         style: TextStyle(
                           color: Constants.kPrimaryColor,
                           fontSize: 20,
@@ -141,7 +141,7 @@ class _QrGeneratorState extends State<QrGenerator> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Порода питомца:",
+                        "Порода питомца*:",
                         style: TextStyle(
                           color: Constants.kPrimaryColor,
                           fontSize: 20,
@@ -173,7 +173,7 @@ class _QrGeneratorState extends State<QrGenerator> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Возраст питомца:",
+                        "NFC-метка питомца:",
                         style: TextStyle(
                           color: Constants.kPrimaryColor,
                           fontSize: 20,
@@ -184,16 +184,9 @@ class _QrGeneratorState extends State<QrGenerator> {
                       height: 10,
                     ),
                     InputWithIcon(
-                      controller: _ageController,
+                      controller: _nfcTagController,
                       icon: Icons.edit,
-                      hint: "Возраст",
-                      validator: (value) {
-                        return value.length > 20 ||
-                                value.length < 2 ||
-                                value == null
-                            ? 'Возраст пиитомца от 1 до 20 символов. Только цифры.'
-                            : null;
-                      },
+                      hint: "NFC-метка",
                     ),
                   ],
                 ),
@@ -205,7 +198,7 @@ class _QrGeneratorState extends State<QrGenerator> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Пол питомца:",
+                        "Пол питомца*:",
                         style: TextStyle(
                           color: Constants.kPrimaryColor,
                           fontSize: 20,
@@ -234,7 +227,7 @@ class _QrGeneratorState extends State<QrGenerator> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Категория питомца:",
+                        "Категория питомца*:",
                         style: TextStyle(
                           color: Constants.kPrimaryColor,
                           fontSize: 20,
@@ -255,7 +248,7 @@ class _QrGeneratorState extends State<QrGenerator> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Город:",
+                        "Город*:",
                         style: TextStyle(
                           color: Constants.kPrimaryColor,
                           fontSize: 20,
@@ -287,7 +280,7 @@ class _QrGeneratorState extends State<QrGenerator> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Улица:",
+                        "Улица*:",
                         style: TextStyle(
                           color: Constants.kPrimaryColor,
                           fontSize: 20,
@@ -319,7 +312,7 @@ class _QrGeneratorState extends State<QrGenerator> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Номер дома:",
+                        "Номер дома*:",
                         style: TextStyle(
                           color: Constants.kPrimaryColor,
                           fontSize: 20,
@@ -349,7 +342,7 @@ class _QrGeneratorState extends State<QrGenerator> {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "Статус питомца:",
+                            "Статус питомца*:",
                             style: TextStyle(
                               color: Constants.kPrimaryColor,
                               fontSize: 20,
