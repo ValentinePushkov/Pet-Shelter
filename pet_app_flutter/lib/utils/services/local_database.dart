@@ -4,8 +4,8 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-class LocalDatabaseProvider {
-  static final LocalDatabaseProvider db = LocalDatabaseProvider();
+class LocalDatabase {
+  static final LocalDatabase db = LocalDatabase();
   Database _database;
 
   Future<Database> get database async {

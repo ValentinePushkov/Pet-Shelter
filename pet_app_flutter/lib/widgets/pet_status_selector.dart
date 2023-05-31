@@ -26,12 +26,12 @@ class _PetStatusSelectorState extends State<PetStatusSelector> {
     return SegmentedButton<PetStatus>(
       segments: const <ButtonSegment<PetStatus>>[
         ButtonSegment<PetStatus>(
-          value: PetStatus.adopt,
+          value: PetStatus.lost,
           label: Text('Потерян'),
           icon: Icon(Icons.home),
         ),
         ButtonSegment<PetStatus>(
-          value: PetStatus.lost,
+          value: PetStatus.adopt,
           label: Text('Бездомный'),
           icon: Icon(Icons.close),
         ),

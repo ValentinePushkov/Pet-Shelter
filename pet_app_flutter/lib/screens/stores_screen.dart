@@ -50,7 +50,7 @@ class _StoresState extends State<Stores> {
                                 );
                               },
                               child: Container(
-                                height: 230,
+                                height: 240,
                                 margin: EdgeInsets.symmetric(horizontal: 20),
                                 child: Row(
                                   children: [
@@ -63,6 +63,7 @@ class _StoresState extends State<Stores> {
                                                   BorderRadius.circular(25),
                                               boxShadow: shadowList,
                                               image: DecorationImage(
+                                                fit: BoxFit.fitHeight,
                                                 image: NetworkImage(
                                                   store.image,
                                                 ),

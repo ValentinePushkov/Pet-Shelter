@@ -20,6 +20,18 @@ class Constants {
   static final petCategory = 'Камера';
   static final description = 'Описание*:';
   static final descriptionHint = 'Описание';
+  static final nfcUnavaliable =
+      'Недоступен(включите NFC и перезагрузите страницу)';
+  static final nfcAvaliable = 'Доступен';
+  static final adNotFound = 'Объявление не найдено.';
+  static final scanTag = 'Отсканируйте метку';
+  static final addPicture = 'Добавьте изображение.';
+  static final chooseCategory = 'Выберите категорию.';
+  static final adOnModeration = 'Объявление отправлено на модерацию.';
+  static final incorrectFields = 'Некорректные поля!';
+  static final adAccepted = 'Объявление принято!';
+  static final adDenied = 'Объявление отклонено!';
+  static final savedQR = 'QR-код успешно сохранен';
 
   static final grey400 = Colors.grey[400];
   static final grey500 = Colors.grey[500];
@@ -32,5 +44,5 @@ class Constants {
   static final kContentColorLightTheme = Color(0xFF1D1D35);
   static final kContentColorDarkTheme = Color(0xFFF5FCF9);
 
-  static final List category = ["Коты", "Собаки", "Попугаи"];
+  static final List category = ["Коты", "Псы", "Попугаи", "Кролики", "Другая"];
 }

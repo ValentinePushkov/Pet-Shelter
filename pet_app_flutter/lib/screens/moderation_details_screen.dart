@@ -1,6 +1,7 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_app/configuration/configuration.dart';
+import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/models/moderation_pet.dart';
 import 'package:pet_app/models/user.dart';
 import 'package:pet_app/screens/splash_screen.dart';
@@ -43,7 +44,7 @@ class _ModerationDeatailsScreenState extends State<ModerationDeatailsScreen> {
     Navigator.pop(context);
     SnackBar snackBar = SnackBar(
       content: Text(
-        'Обяъявление принятно!',
+        Constants.adAccepted,
         style: TextStyle(color: Colors.white),
       ),
       backgroundColor: Colors.green,
@@ -57,11 +58,14 @@ class _ModerationDeatailsScreenState extends State<ModerationDeatailsScreen> {
     Reference photoRef =
         FirebaseStorage.instance.refFromURL(widget.petDetailsMap.image);
     await photoRef.delete();
-    databaseMethods.deleteAd(widget.petDetailsMap.name);
+    databaseMethods.deleteAd(
+      widget.petDetailsMap.name,
+      widget.petDetailsMap.owner,
+    );
     Navigator.pop(context);
     SnackBar snackBar = SnackBar(
       content: Text(
-        'Обяъявление удалено!',
+        Constants.adDenied,
         style: TextStyle(color: Colors.white),
       ),
       backgroundColor: Colors.red,
@@ -154,7 +158,7 @@ class _ModerationDeatailsScreenState extends State<ModerationDeatailsScreen> {
                           Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Text(
-                              details,
+                              widget.petDetailsMap.description,
                               textAlign: TextAlign.justify,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,

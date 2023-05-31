@@ -88,6 +88,7 @@ class _MyAdsState extends State<MyAds> {
                                                   BorderRadius.circular(25),
                                               boxShadow: shadowList,
                                               image: DecorationImage(
+                                                fit: BoxFit.fitHeight,
                                                 image: NetworkImage(
                                                   homelessPet.image,
                                                 ),

@@ -79,7 +79,7 @@ class _SplashScreenState extends State<SplashScreen> {
     );*/
   }
 
-  void signUpUser(LocalDatabaseProvider key, BuildContext context) {
+  void signUpUser(LocalDatabase key, BuildContext context) {
     if (formKey.currentState.validate()) {
       if (_passwordController.text == _repeatPasswordController.text) {
         setState(() {
@@ -200,7 +200,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var key = Provider.of<LocalDatabaseProvider>(context);
+    var key = Provider.of<LocalDatabase>(context);
     windowHeight = MediaQuery.of(context).size.height;
     windowWidth = MediaQuery.of(context).size.width;
 

@@ -4,7 +4,8 @@ import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/models/homeless_pet.dart';
 import 'package:pet_app/models/moderation_pet.dart';
 import 'package:pet_app/models/store.dart';
-import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
+import 'package:pet_app/providers/adding_ad_provider.dart';
+import 'package:pet_app/providers/nfc_provider.dart';
 import 'package:pet_app/utils/services/auth.dart';
 import 'package:pet_app/utils/services/database.dart';
 import 'package:pet_app/utils/services/encryption.dart';
@@ -61,9 +62,15 @@ class _MyAppState extends State<MyApp> {
         Provider<DatabaseMethods>(
           create: (context) => DatabaseMethods(),
         ),
-        Provider<LocalDatabaseProvider>(
-          create: (context) => LocalDatabaseProvider(),
-        )
+        Provider<LocalDatabase>(
+          create: (context) => LocalDatabase(),
+        ),
+        ChangeNotifierProvider<NFCProvider>(
+          create: (context) => NFCProvider(),
+        ),
+        ChangeNotifierProvider<AddingAdProvider>(
+          create: (context) => AddingAdProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

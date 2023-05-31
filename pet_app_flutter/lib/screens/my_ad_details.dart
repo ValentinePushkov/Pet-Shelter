@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pet_app/configuration/configuration.dart';
+import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/models/homeless_pet.dart';
 import 'package:pet_app/models/user.dart';
 import 'package:pet_app/screens/splash_screen.dart';
@@ -34,7 +35,7 @@ class _MyAdDetailsState extends State<MyAdDetails> {
   }
 
   void deleteAd() {
-    databaseMethods.deleteAd(widget.petDetailsMap.name);
+    databaseMethods.deleteAd(widget.petDetailsMap.name, Constants.currentUser);
     Navigator.pop(context);
     SnackBar snackBar = SnackBar(
       content: Text(
@@ -59,9 +60,11 @@ class _MyAdDetailsState extends State<MyAdDetails> {
                 Expanded(
                   child: Align(
                     alignment: Alignment.center,
-                    child: Hero(
-                      tag: 'pet${widget.petDetailsMap.petID}',
-                      child: Image.network(widget.petDetailsMap.image),
+                    child: Image.network(
+                      widget.petDetailsMap.image,
+                      fit: BoxFit.fill,
+                      height: 380,
+                      width: MediaQuery.of(context).size.width,
                     ),
                   ),
                 ),
@@ -107,7 +110,7 @@ class _MyAdDetailsState extends State<MyAdDetails> {
                                                 ),
                                               ),
                                               subtitle: Text(
-                                                'Owner',
+                                                'Владелец',
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.grey[400],
@@ -131,7 +134,7 @@ class _MyAdDetailsState extends State<MyAdDetails> {
                           Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Text(
-                              details,
+                              widget.petDetailsMap.description,
                               textAlign: TextAlign.justify,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -159,9 +162,13 @@ class _MyAdDetailsState extends State<MyAdDetails> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: Icon(
-                      Icons.arrow_back_ios_rounded,
-                      color: Colors.white,
+                    icon: Stack(
+                      children: [
+                        Icon(
+                          Icons.arrow_back_ios_new,
+                          color: Colors.white,
+                        ),
+                      ],
                     ),
                   ),
                 ],

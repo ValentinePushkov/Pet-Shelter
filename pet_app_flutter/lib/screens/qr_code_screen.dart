@@ -19,26 +19,31 @@ class QrCode extends StatefulWidget {
 class _QrCodeState extends State<QrCode> {
   final qrKey = GlobalKey();
 
-  void takeScreenShot() async {
+  void saveQR() async {
     PermissionStatus res;
 
     res = await Permission.storage.request();
     if (res.isGranted) {
       final boundary =
           qrKey.currentContext.findRenderObject() as RenderRepaintBoundary;
-      // We can increse the size of QR using pixel ratio
       final image = await boundary.toImage(pixelRatio: 5.0);
       final byteData = await (image.toByteData(format: ui.ImageByteFormat.png));
       if (byteData != null) {
         final pngBytes = byteData.buffer.asUint8List();
-        // getting directory of our phone
         final directory = (await getApplicationDocumentsDirectory()).path;
         final imgFile = File(
           '$directory/${DateTime.now()}_qr.png',
         );
         imgFile.writeAsBytes(pngBytes);
         GallerySaver.saveImage(imgFile.path).then((success) async {
-          //In here you can show snackbar or do something in the backend at successfull download
+          SnackBar snackBar = SnackBar(
+            content: Text(
+              Constants.savedQR,
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.green,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         });
       }
     }
@@ -74,7 +79,7 @@ class _QrCodeState extends State<QrCode> {
                 textStyle: TextStyle(fontSize: 16),
                 shape: StadiumBorder(),
               ),
-              onPressed: takeScreenShot,
+              onPressed: saveQR,
               child: const Text('Сохранить QR'),
             ),
             const SizedBox(height: 25)

@@ -86,9 +86,11 @@ class _PetDetailsState extends State<PetDetails> {
                 Expanded(
                   child: Align(
                     alignment: Alignment.center,
-                    child: Hero(
-                      tag: 'pet${widget.petDetailsMap.petID}',
-                      child: Image.network(widget.petDetailsMap.image),
+                    child: Image.network(
+                      widget.petDetailsMap.image,
+                      fit: BoxFit.cover,
+                      height: 380,
+                      width: MediaQuery.of(context).size.width,
                     ),
                   ),
                 ),
@@ -134,7 +136,7 @@ class _PetDetailsState extends State<PetDetails> {
                                                 ),
                                               ),
                                               subtitle: Text(
-                                                'Owner',
+                                                'Владелец',
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.grey[400],
@@ -158,7 +160,7 @@ class _PetDetailsState extends State<PetDetails> {
                           Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Text(
-                              details,
+                              widget.petDetailsMap.description,
                               textAlign: TextAlign.justify,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -285,38 +287,9 @@ class _PetDetailsState extends State<PetDetails> {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
+                padding: const EdgeInsets.only(left: 0, right: 30),
                 child: Row(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          if (isFavorite) {
-                            isFavorite = false;
-                          } else {
-                            isFavorite = true;
-                          }
-                        });
-                      },
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: primaryColor,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: shadowList,
-                        ),
-                        child: isFavorite
-                            ? Icon(
-                                Icons.favorite_rounded,
-                                color: Colors.redAccent,
-                              )
-                            : Icon(
-                                Icons.favorite_border_rounded,
-                                color: Colors.white,
-                              ),
-                      ),
-                    ),
                     SizedBox(width: 30),
                     Expanded(
                       child: GestureDetector(

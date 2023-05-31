@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String _category;
   Gender _gender;
   PetStatus _petStatus;
-  LocalDatabaseProvider localDatabaseProvider = LocalDatabaseProvider();
+  LocalDatabase localDatabaseProvider = LocalDatabase();
   TextEditingController textEditingController = TextEditingController();
 
   setPrivateKey() async {
@@ -248,7 +248,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       searchPets = searchPets
           .where(
-              (item) => item.name.toLowerCase().contains(query.toLowerCase()))
+              (item) => item.name.toLowerCase().startsWith(query.toLowerCase()))
           .toList();
       return searchPets;
     }

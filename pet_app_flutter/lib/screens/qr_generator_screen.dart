@@ -45,7 +45,7 @@ class _QrGeneratorState extends State<QrGenerator> {
     super.initState();
   }
 
-  void uploadPetAd() async {
+  void generateQR() async {
     if (formKey.currentState.validate()) {
       String petInfoMap = {
         'Имя': _nameController.text,
@@ -70,7 +70,7 @@ class _QrGeneratorState extends State<QrGenerator> {
     } else {
       SnackBar snackBar = SnackBar(
         content: Text(
-          'Некорректные поля!',
+          Constants.incorrectFields,
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.red,
@@ -404,7 +404,7 @@ class _QrGeneratorState extends State<QrGenerator> {
                 PrimaryButton(
                   buttonText: "Сгенерировать QR",
                   press: () async {
-                    uploadPetAd();
+                    generateQR();
                   },
                 ),
                 SizedBox(

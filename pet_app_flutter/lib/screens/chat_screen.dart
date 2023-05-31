@@ -256,7 +256,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               },
                               controller: textEditingController,
                               decoration: InputDecoration(
-                                hintText: "Type message...",
+                                hintText: "Введите сообщение...",
                                 hintStyle: TextStyle(
                                   color: MediaQuery.of(context)
                                               .platformBrightness ==

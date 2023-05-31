@@ -1,11 +1,9 @@
-import 'dart:io';
-
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pet_app/constants/constants.dart';
+import 'package:pet_app/providers/adding_ad_provider.dart';
 import 'package:pet_app/screens/splash_screen.dart';
-import 'package:pet_app/utils/services/database.dart';
+import 'package:provider/provider.dart';
 
 enum Gender { male, female }
 
@@ -19,147 +17,17 @@ class AddingPet extends StatefulWidget {
 }
 
 class _AddingPetState extends State<AddingPet> {
-  File imageFile;
-  final picker = ImagePicker();
-  Gender _selectedGender = Gender.male;
-  PetStatus _petStatus = PetStatus.adopt;
-  String category;
-  String pickedGender = 'male';
-  String _pickedPetSatus = 'adopt';
-  TextEditingController _nameController;
-  TextEditingController _speciesController;
-  TextEditingController _nfcTagController;
-  TextEditingController _cityController;
-  TextEditingController _streetController;
-  TextEditingController _houseController;
-  TextEditingController _descriptionController;
-  DatabaseMethods databaseMethods = DatabaseMethods();
-
-  final formKey = GlobalKey<FormState>();
-  bool isLoading = false;
-
   @override
   void initState() {
-    _nameController = TextEditingController(text: "");
-    _speciesController = TextEditingController(text: "");
-    _nfcTagController = TextEditingController(text: "");
-    _cityController = TextEditingController(text: "");
-    _streetController = TextEditingController(text: "");
-    _houseController = TextEditingController(text: "");
-    _descriptionController = TextEditingController(text: "");
     super.initState();
-  }
-
-  Future pickImage(ImageSource source) async {
-    final temp = await picker.pickImage(
-      source: source,
-      maxHeight: 480,
-      maxWidth: 640,
-      imageQuality: 30,
-    );
-    if (temp != null) {
-      setState(() {
-        imageFile = File(temp.path);
-      });
-    }
-    Navigator.pop(context);
-  }
-
-  uploadImage() async {
-    final firebaseStorageRef = FirebaseStorage.instance
-        .ref()
-        .child(Constants.currentUser + DateTime.now().toString());
-    final task = await firebaseStorageRef.putFile(imageFile);
-    return task.ref.getDownloadURL();
-  }
-
-  void uploadPetAd() async {
-    if (formKey.currentState.validate()) {
-      if (imageFile == null) {
-        SnackBar snackBar = SnackBar(
-          content: Text(
-            'Добавьте изображение.',
-            style: TextStyle(color: Colors.white),
-          ),
-          backgroundColor: Colors.red,
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      } else {
-        if (category == null) {
-          SnackBar snackBar = SnackBar(
-            content: Text(
-              'Выберите категорию.',
-              style: TextStyle(color: Colors.white),
-            ),
-            backgroundColor: Colors.red,
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        } else {
-          setState(() {
-            isLoading = true;
-          });
-          String url = await uploadImage();
-          final DateTime dateToday = new DateTime.now();
-          final String date = dateToday.toString().substring(0, 10);
-          Map<String, dynamic> petInfoMap = {
-            'name': _nameController.text,
-            'species': _speciesController.text,
-            'nfcTag': _nfcTagController.text,
-            'image': url,
-            'category': category,
-            'sex': pickedGender,
-            'petStatus': _pickedPetSatus,
-            'owner': Constants.currentUser,
-            'location':
-                '${_cityController.text}, ${_streetController.text} ${_houseController.text}',
-            'status': 'moderation',
-            'date': date,
-            'description': _descriptionController.text,
-          };
-          databaseMethods.uploadPetInfo(petInfoMap);
-          SnackBar snackBar = SnackBar(
-            content: Text(
-              'Объявление отправлено на модерацию.',
-              style: TextStyle(color: Colors.white),
-            ),
-            backgroundColor: Colors.green,
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          setState(() {
-            isLoading = false;
-          });
-        }
-      }
-    } else {
-      setState(() {
-        isLoading = false;
-      });
-      SnackBar snackBar = SnackBar(
-        content: Text(
-          'Некорректные поля!',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.red,
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
-  }
-
-  void clearControllers() {
-    _nfcTagController.clear();
-    _cityController.clear();
-    _descriptionController.clear();
-    _nameController.clear();
-    _houseController.clear();
-    _speciesController.clear();
-    _streetController.clear();
   }
 
   @override
   Widget build(BuildContext context) {
+    var addingAdProvider = Provider.of<AddingAdProvider>(context);
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      body: isLoading
+      body: addingAdProvider.isLoading
           ? Center(child: CircularProgressIndicator())
           : Container(
               padding: EdgeInsets.symmetric(
@@ -168,7 +36,7 @@ class _AddingPetState extends State<AddingPet> {
               ),
               child: SingleChildScrollView(
                 child: Form(
-                  key: formKey,
+                  key: addingAdProvider.formKey,
                   child: Column(
                     children: [
                       Center(
@@ -195,9 +63,9 @@ class _AddingPetState extends State<AddingPet> {
                                 shape: BoxShape.rectangle,
                                 image: DecorationImage(
                                   fit: BoxFit.cover,
-                                  image: imageFile == null
+                                  image: addingAdProvider.imageFile == null
                                       ? AssetImage(Constants.catPng)
-                                      : FileImage(imageFile),
+                                      : FileImage(addingAdProvider.imageFile),
                                 ),
                               ),
                             ),
@@ -220,8 +88,10 @@ class _AddingPetState extends State<AddingPet> {
                                   onTap: () {
                                     showModalBottomSheet(
                                       context: context,
-                                      builder: (builder) =>
-                                          bottomSheet(screenSize),
+                                      builder: (builder) => bottomSheet(
+                                        screenSize,
+                                        addingAdProvider,
+                                      ),
                                     );
                                   },
                                   child: Icon(
@@ -315,7 +185,7 @@ class _AddingPetState extends State<AddingPet> {
                             height: 10,
                           ),
                           InputWithIcon(
-                            controller: _cityController,
+                            controller: addingAdProvider.cityController,
                             icon: Icons.edit,
                             hint: "Город",
                             validator: (value) {
@@ -347,7 +217,7 @@ class _AddingPetState extends State<AddingPet> {
                             height: 10,
                           ),
                           InputWithIcon(
-                            controller: _streetController,
+                            controller: addingAdProvider.streetController,
                             icon: Icons.edit,
                             hint: "Улица",
                             validator: (value) {
@@ -380,7 +250,7 @@ class _AddingPetState extends State<AddingPet> {
                             height: 10,
                           ),
                           InputWithIcon(
-                            controller: _houseController,
+                            controller: addingAdProvider.houseController,
                             icon: Icons.edit,
                             hint: "Номер дома",
                             validator: (value) {
@@ -441,7 +311,7 @@ class _AddingPetState extends State<AddingPet> {
                             height: 10,
                           ),
                           InputWithIcon(
-                            controller: _descriptionController,
+                            controller: addingAdProvider.descriptionController,
                             icon: Icons.edit,
                             hint: Constants.descriptionHint,
                             validator: (value) {
@@ -461,7 +331,7 @@ class _AddingPetState extends State<AddingPet> {
                       PrimaryButton(
                         buttonText: "Создать",
                         press: () async {
-                          uploadPetAd();
+                          addingAdProvider.uploadPetAd(context);
                         },
                       ),
                     ],
@@ -472,7 +342,7 @@ class _AddingPetState extends State<AddingPet> {
     );
   }
 
-  Widget bottomSheet(Size screenSize) {
+  Widget bottomSheet(Size screenSize, var provider) {
     return Container(
       height: screenSize.height * 0.14,
       width: double.infinity,
@@ -498,7 +368,7 @@ class _AddingPetState extends State<AddingPet> {
                   color: Constants.kPrimaryColor,
                 ),
                 onPressed: () {
-                  pickImage(ImageSource.camera);
+                  provider.pickImage(ImageSource.camera, context);
                 },
                 label: Text(
                   Constants.camera,
@@ -514,7 +384,7 @@ class _AddingPetState extends State<AddingPet> {
                   color: Constants.kPrimaryColor,
                 ),
                 onPressed: () {
-                  pickImage(ImageSource.gallery);
+                  provider.pickImage(ImageSource.gallery, context);
                 },
                 label: Text(
                   "Галерея",
@@ -529,6 +399,7 @@ class _AddingPetState extends State<AddingPet> {
   }
 
   Widget petName() {
+    var addingAdProvider = Provider.of<AddingAdProvider>(context);
     return Column(
       children: [
         Align(
@@ -545,7 +416,7 @@ class _AddingPetState extends State<AddingPet> {
           height: 10,
         ),
         InputWithIcon(
-          controller: _nameController,
+          controller: addingAdProvider.nameController,
           icon: Icons.edit,
           hint: Constants.nameHint,
           validator: (String value) {
@@ -561,6 +432,7 @@ class _AddingPetState extends State<AddingPet> {
   }
 
   Widget petSpecies() {
+    var addingAdProvider = Provider.of<AddingAdProvider>(context);
     return Column(
       children: [
         Align(
@@ -577,7 +449,7 @@ class _AddingPetState extends State<AddingPet> {
           height: 10,
         ),
         InputWithIcon(
-          controller: _speciesController,
+          controller: addingAdProvider.speciesController,
           icon: Icons.edit,
           hint: Constants.speciesHint,
           validator: (value) {
@@ -593,6 +465,7 @@ class _AddingPetState extends State<AddingPet> {
   }
 
   Widget petNfcTag() {
+    var addingAdProvider = Provider.of<AddingAdProvider>(context);
     return Column(
       children: [
         Align(
@@ -609,7 +482,7 @@ class _AddingPetState extends State<AddingPet> {
           height: 10,
         ),
         InputWithIcon(
-          controller: _nfcTagController,
+          controller: addingAdProvider.nfcTagController,
           icon: Icons.edit,
           hint: 'NFC-метка',
         ),
@@ -618,21 +491,22 @@ class _AddingPetState extends State<AddingPet> {
   }
 
   Widget sexWidget(String text, Gender gender) {
+    var addingAdProvider = Provider.of<AddingAdProvider>(context);
     return OutlinedButton(
       onPressed: () {
         setState(() {
-          _selectedGender = gender;
+          addingAdProvider.selectedGender = gender;
           if (text == 'самец') {
-            pickedGender = 'male';
+            addingAdProvider.pickedGender = 'male';
           } else {
-            pickedGender = 'female';
+            addingAdProvider.pickedGender = 'female';
           }
         });
       },
       style: OutlinedButton.styleFrom(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
         side: BorderSide(
-          color: (_selectedGender == gender)
+          color: (addingAdProvider.selectedGender == gender)
               ? Constants.kPrimaryColor
               : Colors.grey,
           width: 2,
@@ -644,7 +518,7 @@ class _AddingPetState extends State<AddingPet> {
           text,
           style: TextStyle(
             fontSize: 16,
-            color: (_selectedGender == gender)
+            color: (addingAdProvider.selectedGender == gender)
                 ? Constants.kPrimaryColor
                 : Colors.grey,
           ),
@@ -654,22 +528,24 @@ class _AddingPetState extends State<AddingPet> {
   }
 
   Widget petStatusWidget(String text, PetStatus petStatus) {
+    var addingAdProvider = Provider.of<AddingAdProvider>(context);
     return OutlinedButton(
       onPressed: () {
         setState(() {
-          _petStatus = petStatus;
+          addingAdProvider.petStatus = petStatus;
           if (text == 'потерян') {
-            _pickedPetSatus = 'lost';
+            addingAdProvider.pickedPetStatus = 'lost';
           } else {
-            _pickedPetSatus = 'adopt';
+            addingAdProvider.pickedPetStatus = 'adopt';
           }
         });
       },
       style: OutlinedButton.styleFrom(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
         side: BorderSide(
-          color:
-              (_petStatus == petStatus) ? Constants.kPrimaryColor : Colors.grey,
+          color: (addingAdProvider.petStatus == petStatus)
+              ? Constants.kPrimaryColor
+              : Colors.grey,
           width: 2,
         ),
       ),
@@ -679,7 +555,7 @@ class _AddingPetState extends State<AddingPet> {
           text,
           style: TextStyle(
             fontSize: 16,
-            color: (_petStatus == petStatus)
+            color: (addingAdProvider.petStatus == petStatus)
                 ? Constants.kPrimaryColor
                 : Colors.grey,
           ),
@@ -689,6 +565,7 @@ class _AddingPetState extends State<AddingPet> {
   }
 
   Widget categoryWidget() {
+    var addingAdProvider = Provider.of<AddingAdProvider>(context);
     return Container(
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
@@ -696,7 +573,7 @@ class _AddingPetState extends State<AddingPet> {
         borderRadius: BorderRadius.circular(50),
       ),
       child: DropdownButton(
-        value: category,
+        value: addingAdProvider.category,
         icon: Icon(
           Icons.arrow_drop_down,
           color: Constants.kPrimaryColor,
@@ -733,7 +610,7 @@ class _AddingPetState extends State<AddingPet> {
         }).toList(),
         onChanged: (newValue) {
           setState(() {
-            category = newValue;
+            addingAdProvider.category = newValue;
           });
         },
       ),

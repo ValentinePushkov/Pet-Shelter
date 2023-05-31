@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class HomelessPet {
-  final String petID;
   final String name;
   final String category;
   final String sex;
@@ -16,7 +15,6 @@ class HomelessPet {
   final String nfcTag;
 
   HomelessPet({
-    this.petID,
     this.name,
     this.category,
     this.sex,
@@ -32,7 +30,6 @@ class HomelessPet {
   });
 
   static HomelessPet fromJson(Map<String, dynamic> json) => HomelessPet(
-        petID: json['petID'],
         name: json['name'],
         category: json['category'],
         sex: json['sex'],
@@ -46,4 +43,19 @@ class HomelessPet {
         status: json['status'],
         petStatus: json['petStatus'],
       );
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'category': category,
+        'sex': sex,
+        'species': species,
+        'nfcTag': nfcTag,
+        'location': location,
+        'description': description,
+        'date': date,
+        'image': image,
+        'owner': owner,
+        'status': status,
+        'petStatus': petStatus,
+      };
 }

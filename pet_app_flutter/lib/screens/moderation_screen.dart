@@ -52,6 +52,7 @@ class _ModerationScreenState extends State<ModerationScreen> {
     var sortedPets = _sortPets(homelessPets);
 
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
@@ -230,6 +231,7 @@ class _ModerationScreenState extends State<ModerationScreen> {
                                               BorderRadius.circular(25),
                                           boxShadow: shadowList,
                                           image: DecorationImage(
+                                            fit: BoxFit.fitHeight,
                                             image: NetworkImage(
                                               homelessPet.image,
                                             ),

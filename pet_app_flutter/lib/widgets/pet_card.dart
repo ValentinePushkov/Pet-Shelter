@@ -36,6 +36,7 @@ class _PetCardState extends State<PetCard> {
                       borderRadius: BorderRadius.circular(25),
                       boxShadow: shadowList,
                       image: DecorationImage(
+                        fit: BoxFit.fitHeight,
                         image: NetworkImage(
                           widget.pet.image,
                         ),
@@ -95,7 +96,7 @@ class _PetCardState extends State<PetCard> {
                       ),
                     ),
                     Text(
-                      widget.pet.petStatus == 'adopt' ? 'Потерян' : 'Бездомный',
+                      widget.pet.petStatus == 'adopt' ? 'Бездомный' : 'Потерян',
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.grey[400],
