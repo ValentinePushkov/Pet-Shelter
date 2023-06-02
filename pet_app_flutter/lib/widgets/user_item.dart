@@ -3,7 +3,6 @@ import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/screens/chat_screen.dart';
 import 'package:pet_app/utils/helpers/helper_functions.dart';
 import 'package:pet_app/utils/services/database.dart';
-import 'package:pet_app/utils/services/encryption_decryption.dart';
 
 class UserItem extends StatefulWidget {
   final String username;
@@ -97,12 +96,12 @@ class _UserItemState extends State<UserItem> {
       'users': users
     };
     widget.databaseMethods.createChatRoom(chatRoomID, ChatRoomMap);
-    widget.databaseMethods.addLastChat(chatRoomID, {
+    /*widget.databaseMethods.addLastChat(chatRoomID, {
       "LastChat": {
         "Message": EncryptionDecryption.encryptMessage(" "),
         "Time": 0
       }
-    });
+    });*/
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ChatScreen(chatRoomID)),
