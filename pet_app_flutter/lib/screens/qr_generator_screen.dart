@@ -59,6 +59,7 @@ class _QrGeneratorState extends State<QrGenerator> {
             '${_cityController.text}, ${_streetController.text} ${_houseController.text}',
         'Описание': _descriptionController.text,
       }.toString().replaceAll("{", "").replaceAll("}", "");
+      clearForm();
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -79,7 +80,7 @@ class _QrGeneratorState extends State<QrGenerator> {
     }
   }
 
-  void clearControllers() {
+  void clearForm() {
     _nfcTagController.clear();
     _cityController.clear();
     _descriptionController.clear();
@@ -243,6 +244,19 @@ class _QrGeneratorState extends State<QrGenerator> {
                 SizedBox(
                   height: 20,
                 ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Последнее местоположение питомца",
+                    style: TextStyle(
+                      color: Constants.kPrimaryColor,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
                 Column(
                   children: [
                     Align(
@@ -388,11 +402,8 @@ class _QrGeneratorState extends State<QrGenerator> {
                       icon: Icons.edit,
                       hint: "Описание",
                       validator: (value) {
-                        return value.length > 300 ||
-                                value.length < 10 ||
-                                !RegExp(r'^[а-яА-Я][а-яА-Я ,.:-]*$')
-                                    .hasMatch(value)
-                            ? 'Описание должно быть от 10 до 300 символов.'
+                        return value.length > 250 || value.length < 10
+                            ? 'Описание должно быть от 10 до 250 символов.'
                             : null;
                       },
                     ),

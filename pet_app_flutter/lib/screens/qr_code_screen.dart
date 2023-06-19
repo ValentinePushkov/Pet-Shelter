@@ -37,6 +37,7 @@ class _QrCodeState extends State<QrCode> {
         imgFile.writeAsBytes(pngBytes);
         GallerySaver.saveImage(imgFile.path).then((success) async {
           SnackBar snackBar = SnackBar(
+            duration: Duration(seconds: 1),
             content: Text(
               Constants.savedQR,
               style: TextStyle(color: Colors.white),

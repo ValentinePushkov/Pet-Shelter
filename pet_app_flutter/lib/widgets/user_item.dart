@@ -63,11 +63,7 @@ class _UserItemState extends State<UserItem> {
                                     widget.username,
                                     style: TextStyle(
                                       fontSize: 16,
-                                      color: MediaQuery.of(context)
-                                                  .platformBrightness ==
-                                              Brightness.light
-                                          ? Colors.black54
-                                          : Colors.white54,
+                                      color: Colors.black54,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   )

@@ -22,6 +22,7 @@ class _ActivePetsScreenState extends State<ActivePetsScreen> {
   double yOffset = 0;
   double scaleFactor = 1;
 
+  TextEditingController textEditingController = TextEditingController();
   bool isDrawerOpen = false;
   String _category;
   Gender _gender;
@@ -49,6 +50,8 @@ class _ActivePetsScreenState extends State<ActivePetsScreen> {
   Widget build(BuildContext context) {
     var homelessPets = Provider.of<List<HomelessPet>>(context);
     var sortedPets = _sortPets(homelessPets);
+    var searchPets =
+        filterSearchResults(textEditingController.text, sortedPets);
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -66,6 +69,7 @@ class _ActivePetsScreenState extends State<ActivePetsScreen> {
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 15.0),
                       child: TextField(
+                        controller: textEditingController,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
@@ -199,11 +203,11 @@ class _ActivePetsScreenState extends State<ActivePetsScreen> {
                     ),
                     ListView.builder(
                       physics: ScrollPhysics(),
-                      itemCount: sortedPets.length,
+                      itemCount: searchPets.length,
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        final homelessPet = sortedPets[index];
+                        final homelessPet = searchPets[index];
                         if (homelessPet != null) {}
                         return GestureDetector(
                           onTap: () {
@@ -335,5 +339,18 @@ class _ActivePetsScreenState extends State<ActivePetsScreen> {
           sortedPets.where((pet) => pet.petStatus == _petStatus.name).toList();
     }
     return sortedPets;
+  }
+
+  List<HomelessPet> filterSearchResults(String query, List<HomelessPet> pets) {
+    var searchPets = pets;
+    if (query == null || query.isEmpty) {
+      return searchPets;
+    } else {
+      searchPets = searchPets
+          .where(
+              (item) => item.name.toLowerCase().startsWith(query.toLowerCase()))
+          .toList();
+      return searchPets;
+    }
   }
 }

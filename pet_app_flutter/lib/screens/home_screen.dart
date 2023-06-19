@@ -214,7 +214,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (homelessPet != null) {}
                           return PetCard(PetDetails(petDetailsMap: homelessPet),
                               homelessPet);
-                        })
+                        }),
+                    SizedBox(
+                      height: 20,
+                    )
                   ],
                 ),
               ),

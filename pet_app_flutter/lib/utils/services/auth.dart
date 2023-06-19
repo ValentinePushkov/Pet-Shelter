@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/models/firebase_user.dart';
 import 'package:pet_app/utils/helpers/shared_pref_helper.dart';
 
@@ -31,13 +32,13 @@ class AuthMethods {
     } on FirebaseAuthException catch (error) {
       if (error.code == 'user-not-found') {
         Fluttertoast.showToast(
-          msg: "Пользователь не существует.",
+          msg: Constants.userNotFound,
           gravity: ToastGravity.TOP,
         );
       }
       if (error.code == 'wrong-password') {
         Fluttertoast.showToast(
-          msg: "Неверный пароль.",
+          msg: Constants.wrongPassword,
           gravity: ToastGravity.TOP,
         );
       }
@@ -55,13 +56,13 @@ class AuthMethods {
     } on FirebaseAuthException catch (error) {
       if (error.code == 'email-already-in-use') {
         Fluttertoast.showToast(
-          msg: "Пользователь с таким e-mail уже существует.",
+          msg: Constants.emailAlreadyInUse,
           gravity: ToastGravity.TOP,
         );
       }
       if (error.code == 'weak-password') {
         Fluttertoast.showToast(
-          msg: "Слабый пароль.",
+          msg: Constants.weakPassword,
           gravity: ToastGravity.TOP,
         );
       }

@@ -35,7 +35,10 @@ class _MyAdDetailsState extends State<MyAdDetails> {
   }
 
   void deleteAd() {
-    databaseMethods.deleteAd(widget.petDetailsMap.name, Constants.currentUser);
+    databaseMethods.deleteAd(
+      widget.petDetailsMap.name,
+      widget.petDetailsMap.owner,
+    );
     Navigator.pop(context);
     SnackBar snackBar = SnackBar(
       content: Text(

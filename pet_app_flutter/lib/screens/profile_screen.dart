@@ -19,6 +19,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final authMethods = AuthMethods();
   final databaseMethods = DatabaseMethods();
   final nameEditingController = TextEditingController();
+  final emailEditingController = TextEditingController();
   bool isNameValid = true;
   bool isBioValid = true;
 
@@ -37,6 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     databaseMethods.getUserInfoByUsername(Constants.currentUser).then((val) {
       setState(() {
         user = val;
+        emailEditingController.text = val.email;
         nameEditingController.text = val.username;
         avatar = val.avatar;
       });
@@ -78,7 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         imageFile = File(temp.path);
       });
       SnackBar snackBar = SnackBar(
-        content: Text('Profile Picture updated!'),
+        content: Text('Изображение обновлено!'),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       final url = await uploadImage();
@@ -195,16 +197,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                     ),
-                    Center(
-                      child: Text(
-                        '@${user.username}',
-                        style: TextStyle(
-                          color: Constants.kPrimaryColor,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
                     SizedBox(
                       height: 35,
                     ),
@@ -217,32 +209,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ProfileTextField(
                             context,
                             "Имя",
-                            "Enter name",
+                            "Введите имя",
                             nameEditingController,
+                          ),
+                          ProfileTextField(
+                            context,
+                            "E-mail",
+                            "Введите имя",
+                            emailEditingController,
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(
                               horizontal: screenSize.width * 0.1,
-                            ),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                updateUserInfo();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Constants.kPrimaryColor,
-                                padding: EdgeInsets.symmetric(horizontal: 50),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                              ),
-                              child: Text(
-                                "Обновить",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  letterSpacing: 2.2,
-                                  color: Colors.white,
-                                ),
-                              ),
                             ),
                           ),
                           Container(
@@ -355,6 +333,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 35.0),
       child: TextField(
+        enabled: false,
         controller: controller,
         style: TextStyle(
           fontWeight: FontWeight.bold,
@@ -365,16 +344,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             color: MediaQuery.of(context).platformBrightness == Brightness.light
                 ? Constants.kPrimaryColor
                 : Colors.grey,
-          ),
-          suffixIcon: IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.edit,
-              color:
-                  MediaQuery.of(context).platformBrightness == Brightness.light
-                      ? Colors.grey
-                      : Constants.kPrimaryColor,
-            ),
           ),
           contentPadding: EdgeInsets.only(bottom: 3),
           labelText: labelText,

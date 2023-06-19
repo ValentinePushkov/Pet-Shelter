@@ -234,18 +234,11 @@ class _ChatScreenState extends State<ChatScreen> {
                               horizontal: screenSize.width * 0.05,
                             ),
                             decoration: BoxDecoration(
-                              color:
-                                  MediaQuery.of(context).platformBrightness ==
-                                          Brightness.light
-                                      ? Theme.of(context)
-                                          .primaryColor
-                                          .withOpacity(0.05)
-                                      : Theme.of(context)
-                                          .primaryColor
-                                          .withOpacity(0.4),
+                              color: Constants.kPrimaryColor,
                               borderRadius: BorderRadius.circular(40),
                             ),
                             child: TextField(
+                              style: TextStyle(color: Colors.white),
                               onTap: () {
                                 Timer(
                                   Duration(milliseconds: 300),

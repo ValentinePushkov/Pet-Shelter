@@ -6,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pet_app/constants/constants.dart';
 import 'package:pet_app/models/homeless_pet.dart';
 import 'package:pet_app/screens/adding_pet_screen.dart';
-import 'package:pet_app/screens/adding_pet_screen.dart';
 import 'package:pet_app/utils/services/database.dart';
 
 class AddingAdProvider extends ChangeNotifier {
@@ -144,7 +143,9 @@ class AddingAdProvider extends ChangeNotifier {
             description: _descriptionController.text,
           );
           databaseMethods.uploadPetInfo(homelessPet.toJson());
+          clearForm();
           SnackBar snackBar = SnackBar(
+            duration: Duration(seconds: 2),
             content: Text(
               Constants.adOnModeration,
               style: TextStyle(color: Colors.white),
@@ -170,7 +171,7 @@ class AddingAdProvider extends ChangeNotifier {
     }
   }
 
-  void clearControllers() {
+  void clearForm() {
     _nfcTagController.clear();
     _cityController.clear();
     _descriptionController.clear();
@@ -178,5 +179,6 @@ class AddingAdProvider extends ChangeNotifier {
     _houseController.clear();
     _speciesController.clear();
     _streetController.clear();
+    _imageFile = null;
   }
 }

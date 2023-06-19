@@ -21,6 +21,8 @@ class DatabaseMethods {
           ? null
           : UserClass(
               username: snapshot.docs[0].data()['username'],
+              email: snapshot.docs[0].data()['email'],
+              role: snapshot.docs[0].data()['role'],
               avatar: snapshot.docs[0].data()['picUrl'],
               publicKey: snapshot.docs[0].data()['publicKey'],
             );
@@ -207,6 +209,20 @@ class DatabaseMethods {
       var collection = await FirebaseFirestore.instance
           .collection('homeless_pets')
           .where('owner', isEqualTo: owner)
+          .where('name', isEqualTo: name)
+          .get();
+      for (final doc in collection.docs) {
+        await doc.reference.delete();
+      }
+    } on FirebaseException catch (error) {
+      Fluttertoast.showToast(msg: error.message, gravity: ToastGravity.TOP);
+    }
+  }
+
+  deleteStore(String name) async {
+    try {
+      var collection = await FirebaseFirestore.instance
+          .collection('stores')
           .where('name', isEqualTo: name)
           .get();
       for (final doc in collection.docs) {

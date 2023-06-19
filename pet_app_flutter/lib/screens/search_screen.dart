@@ -90,7 +90,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     height: 5,
                   ),
                   Text(
-                    "${UsersSnapshot.docs.length - 1} пользоватлей",
+                    "${UsersSnapshot.docs.length - 1} пользователей",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.normal,
@@ -112,6 +112,12 @@ class _SearchScreenState extends State<SearchScreen> {
                           controller: SearchEditingController,
                           style: TextStyle(fontSize: 16, color: Colors.white),
                           decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(
+                              left: 10,
+                              right: 10,
+                              top: 40,
+                              bottom: 15,
+                            ),
                             hintText: 'Поиск пользователя...',
                             hintStyle: TextStyle(color: Colors.white70),
                             border: InputBorder.none,

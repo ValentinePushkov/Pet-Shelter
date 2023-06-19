@@ -86,9 +86,11 @@ class _ModerationDeatailsScreenState extends State<ModerationDeatailsScreen> {
                 Expanded(
                   child: Align(
                     alignment: Alignment.center,
-                    child: Hero(
-                      tag: 'pet${widget.petDetailsMap.petID}',
-                      child: Image.network(widget.petDetailsMap.image),
+                    child: Image.network(
+                      widget.petDetailsMap.image,
+                      fit: BoxFit.cover,
+                      height: 380,
+                      width: MediaQuery.of(context).size.width,
                     ),
                   ),
                 ),

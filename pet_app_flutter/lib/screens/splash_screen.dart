@@ -297,7 +297,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               curve: Curves.fastLinearToSlowEaseIn,
                               margin: EdgeInsets.only(top: _headingTop),
                               child: Text(
-                                "Заведи нового друга!",
+                                "Найди своего друга!",
                                 style: TextStyle(
                                   fontSize: 28,
                                   color: _headingColor,
@@ -405,7 +405,7 @@ class _SplashScreenState extends State<SplashScreen> {
                             SizedBox(
                               height: 20,
                             ),
-                            InputWithIcon(
+                            PasswordInputWithIcon(
                               icon: Icons.vpn_key,
                               hint: "Пароль",
                               controller: _loginPasswordController,
@@ -516,7 +516,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               },
                             ),
                             SizedBox(height: 20),
-                            InputWithIcon(
+                            PasswordInputWithIcon(
                               icon: Icons.vpn_key,
                               hint: "Пароль",
                               validator: (value) {
@@ -527,7 +527,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               controller: _passwordController,
                             ),
                             SizedBox(height: 20),
-                            InputWithIcon(
+                            PasswordInputWithIcon(
                               icon: Icons.vpn_key,
                               hint: "Повторите пароль",
                               validator: (value) {
@@ -554,7 +554,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               });
                             },
                             child: OutlineButton(
-                              buttonText: "Вернутся к Регистрации",
+                              buttonText: "Вернутся назад",
                             ),
                           ),
                         ],
@@ -573,7 +573,12 @@ class InputWithIcon extends StatefulWidget {
   final TextEditingController controller;
   final IconData icon;
   final String hint;
-  InputWithIcon({this.icon, this.hint, this.controller, this.validator});
+  InputWithIcon({
+    this.icon,
+    this.hint,
+    this.controller,
+    this.validator,
+  });
 
   @override
   State<InputWithIcon> createState() => _InputWithIconState();
@@ -607,6 +612,71 @@ class _InputWithIconState extends State<InputWithIcon> {
                 contentPadding: EdgeInsets.symmetric(vertical: 20),
                 border: InputBorder.none,
                 hintText: widget.hint,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PasswordInputWithIcon extends StatefulWidget {
+  final Function validator;
+  final TextEditingController controller;
+  final IconData icon;
+  final String hint;
+  PasswordInputWithIcon({
+    this.icon,
+    this.hint,
+    this.controller,
+    this.validator,
+  });
+
+  @override
+  State<PasswordInputWithIcon> createState() => _PasswordInputWithIcon();
+}
+
+class _PasswordInputWithIcon extends State<PasswordInputWithIcon> {
+  bool _obscureText = true;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Constants.kPrimaryColor, width: 2),
+        borderRadius: BorderRadius.circular(50),
+      ),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 60,
+            child: Icon(
+              widget.icon,
+              size: 20,
+              color: Constants.kPrimaryColor,
+            ),
+          ),
+          Expanded(
+            child: TextFormField(
+              obscureText: _obscureText,
+              maxLines: 1,
+              validator: widget.validator,
+              controller: widget.controller,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(vertical: 20),
+                border: InputBorder.none,
+                hintText: widget.hint,
+                suffixIcon: new GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
+                  child: new Icon(
+                    _obscureText ? Icons.visibility : Icons.visibility_off,
+                    color: Constants.kPrimaryColor,
+                  ),
+                ),
               ),
             ),
           ),

@@ -32,7 +32,12 @@ class Constants {
   static final adAccepted = 'Объявление принято!';
   static final adDenied = 'Объявление отклонено!';
   static final savedQR = 'QR-код успешно сохранен';
-
+  static final userNotFound = 'Пользователь не найден.';
+  static final wrongPassword = 'Неверный пароль.';
+  static final emailAlreadyInUse =
+      'Пользователь с таким e-mail уже существует.';
+  static final weakPassword = 'Слабый пароль.';
+  static final finished = 'Закончено!';
   static final grey400 = Colors.grey[400];
   static final grey500 = Colors.grey[500];
   static final grey600 = Colors.grey[600];

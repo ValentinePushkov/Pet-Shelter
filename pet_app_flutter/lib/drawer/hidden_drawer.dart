@@ -91,7 +91,7 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
       ),
       ScreenHiddenDrawer(
         ItemHiddenMenu(
-          name: "NFC сканер",
+          name: "NFC-сканер",
           baseStyle: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,

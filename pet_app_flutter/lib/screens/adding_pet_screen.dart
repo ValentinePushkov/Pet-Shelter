@@ -169,6 +169,19 @@ class _AddingPetState extends State<AddingPet> {
                       SizedBox(
                         height: 20,
                       ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Последнее местоположение питомца",
+                          style: TextStyle(
+                            color: Constants.kPrimaryColor,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Column(
                         children: [
                           Align(
@@ -269,7 +282,7 @@ class _AddingPetState extends State<AddingPet> {
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "Статус питомца:",
+                                  "Статус питомца*:",
                                   style: TextStyle(
                                     color: Constants.kPrimaryColor,
                                     fontSize: 20,
@@ -281,11 +294,19 @@ class _AddingPetState extends State<AddingPet> {
                               ),
                               Row(
                                 children: [
-                                  petStatusWidget("Бездомный", PetStatus.adopt),
+                                  petStatusWidget(
+                                    "Бездомный",
+                                    PetStatus.adopt,
+                                    addingAdProvider,
+                                  ),
                                   SizedBox(
                                     width: 20,
                                   ),
-                                  petStatusWidget("Потерян", PetStatus.lost),
+                                  petStatusWidget(
+                                    "Потерян",
+                                    PetStatus.lost,
+                                    addingAdProvider,
+                                  ),
                                 ],
                               ),
                             ],
@@ -315,11 +336,8 @@ class _AddingPetState extends State<AddingPet> {
                             icon: Icons.edit,
                             hint: Constants.descriptionHint,
                             validator: (value) {
-                              return value.length > 300 ||
-                                      value.length < 10 ||
-                                      !RegExp(r'^[а-яА-Я][а-яА-Я ,.:-]*$')
-                                          .hasMatch(value)
-                                  ? 'Описание должно быть от 10 до 300 символов.'
+                              return value.length > 250 || value.length < 10
+                                  ? 'Описание должно быть от 10 до 250 символов.'
                                   : null;
                             },
                           ),
@@ -496,7 +514,7 @@ class _AddingPetState extends State<AddingPet> {
       onPressed: () {
         setState(() {
           addingAdProvider.selectedGender = gender;
-          if (text == 'самец') {
+          if (text == 'Самец') {
             addingAdProvider.pickedGender = 'male';
           } else {
             addingAdProvider.pickedGender = 'female';
@@ -527,23 +545,26 @@ class _AddingPetState extends State<AddingPet> {
     );
   }
 
-  Widget petStatusWidget(String text, PetStatus petStatus) {
-    var addingAdProvider = Provider.of<AddingAdProvider>(context);
+  Widget petStatusWidget(
+    String text,
+    PetStatus petStatus,
+    AddingAdProvider provider,
+  ) {
     return OutlinedButton(
       onPressed: () {
         setState(() {
-          addingAdProvider.petStatus = petStatus;
-          if (text == 'потерян') {
-            addingAdProvider.pickedPetStatus = 'lost';
+          provider.petStatus = petStatus;
+          if (text == 'Потерян') {
+            provider.pickedPetStatus = 'lost';
           } else {
-            addingAdProvider.pickedPetStatus = 'adopt';
+            provider.pickedPetStatus = 'adopt';
           }
         });
       },
       style: OutlinedButton.styleFrom(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
         side: BorderSide(
-          color: (addingAdProvider.petStatus == petStatus)
+          color: (provider.petStatus == petStatus)
               ? Constants.kPrimaryColor
               : Colors.grey,
           width: 2,
@@ -555,7 +576,7 @@ class _AddingPetState extends State<AddingPet> {
           text,
           style: TextStyle(
             fontSize: 16,
-            color: (addingAdProvider.petStatus == petStatus)
+            color: (provider.petStatus == petStatus)
                 ? Constants.kPrimaryColor
                 : Colors.grey,
           ),

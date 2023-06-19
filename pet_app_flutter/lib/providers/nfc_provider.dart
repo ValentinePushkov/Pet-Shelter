@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -39,15 +38,14 @@ class NFCProvider extends ChangeNotifier {
   void scanTag(DatabaseMethods databaseMethods, BuildContext context) async {
     try {
       SnackBar snackBar = SnackBar(
+        duration: Duration(seconds: 1),
         content: Text(
           Constants.scanTag,
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.green,
       );
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      });
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       NFCTag tag = await FlutterNfcKit.poll();
       var homelessPet = await databaseMethods.getPetByTagID(tag.id);
       if (homelessPet != null) {
@@ -75,6 +73,6 @@ class NFCProvider extends ChangeNotifier {
     }
 
     if (!kIsWeb) sleep(new Duration(seconds: 1));
-    await FlutterNfcKit.finish(iosAlertMessage: "Finished!");
+    await FlutterNfcKit.finish(iosAlertMessage: Constants.finished);
   }
 }

@@ -3,7 +3,9 @@ import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 import 'package:pet_app/screens/active_pets_screen.dart';
 import 'package:pet_app/screens/adding_store_screen.dart';
 import 'package:pet_app/screens/moderation_screen.dart';
+import 'package:pet_app/screens/moderation_stores_screen.dart';
 import 'package:pet_app/screens/profile_screen.dart';
+import 'package:pet_app/screens/stores_screen.dart';
 
 class AdminHiddenDrawer extends StatefulWidget {
   const AdminHiddenDrawer({Key key}) : super(key: key);
@@ -58,6 +60,19 @@ class _AdminHiddenDrawerState extends State<AdminHiddenDrawer> {
           colorLineSelected: Colors.white,
         ),
         AddingStore(),
+      ),
+      ScreenHiddenDrawer(
+        ItemHiddenMenu(
+          name: "Зоомагазины",
+          baseStyle: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+          selectedStyle: TextStyle(),
+          colorLineSelected: Colors.white,
+        ),
+        ModerationStores(),
       ),
       ScreenHiddenDrawer(
         ItemHiddenMenu(
